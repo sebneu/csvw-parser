@@ -1,0 +1,9 @@
+*.swp
+*.egg-info
+*.pyc
+*.DS_Store
+*/_build/*
+*.py~
+*.~lock.*#
+.idea/
+
