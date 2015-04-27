@@ -1,4 +1,4 @@
-
+import json
 import logging
 import urllib2
 import os
@@ -16,9 +16,18 @@ FILE_SPECIFIC_METADATA = '-metadata.json'
 DIRECTORY_METADATA = 'metadata.json'
 
 
-def parse_metadata(metadata_raw):
-    raise NotImplementedError()
+class Metadata(object):
+    def __init__(self, dict_string):
+        self.__dict__ = dict_string
 
+
+def parse_metadata(meta_json):
+    try:
+        meta = Metadata(dict_string=meta_json)
+        return meta
+    except Exception as e:
+        print e
+        raise e
 
 def _parse_header_field(header_field):
     raise NotImplementedError()
@@ -27,7 +36,8 @@ def _parse_header_field(header_field):
 def metadata_extraction(url, metadata_raw):
     # case  1 or 2
     if metadata_raw is not None:
-        return parse_metadata(metadata_raw)
+        meta_json = json.load(metadata_raw)
+        return parse_metadata(meta_json)
 
     # case 3
     response = urllib2.urlopen(url)
@@ -52,7 +62,8 @@ def metadata_extraction(url, metadata_raw):
         retrievable = False
     if retrievable:
         f = StringIO(response.read())
-        return parse_metadata(f)
+        meta_json = json.load(f)
+        return parse_metadata(meta_json)
 
     # case 5
     retrievable = True
@@ -66,4 +77,5 @@ def metadata_extraction(url, metadata_raw):
         retrievable = False
     if retrievable:
         f = StringIO(response.read())
-        return parse_metadata(f)
+        meta_json = json.load(f)
+        return parse_metadata(meta_json)
