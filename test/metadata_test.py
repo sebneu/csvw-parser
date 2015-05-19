@@ -1,9 +1,5 @@
-import json
-import os
-import urllib2
-from pyld import jsonld
 from csvwparser import CSVW
-from csvwparser import metadata_extractor
+from csvwparser import metadata
 
 __author__ = 'sebastian'
 
@@ -19,10 +15,33 @@ class DanBrickleyCase(unittest.TestCase):
         self.assertNotEqual(csvw.metadata, None)
         title = csvw.metadata['dc:title']
         self.assertEqual(title, "My Spreadsheet")
+        # TODO write tests
 
+
+    def test_metadata_normalize(self):
+        A = {
+          "@context": [ "http://www.w3.org/ns/csvw", { "@language": "en" } ],
+          "@type": "Table",
+          "url": "http://example.com/table.csv",
+          "tableSchema": [],
+          "dc:title": [
+            "The title of this Table",
+            {"@value": "Der Titel dieser Tabelle", "@language": "de"}
+          ]
+        }
+        norm = {
+          "@type": "Table",
+          "url": "http://example.com/table.csv",
+          "tableSchema": [],
+          "dc:title": [
+            {"@value": "The title of this Table", "@language": "en"},
+            {"@value": "Der Titel dieser Tabelle", "@language": "de"}
+          ]
+        }
+        result = metadata.normalize(A)
+        self.assertEqual(result, norm)
 
     def test_metadata_merge(self):
-        CONTEXT = 'http://www.w3.org/ns/csvw.jsonld'
         A = {
           "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
           "tables": [{
@@ -83,11 +102,10 @@ class DanBrickleyCase(unittest.TestCase):
         }
 
         # normalizing a
-        context = json.load(urllib2.urlopen(CONTEXT))
-        comp_a = jsonld.compact(A, context)
-        comp_b = jsonld.compact(B, context)
+        norm_a = metadata.normalize(A)
+        norm_b = metadata.normalize(B)
 
-        result = metadata_extractor.merge_metadata([comp_a, comp_b])
+        result = metadata.merge([norm_a, norm_b])
         self.assertEqual(merged, result)
 
 

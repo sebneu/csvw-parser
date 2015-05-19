@@ -12,6 +12,8 @@ class CSVWTestCases(unittest.TestCase):
         csvw = CSVW(test001)
         self.assertNotEqual(csvw, None)
         self.assertNotEqual(csvw.metadata, None)
+        # TODO write tests
+        self.assertTrue(False)
 
 if __name__ == '__main__':
     unittest.main()

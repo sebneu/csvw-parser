@@ -3,7 +3,8 @@ import urllib2
 import messytables
 from messytables import any_tableset, headers_guess, headers_processor, offset_processor, type_guess, types_processor
 import logging
-import metadata_extractor as meta
+from csvwparser import metadata
+import metadata_extractor
 
 
 __author__ = 'sebastian'
@@ -74,7 +75,8 @@ class CSVW:
             self.metadata_handle = None
 
         self.table_set = _build_tables(handle, name, date_parsing)
-        self.metadata = meta.metadata_extraction(url, metadata_handle)
+        sources = metadata_extractor.metadata_extraction(url, metadata_handle)
+        self.metadata = metadata.merge(sources)
 
     def to_rdf(self):
         pass

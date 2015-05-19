@@ -2,7 +2,6 @@ import logging
 import urllib2
 import os
 import json
-from pyld import jsonld
 from csvwparser import metadata
 
 __author__ = 'sebastian'
@@ -32,40 +31,6 @@ def _parse_header_field(header_field):
     raise NotImplementedError()
 
 
-def _merge_in(key, B, A):
-        if isinstance(B, list):
-            # TODO array property
-            return
-        if isinstance(B, dict) and isinstance(A, dict):
-            for k in B:
-                if k in A:
-                    _merge_in(k, B[k], A[k])
-        if isinstance(B, basestring):
-            # TODO check for natural language property
-            pass
-
-
-def merge_metadata(meta_sources):
-    """
-    from highest priority to lowest priority by merging the first two metadata files
-    """
-    A = None
-    for B in meta_sources:
-        # check if we are in the first iteration
-        if not A:
-            A = B
-            # finished, because we don't have to to merge B in A
-        else:
-            # top level of 2 metadata objects is dict
-            for k in B:
-                if k in A:
-                    _merge_in(k, B[k], A)
-                else:
-                    # if property not in A, just add it
-                    A[k] = B[k]
-    return A
-
-
 def metadata_extraction(url, metadata_handle):
     meta_sources = []
 
@@ -78,7 +43,6 @@ def metadata_extraction(url, metadata_handle):
         response = urllib2.urlopen(url)
         header = response.info()
         if header is not None:
-            header_field = None
             for link in HEADER_LINK:
                 if link in header:
                     header_field = header[link]
@@ -109,4 +73,4 @@ def metadata_extraction(url, metadata_handle):
         if retrievable:
             meta_sources.append(parse_metadata(meta_url))
 
-    return merge_metadata(meta_sources)
+    return meta_sources
