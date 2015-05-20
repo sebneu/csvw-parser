@@ -17,6 +17,34 @@ class DanBrickleyCase(unittest.TestCase):
         self.assertEqual(title, "My Spreadsheet")
         # TODO write tests
 
+    def test_metadata_validate(self):
+        A = {
+            "@context": [ "http://www.w3.org/ns/csvw", { "@language": "en" } ],
+            "tables": [{
+            "url": "http://example.org/countries.csv",
+            "tableSchema": {
+              "columns": [{
+                "name": "countryCode",
+                "datatype": "string",
+                "propertyUrl": "http://www.geonames.org/ontology{#_name}"
+              }, {
+                "name": "latitude",
+                "datatype": "number"
+              }, {
+                "name": "longitude",
+                "datatype": "number"
+              }, {
+                "name": "name",
+                "datatype": "string"
+              }],
+              "aboutUrl": "http://example.org/countries.csv{#countryCode}",
+              "propertyUrl": "http://schema.org/{_name}",
+              "primaryKey": "countryCode"
+            }
+          }]
+        }
+        result = metadata.validate(A)
+
 
     def test_metadata_normalize(self):
         A = {
