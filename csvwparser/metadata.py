@@ -1,6 +1,4 @@
-from csvwparser.parser_exceptions import ValidationException
-
-__author__ = 'sebastian'
+import logger
 
 BASE_URL = None
 LANGUAGE = None
@@ -9,19 +7,42 @@ class Option:
     Required, NonEmpty = range(2)
 
 
-class Property:
-    URI = range(1)
+class MetaObject:
+    pass
+
+
+class Property(MetaObject):
+    pass
+
+    def evaluate(self, meta):
+        return True
 
 
 class ColumnReference(Property):
     def __init__(self):
         pass
 
-    def evaluate(self, meta):
-        # strings
-        # arrays
-        # TODO
-        return False
+    def evaluate(self, meta, line=None):
+        if isinstance(meta, basestring):
+            # TODO  must match the name on a column description object
+            return True
+        elif isinstance(meta, list):
+            if not meta:
+                logger.warning(line, 'the supplied value is an empty array')
+                return True
+            for m in meta:
+                if isinstance(m, basestring):
+                    # TODO must match the name on a column description object
+                    pass
+                else:
+                    logger.warning(line, 'the values in the supplied array are not strings: ' + str(meta))
+                return True
+
+            # TODO
+            pass
+        else:
+            logger.warning(line, 'the supplied value is not a string or array: ' + str(meta))
+            return True
 
 class NaturalLanguage(Property):
     def __init__(self):
@@ -38,28 +59,24 @@ class NaturalLanguage(Property):
 class Link(Property):
     def __init__(self, link_type):
         self.link_type = link_type
-    def evaluate(self, meta):
-        if self.link_type in meta:
-            value = meta[self.link_type]
-            if isinstance(value, basestring):
-                # TODO checking if is valid url, ...
-                if self.link_type == '@id':
-                    # @id must not start with _:
-                    return not value.startswith('_:')
-                return True
-            else:
-                # TODO issue a warning and return True
-                return True
+    def evaluate(self, meta, line=None):
+        if isinstance(meta, basestring):
+            if self.link_type == '@id':
+                # @id must not start with _:
+                logger.error(line, '@id must not start with _:')
+                return not meta.startswith('_:')
+            return True
         else:
-            # this is not (the desired) link
-            return False
+            # TODO issue a warning and return True
+            logger.warning(line, 'value of link property is not a string: ' + str(meta))
+            return True
 
 
 class Array(Property):
     def __init__(self, arg):
         self.arg = arg
 
-    def evaluate(self, meta):
+    def evaluate(self, meta, line=None):
         if isinstance(meta, list):
             # if the arg is a operator, it should take a list as argument
             return self.arg.evaluate(meta)
@@ -92,8 +109,8 @@ class Atomic(Property):
         self.arg = arg
 
     def evaluate(self, meta):
-        if isinstance(self.arg, Property):
-            # a predefined type
+        if isinstance(self.arg, MetaObject):
+            # a predefined type or an operator
             return self.arg.evaluate(meta)
         else:
             # numbers, interpreted as integers or doubles
@@ -104,18 +121,21 @@ class Atomic(Property):
             # TODO
             return meta == self.arg
 
+
 class Object(Property):
     def __init__(self, arg):
         self.arg = arg
-    def evaluate(self, meta):
+    def evaluate(self, meta, line=None):
         if isinstance(self.arg, dict):
             # arg is a new schema to validate the metadata
-            return _validate(meta, self.arg)
+            return _validate(line, meta, self.arg)
         else:
             # TODO other types? warning?
+            logger.error(line, 'object property is not a dictionary: ' + str(meta))
             return False
 
-class Operator:
+
+class Operator(MetaObject):
     pass
 
 
@@ -133,7 +153,9 @@ class Or(Operator):
 
     def evaluate(self, meta):
         for v in self.values:
-            if v.evaluate(meta):
+            if isinstance(v, MetaObject) and v.evaluate(meta):
+                return True
+            elif v == meta:
                 return True
         return False
 
@@ -144,8 +166,12 @@ class And(Operator):
 
     def evaluate(self, meta):
         for v in self.values:
-            if not v.evaluate(meta):
-                return False
+            if isinstance(v, MetaObject):
+                if not v.evaluate(meta):
+                    return False
+            else:
+                if v != meta:
+                    return False
         return True
 
 
@@ -161,6 +187,7 @@ class All(Operator):
         for meta in meta_list:
             if not self.typ.evaluate(meta):
                 return False
+        return True
 
 
 class Some(Operator):
@@ -199,13 +226,13 @@ class XOr(Operator):
     def __init__(self, *values):
         self.values = list(values)
 
-    def evaluate(self, meta):
+    def evaluate(self, meta, line=None):
         found = False
         for v in self.values:
             if v.evaluate(meta):
                 if found:
                     # already the second match
-                    # TODO as log: raise ValidationException('(XOr Operator) Only one match allowed: ' + v)
+                    logger.debug(line, '(XOr Operator) Only one match allowed: ' + v)
                     return False
                 found = True
         # if we get here, we found zero or one match
@@ -290,11 +317,79 @@ SCHEMA = {
 }
 
 DIALECT = {
-    'encoding': None,
-    'lineTerminators': None,
-    'quoteChar': None,
-    'doubleQuote': None,
-    'skipRows': None,
+    'encoding': {
+        'options': [],
+        'type': Atomic(OfType(basestring)),
+        'default': 'utf-8'
+    },
+    'lineTerminators': {
+        'options': [],
+        'type': Atomic(OfType(list)),
+        'default': ["\r\n", "\n"]
+    },
+    'quoteChar': {
+        'options': [],
+        'type': Atomic(Or(OfType(basestring), None)),
+        'default': '"'
+    },
+    'doubleQuote': {
+        'options': [],
+        'type': Atomic(OfType(bool)),
+        'default': True
+    },
+    'skipRows': {
+        'options': [],
+        'type': Atomic(OfType(int)),
+        'default': 0
+    },
+    'commentPrefix': {
+        'options': [],
+        'type': Atomic(OfType(basestring)),
+        'default': '#'
+    },
+    'header': {
+        'options': [],
+        'type': Atomic(OfType(bool)),
+        'default': True
+    },
+    'headerRowCount': {
+        'options': [],
+        'type': Atomic(OfType(int)),
+        'default': 1
+    },
+    'delimiter': {
+        'options': [],
+        'type': Atomic(OfType(basestring)),
+        'default': ','
+    },
+    'skipColumns': {
+        'options': [],
+        'type': Atomic(OfType(int)),
+        'default': 0
+    },
+    'skipBlankRows': {
+        'options': [],
+        'type': Atomic(OfType(bool)),
+        'default': False
+    },
+    'skipInitialSpace': {
+        'options': [],
+        'type': Atomic(OfType(bool)),
+        'default': False
+    },
+    'trim': {
+        'options': [],
+        'type': Atomic(Or('true', 'false', 'start', 'end')),
+        'default': 'false'
+    },
+    '@id': {
+        'options': [],
+        'type': Link('@id')
+    },
+    '@type': {
+        'options': [],
+        'type': Atomic('Dialect')
+    }
 }
 
 
@@ -342,8 +437,14 @@ TABLE = {
         'options': [Option.Required],
         'type': Link('url')
     },
-    'transformations': None,
-    'tableDirection': None,
+    'transformations': {
+        'options': [],
+        'type': Array(All(Object(TRANSFORMATION)))
+    },
+    'tableDirection': {
+        'options': [],
+        'type': Atomic(Or('rtl', 'ltr', 'default'))
+    },
     'tableSchema': {
         'options': [],
         'type': Object(SCHEMA)
@@ -354,14 +455,21 @@ TABLE = {
     },
     'notes': {
         'options': [],
-        'type': None
+        'type': Array(Property())
     },
-    'suppressOutput': None,
+    'suppressOutput': {
+        'options': [],
+        'type': Atomic(OfType(bool)),
+        'default': False
+    },
     '@id': {
         'options': [],
         'type': Link('@id')
     },
-    '@type': None,
+    '@type': {
+        'options': [],
+        'type': Atomic('Table')
+    },
     '@context': {
         'options': [],
         'type': CONTEXT
@@ -380,11 +488,11 @@ TABLE_GROUP = {
     },
     'transformations': {
         'options': [],
-        'type': Array(All(Object(TABLE)))
+        'type': Array(All(Object(TRANSFORMATION)))
     },
     'tableDirection': {
         'options': [],
-        'type': None
+        'type': Atomic(Or('rtl', 'ltr', 'default'))
     },
     'tableSchema': {
         'options': [],
@@ -396,7 +504,7 @@ TABLE_GROUP = {
     },
     'notes': {
         'options': [],
-        'type': None
+        'type': Array(Property())
     },
     '@id': {
         'options': [],
@@ -409,29 +517,30 @@ TABLE_GROUP = {
 }
 
 
-def _validate(meta, schema):
+def _validate(line, meta, schema):
     for prop in schema:
         # TODO remove this if condition
-        if schema[prop]:
-            opts = schema[prop]['options']
-            t = schema[prop]['type']
-            if prop in meta:
-                value = meta[prop]
-                # check if not empty
-                if value and len(value) > 0:
-                    if not t.evaluate(value):
-                        raise ValidationException('validation not successful')
-                elif Option.NonEmpty in opts:
-                    # raise exception if prop has to be non-empty
-                    raise ValidationException('Property is empty:' + prop)
-            elif Option.Required in opts:
-                # raise exception if prop not in metadata but required
-                raise ValidationException('Property missing:' + prop)
+        #if schema[prop]:
+        opts = schema[prop]['options']
+        t = schema[prop]['type']
+        if prop in meta:
+            value = meta[prop]
+            # check if not empty
+            if value:
+                if not t.evaluate(value):
+                    return False
+            elif Option.NonEmpty in opts:
+                logger.debug(line, 'Property is empty: ' + prop)
+                return False
+        elif Option.Required in opts:
+            logger.debug(line, 'Property missing: ' + prop)
+            return False
     return True
 
+
 def validate(metadata):
-    # TODO is this the outer group?
-    return _validate(metadata, TABLE_GROUP)
+    outer_group = Or(Object(TABLE_GROUP), Object(TABLE))
+    return outer_group.evaluate(metadata)
 
 
 def normalize(metadata):
