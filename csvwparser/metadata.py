@@ -1,3 +1,4 @@
+import re
 import logger
 
 BASE_URL = None
@@ -12,9 +13,14 @@ class MetaObject:
 
 
 class Property(MetaObject):
-    pass
+    def evaluate(self, meta, line=None):
+        return True
 
-    def evaluate(self, meta):
+
+class Uri(Property):
+    def evaluate(self, meta, line=None):
+        # TODO
+        logger.debug(line, 'URI property: ' + meta)
         return True
 
 
@@ -25,6 +31,7 @@ class ColumnReference(Property):
     def evaluate(self, meta, line=None):
         if isinstance(meta, basestring):
             # TODO  must match the name on a column description object
+            logger.debug(line, 'Column Reference property: ' + meta)
             return True
         elif isinstance(meta, list):
             if not meta:
@@ -38,22 +45,25 @@ class ColumnReference(Property):
                     logger.warning(line, 'the values in the supplied array are not strings: ' + str(meta))
                 return True
 
-            # TODO
-            pass
+            # TODO  must match the name on a column description object
+            logger.debug(line, 'Column Reference property: ' + meta)
+            return True
         else:
             logger.warning(line, 'the supplied value is not a string or array: ' + str(meta))
             return True
+
 
 class NaturalLanguage(Property):
     def __init__(self):
         pass
 
-    def evaluate(self, meta):
+    def evaluate(self, meta, line=None):
         # strings
         # arrays
         # objects
         # TODO
-        return False
+        logger.debug(line, 'Natural language property: ' + meta)
+        return True
 
 
 class Link(Property):
@@ -65,6 +75,7 @@ class Link(Property):
                 # @id must not start with _:
                 logger.error(line, '@id must not start with _:')
                 return not meta.startswith('_:')
+            logger.debug(line, 'Link property: (' + self.link_type + ': ' + meta + ')')
             return True
         else:
             # TODO issue a warning and return True
@@ -79,27 +90,32 @@ class Array(Property):
     def evaluate(self, meta, line=None):
         if isinstance(meta, list):
             # if the arg is a operator, it should take a list as argument
-            return self.arg.evaluate(meta)
+            return self.arg.evaluate(meta, line)
         else:
             # the meta obj should be a list
             return False
 
 
+class Common(Property):
+    def __init__(self, prop):
+        self.prop = prop
+    def evaluate(self, meta, line=None):
+        # TODO
+        logger.debug(line, 'CommonProperty: (' + self.prop + ':' + meta + ')')
+        return True
+
+
 class Base(Property):
-    def evaluate(self, meta):
+    def evaluate(self, meta, line=None):
         if '@base' in meta:
-            global BASE_URL
-            BASE_URL = meta['@base']
             return True
         else:
             return False
 
 
 class Language(Property):
-    def evaluate(self, meta):
+    def evaluate(self, meta, line=None):
         if '@language' in meta:
-            global LANGUAGE
-            LANGUAGE = meta['@language']
             return True
         else:
             return False
@@ -108,10 +124,10 @@ class Atomic(Property):
     def __init__(self, arg):
         self.arg = arg
 
-    def evaluate(self, meta):
+    def evaluate(self, meta, line=None):
         if isinstance(self.arg, MetaObject):
             # a predefined type or an operator
-            return self.arg.evaluate(meta)
+            return self.arg.evaluate(meta, line)
         else:
             # numbers, interpreted as integers or doubles
             # booleans, interpreted as booleans (true or false)
@@ -123,14 +139,18 @@ class Atomic(Property):
 
 
 class Object(Property):
-    def __init__(self, arg):
-        self.arg = arg
+    def __init__(self, dict_obj, inherited_obj=None, common_properties=False):
+        self.dict_obj = dict_obj
+        self.inherited_obj = inherited_obj
+        self.common_properties = common_properties
     def evaluate(self, meta, line=None):
-        if isinstance(self.arg, dict):
+        if isinstance(self.dict_obj, dict):
+            if self.inherited_obj:
+                self.dict_obj = self.dict_obj.copy()
+                self.dict_obj.update(self.inherited_obj)
             # arg is a new schema to validate the metadata
-            return _validate(line, meta, self.arg)
+            return _validate(line, meta, self.dict_obj, self.common_properties)
         else:
-            # TODO other types? warning?
             logger.error(line, 'object property is not a dictionary: ' + str(meta))
             return False
 
@@ -143,7 +163,7 @@ class OfType(Operator):
     def __init__(self, base_type):
         self.base_type = base_type
 
-    def evaluate(self, meta):
+    def evaluate(self, meta, line=None):
         return isinstance(meta, self.base_type)
 
 
@@ -151,9 +171,9 @@ class Or(Operator):
     def __init__(self, *values):
         self.values = list(values)
 
-    def evaluate(self, meta):
+    def evaluate(self, meta, line=None):
         for v in self.values:
-            if isinstance(v, MetaObject) and v.evaluate(meta):
+            if isinstance(v, MetaObject) and v.evaluate(meta, line):
                 return True
             elif v == meta:
                 return True
@@ -164,10 +184,10 @@ class And(Operator):
     def __init__(self, *values):
         self.values = list(values)
 
-    def evaluate(self, meta):
+    def evaluate(self, meta, line=None):
         for v in self.values:
             if isinstance(v, MetaObject):
-                if not v.evaluate(meta):
+                if not v.evaluate(meta, line):
                     return False
             else:
                 if v != meta:
@@ -183,9 +203,9 @@ class All(Operator):
     """
     def __init__(self, typ):
         self.typ = typ
-    def evaluate(self, meta_list):
+    def evaluate(self, meta_list, line=None):
         for meta in meta_list:
-            if not self.typ.evaluate(meta):
+            if not self.typ.evaluate(meta, line):
                 return False
         return True
 
@@ -198,16 +218,16 @@ class Some(Operator):
     """
     def __init__(self, typ):
         self.typ = typ
-    def evaluate(self, meta_list):
+    def evaluate(self, meta_list, line=None):
         for meta in meta_list:
-            if self.typ.evaluate(meta):
+            if self.typ.evaluate(meta, line):
                 return True
 
 
 class AllDiff(Operator):
     def __init__(self, arg):
         self.arg = arg
-    def evaluate(self, meta_list):
+    def evaluate(self, meta_list, line=None):
         values = []
         for meta in meta_list:
             v = None
@@ -229,7 +249,7 @@ class XOr(Operator):
     def evaluate(self, meta, line=None):
         found = False
         for v in self.values:
-            if v.evaluate(meta):
+            if v.evaluate(meta, line):
                 if found:
                     # already the second match
                     logger.debug(line, '(XOr Operator) Only one match allowed: ' + v)
@@ -237,6 +257,64 @@ class XOr(Operator):
                 found = True
         # if we get here, we found zero or one match
         return found
+
+
+DATATYPE = {
+    # TODO datatype description object
+}
+
+INHERITED = {
+    'aboutUrl': {
+        'options': [],
+        'type': Uri()
+    },
+    'datatype': {
+        'options': [],
+        'type': Atomic(Or(OfType(basestring), Object(DATATYPE)))
+    },
+    'default': {
+        'options': [],
+        'type': Atomic(OfType(basestring)),
+        'default': ''
+    },
+    'lang': {
+        'options': [],
+        'type': Atomic(OfType(basestring)),
+        'default': 'und'
+    },
+    'null': {
+        'options': [],
+        'type': Atomic(OfType(basestring)),
+        'default': ''
+    },
+    'ordered': {
+        'options': [],
+        'type': Atomic(OfType(bool)),
+        'default': False
+    },
+    'propertyUrl': {
+        'options': [],
+        'type': Uri()
+    },
+    'required': {
+        'options': [],
+        'type': Atomic(OfType(bool)),
+        'default': False
+    },
+    'separator': {
+        'options': [],
+        'type': Atomic(OfType(basestring))
+    },
+    'textDirection': {
+        'options': [],
+        'type': Atomic(Or('ltr', 'rtl')),
+        'default': 'ltr'
+    },
+    'valueUrl': {
+        'options': [],
+        'type': Uri()
+    }
+}
 
 COLUMN = {
     'name': {
@@ -275,19 +353,19 @@ FOREIGN_KEY = {
     'reference': {
         'options': [],
         'type': Object({
-                'resources': {
-                    'options': [],
-                    'type': Link('resources')
-                },
-                'schemaReference': {
-                    'options': [],
-                    'type': Link('schemaReference')
-                },
-                'columnReference': {
-                    'options': [Option.Required],
-                    'type': ColumnReference()
-                }
-            })
+            'resource': {
+                'options': [],
+                'type': Link('resources')
+            },
+            'schemaReference': {
+                'options': [],
+                'type': Link('schemaReference')
+            },
+            'columnReference': {
+                'options': [Option.Required],
+                'type': ColumnReference()
+            }
+        })
     }
 }
 
@@ -298,7 +376,7 @@ SCHEMA = {
     },
     'columns': {
         'options': [],
-        'type': Array(And(All(Object(COLUMN)),
+        'type': Array(And(All(Object(COLUMN, inherited_obj=INHERITED, common_properties=True)),
                           AllDiff('name'))
                       )
     },
@@ -447,7 +525,7 @@ TABLE = {
     },
     'tableSchema': {
         'options': [],
-        'type': Object(SCHEMA)
+        'type': Object(SCHEMA, inherited_obj=INHERITED, common_properties=True)
     },
     'dialect': {
         'options': [],
@@ -484,7 +562,7 @@ TABLE_GROUP = {
     },
     'tables': {
         'options': [Option.Required, Option.NonEmpty],
-        'type': Array(All(Object(TABLE)))
+        'type': Array(All(Object(TABLE, inherited_obj=INHERITED, common_properties=True)))
     },
     'transformations': {
         'options': [],
@@ -496,7 +574,7 @@ TABLE_GROUP = {
     },
     'tableSchema': {
         'options': [],
-        'type': Object(SCHEMA)
+        'type': Object(SCHEMA, inherited_obj=INHERITED, common_properties=True)
     },
     'dialect': {
         'options': [],
@@ -517,29 +595,39 @@ TABLE_GROUP = {
 }
 
 
-def _validate(line, meta, schema):
-    for prop in schema:
-        # TODO remove this if condition
-        #if schema[prop]:
-        opts = schema[prop]['options']
-        t = schema[prop]['type']
-        if prop in meta:
+def is_common_property(prop):
+    return re.match('[a-zA-Z]:[a-zA-Z]', prop)
+
+
+def _validate(line, meta, schema, common_properties):
+    for prop in meta:
+        if prop in schema:
+            opts = schema[prop]['options']
+            t = schema[prop]['type']
             value = meta[prop]
             # check if not empty
             if value:
-                if not t.evaluate(value):
+                if not t.evaluate(value, line):
                     return False
             elif Option.NonEmpty in opts:
                 logger.debug(line, 'Property is empty: ' + prop)
                 return False
-        elif Option.Required in opts:
-            logger.debug(line, 'Property missing: ' + prop)
+        elif common_properties and is_common_property(prop):
+            if not Common(prop).evaluate(value):
+                return False
+        else:
+            logger.warning(line, 'Unknown property: ' + prop)
+    # check for missing props
+    for prop in schema:
+        if Option.Required in schema[prop]['options'] and prop not in meta:
+            logger.error(line, 'Property missing: ' + prop)
             return False
     return True
 
 
 def validate(metadata):
-    outer_group = Or(Object(TABLE_GROUP), Object(TABLE))
+    # outer_group = Or(Object(TABLE_GROUP), Object(TABLE))
+    outer_group = Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True)
     return outer_group.evaluate(metadata)
 
 

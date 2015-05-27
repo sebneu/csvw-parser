@@ -18,7 +18,7 @@ class DanBrickleyCase(unittest.TestCase):
         self.assertEqual(title, "My Spreadsheet")
         # TODO write tests
 
-    def test_metadata_validate(self):
+    def test_positive_context(self):
         A = {
             "@context": [ "http://www.w3.org/ns/csvw", { "@language": "en" } ],
             "tables": [{
@@ -46,10 +46,203 @@ class DanBrickleyCase(unittest.TestCase):
         }
         result = metadata.validate(A)
         self.assertTrue(result)
+        # context is string only
+        A = {
+            "@context": "http://www.w3.org/ns/csvw",
+            "tables": [{
+                "url": "http://example.org/countries.csv",
+                "tableSchema": {
+                    "columns": [{
+                        "name": "countryCode",
+                        "datatype": "string",
+                        "propertyUrl": "http://www.geonames.org/ontology{#_name}"
+                    }, {
+                        "name": "latitude",
+                        "datatype": "number"
+                    }, {
+                        "name": "longitude",
+                        "datatype": "number"
+                    }, {
+                        "name": "name",
+                        "datatype": "string"
+                    }],
+                    "aboutUrl": "http://example.org/countries.csv{#countryCode}",
+                    "propertyUrl": "http://schema.org/{_name}",
+                    "primaryKey": "countryCode"
+                }
+            }]
+        }
+        result = metadata.validate(A)
+        self.assertTrue(result)
+
+    def test_negative_context(self):
+        # context is missing
+        A = {
+            "tables": [{
+                "url": "http://example.org/countries.csv",
+                "tableSchema": {
+                    "columns": [{
+                        "name": "countryCode",
+                        "datatype": "string",
+                        "propertyUrl": "http://www.geonames.org/ontology{#_name}"
+                    }, {
+                        "name": "latitude",
+                        "datatype": "number"
+                    }, {
+                        "name": "longitude",
+                        "datatype": "number"
+                    }, {
+                        "name": "name",
+                        "datatype": "string"
+                    }],
+                    "aboutUrl": "http://example.org/countries.csv{#countryCode}",
+                    "propertyUrl": "http://schema.org/{_name}",
+                    "primaryKey": "countryCode"
+                }
+            }]
+        }
+        result = metadata.validate(A)
+        self.assertFalse(result)
+        # wrong context
+        A = {
+            "@context": [ "http://www.w3.org/ns/csvw", { "somethingwrong": "en" } ],
+            "tables": [{
+                "url": "http://example.org/countries.csv",
+                "tableSchema": {
+                    "columns": [{
+                        "name": "countryCode",
+                        "datatype": "string",
+                        "propertyUrl": "http://www.geonames.org/ontology{#_name}"
+                    }, {
+                        "name": "latitude",
+                        "datatype": "number"
+                    }, {
+                        "name": "longitude",
+                        "datatype": "number"
+                    }, {
+                        "name": "name",
+                        "datatype": "string"
+                    }],
+                    "aboutUrl": "http://example.org/countries.csv{#countryCode}",
+                    "propertyUrl": "http://schema.org/{_name}",
+                    "primaryKey": "countryCode"
+                }
+            }]
+        }
+        result = metadata.validate(A)
+        self.assertFalse(result)
+        # wrong context
+        A = {
+            "@context": "http://www.w3.org/ns/csv",
+            "tables": [{
+                "url": "http://example.org/countries.csv",
+                "tableSchema": {
+                    "columns": [{
+                        "name": "countryCode",
+                        "datatype": "string",
+                        "propertyUrl": "http://www.geonames.org/ontology{#_name}"
+                    }, {
+                        "name": "latitude",
+                        "datatype": "number"
+                    }, {
+                        "name": "longitude",
+                        "datatype": "number"
+                    }, {
+                        "name": "name",
+                        "datatype": "string"
+                    }],
+                    "aboutUrl": "http://example.org/countries.csv{#countryCode}",
+                    "propertyUrl": "http://schema.org/{_name}",
+                    "primaryKey": "countryCode"
+                }
+            }]
+        }
+        result = metadata.validate(A)
+        self.assertFalse(result)
+
+    def test_negative_validate(self):
+        # url is missing
+        A = {
+            "@context": [ "http://www.w3.org/ns/csvw", { "@language": "en" } ],
+            "tables": [{
+                # "url": "http://example.org/countries.csv",
+                "tableSchema": {
+                    "columns": [{
+                        "name": "countryCode",
+                        "datatype": "string",
+                        "propertyUrl": "http://www.geonames.org/ontology{#_name}"
+                    }, {
+                        "name": "latitude",
+                        "datatype": "number"
+                    }, {
+                        "name": "longitude",
+                        "datatype": "number"
+                    }, {
+                        "name": "name",
+                        "datatype": "string"
+                    }],
+                    "aboutUrl": "http://example.org/countries.csv{#countryCode}",
+                    "propertyUrl": "http://schema.org/{_name}",
+                    "primaryKey": "countryCode"
+                }
+            }]
+        }
+        result = metadata.validate(A)
+        self.assertFalse(result)
+
+    def test_positive_validate(self):
+        A = {
+            "@context": "http://www.w3.org/ns/csvw",
+            "tables": [{
+                "url": "http://example.org/countries.csv",
+                "tableSchema": {
+                  "columns": [{
+                    "name": "countryCode",
+                    "datatype": "string",
+                    "propertyUrl": "http://www.geonames.org/ontology{#_name}"
+                  }, {
+                    "name": "latitude",
+                    "datatype": "number"
+                  }, {
+                    "name": "longitude",
+                    "datatype": "number"
+                  }, {
+                    "name": "name",
+                    "datatype": "string"
+                  }],
+                  "aboutUrl": "http://example.org/countries.csv{#countryCode}",
+                  "propertyUrl": "http://schema.org/{_name}",
+                  "primaryKey": "countryCode"
+                }
+                }, {
+                "url": "http://example.org/country_slice.csv",
+                "tableSchema": {
+                  "columns": [{
+                    "name": "countryRef",
+                    "valueUrl": "http://example.org/countries.csv{#countryRef}"
+                  }, {
+                    "name": "year",
+                    "datatype": "gYear"
+                  }, {
+                    "name": "population",
+                    "datatype": "integer"
+                  }],
+                  "foreignKeys": [{
+                    "columnReference": "countryRef",
+                    "reference": {
+                      "resource": "http://example.org/countries.csv",
+                      "columnReference": "countryCode"
+                    }
+                  }]
+                }
+            }]
+        }
+        result = metadata.validate(A)
+        self.assertTrue(result)
 
 
     @unittest.skip("normalize not implemented")
-    def test_metadata_normalize(self):
+    def test_normalize(self):
         A = {
           "@context": [ "http://www.w3.org/ns/csvw", { "@language": "en" } ],
           "@type": "Table",
@@ -73,7 +266,7 @@ class DanBrickleyCase(unittest.TestCase):
         self.assertEqual(result, norm)
 
     @unittest.skip("merge not implemented")
-    def test_metadata_merge(self):
+    def test_merge(self):
         A = {
           "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
           "tables": [{
