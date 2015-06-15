@@ -14,7 +14,7 @@ class MetaObject:
 
 class Property(MetaObject):
     def evaluate(self, meta, line=None):
-        return True
+        return meta
 
 
 class Uri(Property):
@@ -69,6 +69,7 @@ class NaturalLanguage(Property):
 class Link(Property):
     def __init__(self, link_type):
         self.link_type = link_type
+
     def evaluate(self, meta, line=None):
         if isinstance(meta, basestring):
             if self.link_type == '@id':
@@ -81,6 +82,10 @@ class Link(Property):
             # TODO issue a warning and return True
             logger.warning(line, 'value of link property is not a string: ' + str(meta))
             return True
+
+    def normalize(self, meta, default_language):
+        # TODO value is turned into an absolute URL using the base URL
+        return meta
 
 
 class Array(Property):
@@ -95,14 +100,44 @@ class Array(Property):
             # the meta obj should be a list
             return False
 
+    def normalize(self, meta, default_language):
+        norm_list = []
+        for m in meta:
+            norm_list.append(normalize(m, default_language))
+
 
 class Common(Property):
     def __init__(self, prop):
         self.prop = prop
+
     def evaluate(self, meta, line=None):
         # TODO
         logger.debug(line, 'CommonProperty: (' + self.prop + ':' + meta + ')')
         return True
+
+    def normalize(self, value, default_language):
+        if isinstance(value, list):
+            norm_list = []
+            for v in value:
+                norm_list.append(self.normalize(v, default_language))
+            value = norm_list
+        elif isinstance(value, basestring):
+            value = {'@value': value}
+            if default_language:
+                value['@language'] = default_language
+        elif isinstance(value, dict) and '@value' in value:
+            pass
+        elif isinstance(value, dict):
+            for k in value:
+                if k == '@id':
+                    # TODO expand any prefixed names and resolve its value against the base URL
+                    pass
+                elif k == '@type':
+                    pass
+                else:
+                    k[value] = self.normalize(k[value], default_language)
+        return value
+
 
 
 class Base(Property):
@@ -119,6 +154,10 @@ class Language(Property):
             return True
         else:
             return False
+
+    def normalize(self, meta, default_language):
+        # TODO
+        return meta
 
 class Atomic(Property):
     def __init__(self, arg):
@@ -137,12 +176,17 @@ class Atomic(Property):
             # TODO
             return meta == self.arg
 
+    def normalize(self, meta, default_language):
+        # TODO
+        return meta
+
 
 class Object(Property):
     def __init__(self, dict_obj, inherited_obj=None, common_properties=False):
         self.dict_obj = dict_obj
         self.inherited_obj = inherited_obj
         self.common_properties = common_properties
+
     def evaluate(self, meta, line=None):
         if isinstance(self.dict_obj, dict):
             if self.inherited_obj:
@@ -153,6 +197,10 @@ class Object(Property):
         else:
             logger.error(line, 'object property is not a dictionary: ' + str(meta))
             return False
+
+    def normalize(self, meta, default_language):
+        return _normalize(meta, self.dict_obj, default_language)
+
 
 
 class Operator(MetaObject):
@@ -601,10 +649,10 @@ def is_common_property(prop):
 
 def _validate(line, meta, schema, common_properties):
     for prop in meta:
+        value = meta[prop]
         if prop in schema:
             opts = schema[prop]['options']
             t = schema[prop]['type']
-            value = meta[prop]
             # check if not empty
             if value:
                 if not t.evaluate(value, line):
@@ -613,7 +661,7 @@ def _validate(line, meta, schema, common_properties):
                 logger.debug(line, 'Property is empty: ' + prop)
                 return False
         elif common_properties and is_common_property(prop):
-            if not Common(prop).evaluate(value):
+            if not Common(prop).evaluate(value, line):
                 return False
         else:
             logger.warning(line, 'Unknown property: ' + prop)
@@ -631,7 +679,18 @@ def validate(metadata):
     return outer_group.evaluate(metadata)
 
 
-def normalize(metadata):
+def _normalize(meta, schema, default_language):
+    for prop in meta:
+        value = meta[prop]
+        if is_common_property(prop) or prop == 'notes':
+            meta[prop] = Common(prop).normalize(value, default_language)
+        elif prop in schema:
+            t = schema[prop]['type']
+            meta[prop] = t.normalize(value, default_language)
+
+
+
+def normalize(metadata, default_language=None):
     """
     1)If the property is a common property or notes the value must be normalized as follows:
         1.1)If the value is an array, each value within the array is normalized in place as described here.
@@ -651,7 +710,8 @@ def normalize(metadata):
     Following this normalization process, the @base and @language properties within the @context are no longer relevant; the normalized metadata can have its @context set to http://www.w3.org/ns/csvw.
     """
     # TODO
-    return metadata
+    outer_group = Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True)
+    return outer_group.normalize(metadata)
 
 
 def _merge_in(key, B, A):
