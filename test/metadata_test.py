@@ -1,5 +1,6 @@
 from csvwparser import CSVW
 from csvwparser import metadata
+from csvwparser.metadata import Object
 
 __author__ = 'sebastian'
 
@@ -45,7 +46,7 @@ class DanBrickleyCase(unittest.TestCase):
             }]
         }
         result = metadata.validate(A)
-        self.assertTrue(result)
+        self.assertTrue(isinstance(result, Object))
         # context is string only
         A = {
             "@context": "http://www.w3.org/ns/csvw",
@@ -73,7 +74,7 @@ class DanBrickleyCase(unittest.TestCase):
             }]
         }
         result = metadata.validate(A)
-        self.assertTrue(result)
+        self.assertTrue(isinstance(result, Object))
 
     def test_negative_context(self):
         # context is missing
@@ -238,7 +239,7 @@ class DanBrickleyCase(unittest.TestCase):
             }]
         }
         result = metadata.validate(A)
-        self.assertTrue(result)
+        self.assertTrue(isinstance(result, Object))
 
 
     @unittest.skip("normalize not implemented")

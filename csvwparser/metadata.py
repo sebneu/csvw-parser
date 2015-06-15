@@ -9,53 +9,56 @@ class Option:
 
 
 class MetaObject:
-    pass
+    def evaluate(self, meta, line=None):
+        return False
 
 
 class Property(MetaObject):
-    def evaluate(self, meta, line=None):
-        return meta
+    def __init__(self):
+        self.value = None
 
 
 class Uri(Property):
     def evaluate(self, meta, line=None):
         # TODO
         logger.debug(line, 'URI property: ' + meta)
-        return True
+        result = Uri()
+        result.value = meta
+        return result
 
 
 class ColumnReference(Property):
-    def __init__(self):
-        pass
 
     def evaluate(self, meta, line=None):
+        result = ColumnReference()
         if isinstance(meta, basestring):
             # TODO  must match the name on a column description object
             logger.debug(line, 'Column Reference property: ' + meta)
-            return True
+            result.value = meta
+            return result
         elif isinstance(meta, list):
             if not meta:
                 logger.warning(line, 'the supplied value is an empty array')
-                return True
+                return result
             for m in meta:
                 if isinstance(m, basestring):
                     # TODO must match the name on a column description object
                     pass
                 else:
                     logger.warning(line, 'the values in the supplied array are not strings: ' + str(meta))
-                return True
+                result.value = meta
+                return result
 
             # TODO  must match the name on a column description object
             logger.debug(line, 'Column Reference property: ' + meta)
-            return True
+            result.value = meta
+            return result
         else:
             logger.warning(line, 'the supplied value is not a string or array: ' + str(meta))
-            return True
+            return result
 
 
 class NaturalLanguage(Property):
-    def __init__(self):
-        pass
 
     def evaluate(self, meta, line=None):
         # strings
@@ -63,87 +66,93 @@ class NaturalLanguage(Property):
         # objects
         # TODO
         logger.debug(line, 'Natural language property: ' + meta)
-        return True
+        result = NaturalLanguage()
+        result.value = meta
+        return result
 
 
 class Link(Property):
     def __init__(self, link_type):
+        Property.__init__(self)
         self.link_type = link_type
 
     def evaluate(self, meta, line=None):
+        result = Link(self.link_type)
         if isinstance(meta, basestring):
             if self.link_type == '@id':
                 # @id must not start with _:
-                logger.error(line, '@id must not start with _:')
-                return not meta.startswith('_:')
+                if meta.startswith('_:'):
+                    logger.error(line, '@id must not start with _:')
+                    return False
             logger.debug(line, 'Link property: (' + self.link_type + ': ' + meta + ')')
-            return True
+            result.value = meta
+            return result
         else:
-            # TODO issue a warning and return True
+            # TODO issue a warning and set prop none
             logger.warning(line, 'value of link property is not a string: ' + str(meta))
-            return True
-
-    def normalize(self, meta, default_language):
-        # TODO value is turned into an absolute URL using the base URL
-        return meta
+            return result
 
 
 class Array(Property):
     def __init__(self, arg):
+        Property.__init__(self)
         self.arg = arg
 
     def evaluate(self, meta, line=None):
+        result = Array(self.arg)
         if isinstance(meta, list):
             # if the arg is a operator, it should take a list as argument
-            return self.arg.evaluate(meta, line)
-        else:
-            # the meta obj should be a list
-            return False
-
-    def normalize(self, meta, default_language):
-        norm_list = []
-        for m in meta:
-            norm_list.append(normalize(m, default_language))
+            result.value = self.arg.evaluate(meta, line)
+            if result.value:
+                return result
+        # the meta obj should be a list
+        return False
 
 
 class Common(Property):
     def __init__(self, prop):
+        Property.__init__(self)
         self.prop = prop
 
     def evaluate(self, meta, line=None):
         # TODO
         logger.debug(line, 'CommonProperty: (' + self.prop + ':' + meta + ')')
-        return True
+        result = Common(self.prop)
+        result.value = meta
+        return result
 
-    def normalize(self, value, default_language):
-        if isinstance(value, list):
-            norm_list = []
-            for v in value:
-                norm_list.append(self.normalize(v, default_language))
-            value = norm_list
-        elif isinstance(value, basestring):
-            value = {'@value': value}
-            if default_language:
-                value['@language'] = default_language
-        elif isinstance(value, dict) and '@value' in value:
-            pass
-        elif isinstance(value, dict):
-            for k in value:
-                if k == '@id':
-                    # TODO expand any prefixed names and resolve its value against the base URL
-                    pass
-                elif k == '@type':
-                    pass
-                else:
-                    k[value] = self.normalize(k[value], default_language)
-        return value
-
+'''
+def normalize(self, value, default_language):
+    if isinstance(value, list):
+        norm_list = []
+        for v in value:
+            norm_list.append(self.normalize(v, default_language))
+        value = norm_list
+    elif isinstance(value, basestring):
+        value = {'@value': value}
+        if default_language:
+            value['@language'] = default_language
+    elif isinstance(value, dict) and '@value' in value:
+        pass
+    elif isinstance(value, dict):
+        for k in value:
+            if k == '@id':
+                # TODO expand any prefixed names and resolve its value against the base URL
+                pass
+            elif k == '@type':
+                pass
+            else:
+                k[value] = self.normalize(k[value], default_language)
+    return value
+'''
 
 
 class Base(Property):
     def evaluate(self, meta, line=None):
         if '@base' in meta:
-            return True
+            result = Base()
+            result.value = meta
+            return result
         else:
             return False
 
@@ -151,22 +160,26 @@ class Base(Property):
 class Language(Property):
     def evaluate(self, meta, line=None):
         if '@language' in meta:
-            return True
+            result = Language()
+            result.value = meta
+            return result
         else:
             return False
 
-    def normalize(self, meta, default_language):
-        # TODO
-        return meta
 
 class Atomic(Property):
     def __init__(self, arg):
+        Property.__init__(self)
         self.arg = arg
 
     def evaluate(self, meta, line=None):
+        result = Atomic(self.arg)
         if isinstance(self.arg, MetaObject):
             # a predefined type or an operator
-            return self.arg.evaluate(meta, line)
+
+            result.value = self.arg.evaluate(meta, line)
+            if result.value:
+                return result
         else:
             # numbers, interpreted as integers or doubles
             # booleans, interpreted as booleans (true or false)
@@ -174,36 +187,38 @@ class Atomic(Property):
             # objects, interpreted as defined by the property
             # arrays, lists of numbers, booleans, strings, or objects
             # TODO
-            return meta == self.arg
-
-    def normalize(self, meta, default_language):
-        # TODO
-        return meta
+            if meta == self.arg:
+                result.value = meta
+                return result
+        return False
 
 
 class Object(Property):
     def __init__(self, dict_obj, inherited_obj=None, common_properties=False):
+        Property.__init__(self)
         self.dict_obj = dict_obj
         self.inherited_obj = inherited_obj
         self.common_properties = common_properties
 
     def evaluate(self, meta, line=None):
-        if isinstance(self.dict_obj, dict):
+        result = Object(self.dict_obj, self.inherited_obj, self.common_properties)
+        if isinstance(self.dict_obj, dict) and isinstance(meta, dict):
             if self.inherited_obj:
                 self.dict_obj = self.dict_obj.copy()
                 self.dict_obj.update(self.inherited_obj)
             # arg is a new schema to validate the metadata
-            return _validate(line, meta, self.dict_obj, self.common_properties)
-        else:
-            logger.error(line, 'object property is not a dictionary: ' + str(meta))
-            return False
-
-    def normalize(self, meta, default_language):
-        return _normalize(meta, self.dict_obj, default_language)
-
+            result.value = _validate(line, meta, self.dict_obj, self.common_properties)
+            if result.value:
+                return result
+        # logger.error(line, 'object property is not a dictionary: ' + str(meta))
+        return False
 
 
 class Operator(MetaObject):
+    pass
+
+
+class BoolOperator(Operator):
     pass
 
 
@@ -212,69 +227,15 @@ class OfType(Operator):
         self.base_type = base_type
 
     def evaluate(self, meta, line=None):
-        return isinstance(meta, self.base_type)
-
-
-class Or(Operator):
-    def __init__(self, *values):
-        self.values = list(values)
-
-    def evaluate(self, meta, line=None):
-        for v in self.values:
-            if isinstance(v, MetaObject) and v.evaluate(meta, line):
-                return True
-            elif v == meta:
-                return True
+        if isinstance(meta, self.base_type):
+            return meta
         return False
 
 
-class And(Operator):
-    def __init__(self, *values):
-        self.values = list(values)
-
-    def evaluate(self, meta, line=None):
-        for v in self.values:
-            if isinstance(v, MetaObject):
-                if not v.evaluate(meta, line):
-                    return False
-            else:
-                if v != meta:
-                    return False
-        return True
-
-
-class All(Operator):
-    """
-    All operator
-    Takes a Type in constructor.
-    On evaluation, checks if all given items have the given type.
-    """
-    def __init__(self, typ):
-        self.typ = typ
-    def evaluate(self, meta_list, line=None):
-        for meta in meta_list:
-            if not self.typ.evaluate(meta, line):
-                return False
-        return True
-
-
-class Some(Operator):
-    """
-    Some operator
-    Takes a Type in constructor.
-    On evaluation, checks if some of given items have the given type.
-    """
-    def __init__(self, typ):
-        self.typ = typ
-    def evaluate(self, meta_list, line=None):
-        for meta in meta_list:
-            if self.typ.evaluate(meta, line):
-                return True
-
-
-class AllDiff(Operator):
+class AllDiff(BoolOperator):
     def __init__(self, arg):
         self.arg = arg
+
     def evaluate(self, meta_list, line=None):
         values = []
         for meta in meta_list:
@@ -290,24 +251,128 @@ class AllDiff(Operator):
         return True
 
 
-class XOr(Operator):
+class Or(Operator):
     def __init__(self, *values):
         self.values = list(values)
 
     def evaluate(self, meta, line=None):
-        found = False
-        for v in self.values:
-            if v.evaluate(meta, line):
-                if found:
-                    # already the second match
-                    logger.debug(line, '(XOr Operator) Only one match allowed: ' + v)
+        # two types of or: on a list or a value
+        if isinstance(meta, list):
+            valid = False
+            props = []
+            for v in self.values:
+                if isinstance(v, BoolOperator) and not v.evaluate(meta, line):
                     return False
-                found = True
+                prop = v.evaluate(meta, line)
+                if prop:
+                    valid = True
+                    if isinstance(prop, list):
+                        props += prop
+                    else:
+                        props.append(prop)
+            if valid:
+                return props
+            return False
+        else:
+            for v in self.values:
+                if isinstance(v, BoolOperator) and not v.evaluate(meta, line):
+                    return False
+                prop = v.evaluate(meta, line)
+                if prop:
+                    return prop
+            return False
+
+
+class And(Operator):
+    def __init__(self, *values):
+        self.values = list(values)
+
+    def evaluate(self, meta, line=None):
+        props = []
+        for v in self.values:
+            if isinstance(v, BoolOperator):
+                if not v.evaluate(meta, line):
+                    return False
+            else:
+                prop = v.evaluate(meta, line)
+                if not prop:
+                    return False
+                if isinstance(prop, list):
+                    props += prop
+                else:
+                    props.append(prop)
+        return props
+
+
+class All(Operator):
+    """
+    All operator
+    Takes a Type in constructor.
+    On evaluation, checks if all given items have the given type.
+    """
+    def __init__(self, typ):
+        self.typ = typ
+
+    def evaluate(self, meta_list, line=None):
+        props = []
+        for meta in meta_list:
+            prop = self.typ.evaluate(meta, line)
+            if not prop:
+                return False
+            if isinstance(prop, list):
+                props += prop
+            else:
+                props.append(prop)
+        return props
+
+
+class Some(Operator):
+    """
+    Some operator
+    Takes a Type in constructor.
+    On evaluation, checks if some of given items have the given type.
+    """
+    def __init__(self, typ):
+        self.typ = typ
+    def evaluate(self, meta_list, line=None):
+        props = []
+        valid = False
+        for meta in meta_list:
+            prop = self.typ.evaluate(meta, line)
+            if prop:
+                valid = True
+                if isinstance(prop, list):
+                    props += prop
+                else:
+                    props.append(prop)
+        if valid:
+            return props
+        return False
+
+
+class Selection(Operator):
+    def __init__(self, *values):
+        self.values = list(values)
+
+    def evaluate(self, meta, line=None):
+        prop = False
+        for v in self.values:
+            tmp = v.evaluate(meta, line)
+            if tmp and prop:
+                # already the second match
+                logger.debug(line, '(Selection Operator) Only one match allowed: ' + str(meta))
+                return False
+            if tmp:
+                prop = tmp
         # if we get here, we found zero or one match
-        return found
+        return prop
 
 
 DATATYPE = {
+    'TODO': {
+        'options': [],
+        'type': Atomic('TODO')
+    },
     # TODO datatype description object
 }
 
@@ -425,8 +490,7 @@ SCHEMA = {
     'columns': {
         'options': [],
         'type': Array(And(All(Object(COLUMN, inherited_obj=INHERITED, common_properties=True)),
-                          AllDiff('name'))
-                      )
+                          AllDiff('name')))
     },
     'primaryKey': {
         'options': [],
@@ -552,7 +616,7 @@ TRANSFORMATION = {
 }
 
 
-CONTEXT = XOr(Atomic('http://www.w3.org/ns/csvw'),
+CONTEXT = Selection(Atomic('http://www.w3.org/ns/csvw'),
               Array(And(Some(Atomic('http://www.w3.org/ns/csvw')),
                         Some(Or(Atomic(Base()), Atomic(Language()))))
                     )
@@ -648,6 +712,7 @@ def is_common_property(prop):
 
 
 def _validate(line, meta, schema, common_properties):
+    model = {}
     for prop in meta:
         value = meta[prop]
         if prop in schema:
@@ -655,28 +720,34 @@ def _validate(line, meta, schema, common_properties):
             t = schema[prop]['type']
             # check if not empty
             if value:
-                if not t.evaluate(value, line):
+                prop_eval = t.evaluate(value, line)
+                if not prop_eval:
                     return False
+                model[prop] = prop_eval
             elif Option.NonEmpty in opts:
                 logger.debug(line, 'Property is empty: ' + prop)
                 return False
         elif common_properties and is_common_property(prop):
-            if not Common(prop).evaluate(value, line):
+            prop_eval = Common(prop).evaluate(value, line)
+            if not prop_eval:
                 return False
+            model[prop] = prop_eval
         else:
             logger.warning(line, 'Unknown property: ' + prop)
+            model[prop] = prop
     # check for missing props
     for prop in schema:
         if Option.Required in schema[prop]['options'] and prop not in meta:
             logger.error(line, 'Property missing: ' + prop)
             return False
-    return True
+    return model
 
 
 def validate(metadata):
     # outer_group = Or(Object(TABLE_GROUP), Object(TABLE))
     outer_group = Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True)
-    return outer_group.evaluate(metadata)
+    model = outer_group.evaluate(metadata)
+    return model
 
 
 def _normalize(meta, schema, default_language):
