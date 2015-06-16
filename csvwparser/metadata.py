@@ -1,15 +1,22 @@
 import re
 import logger
+import urlparse
 
-BASE_URL = None
-LANGUAGE = None
+
+def is_absolute(url):
+    return bool(urlparse.urlparse(url).netloc)
+
+
+def is_common_property(prop):
+    return re.match('^[a-zA-Z]*:[a-zA-Z]*$', prop)
+
 
 class Option:
     Required, NonEmpty = range(2)
 
 
 class MetaObject:
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         return False
 
 
@@ -25,7 +32,7 @@ class Property(MetaObject):
 
 
 class Uri(Property):
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         # TODO
         logger.debug(line, 'URI property: ' + meta)
         result = Uri()
@@ -35,7 +42,7 @@ class Uri(Property):
 
 class ColumnReference(Property):
 
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         result = ColumnReference()
         if isinstance(meta, basestring):
             # TODO  must match the name on a column description object
@@ -66,7 +73,7 @@ class ColumnReference(Property):
 
 class NaturalLanguage(Property):
 
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         # strings
         # arrays
         # objects
@@ -77,14 +84,22 @@ class NaturalLanguage(Property):
         return result
 
     def normalize(self, params):
-        # TODO turn into absolute url using base url
-        if not isinstance(self.value, dict):
-            if isinstance(self.value, basestring):
-                self.value = [self.value]
+        if isinstance(self.value, list):
+            norm_list = []
+            for v in self.value:
+                norm_list.append(self._normalize(v, params))
+            self.value = norm_list
+        else:
+            self.value = self._normalize(self.value, params)
+
+    def _normalize(self, value, params):
+        if isinstance(value, basestring):
+            value = [value]
             if 'default_language' in params:
-                self.value = {params['default_language']: self.value}
+                value = {params['default_language']: value}
             else:
-                self.value = {params['und']: self.value}
+                value = {'und': value}
+        return value
 
 
 class Link(Property):
@@ -92,7 +107,7 @@ class Link(Property):
         Property.__init__(self)
         self.link_type = link_type
 
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         result = Link(self.link_type)
         if isinstance(meta, basestring):
             if self.link_type == '@id':
@@ -109,9 +124,9 @@ class Link(Property):
             return result
 
     def normalize(self, params):
-        if 'base_url' in params:
-            # TODO turn into absolute url using base url
-            self.value = params['base_url'] + self.value
+        # turn into absolute url using base url
+        if not is_absolute(self.value) and 'base_url' in params:
+            self.value = urlparse.urljoin(params['base_url'], self.value)
 
 
 class Array(Property):
@@ -119,11 +134,11 @@ class Array(Property):
         Property.__init__(self)
         self.arg = arg
 
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         result = Array(self.arg)
         if isinstance(meta, list):
             # if the arg is a operator, it should take a list as argument
-            result.value = self.arg.evaluate(meta, line)
+            result.value = self.arg.evaluate(meta, params, line)
             if result.value:
                 return result
         # the meta obj should be a list
@@ -142,7 +157,7 @@ class Common(Property):
         Property.__init__(self)
         self.prop = prop
 
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         # TODO http://www.w3.org/TR/2015/WD-tabular-metadata-20150416/#h-values-of-common-properties
         logger.debug(line, 'CommonProperty: (' + self.prop + ')')
         result = Common(self.prop)
@@ -163,8 +178,8 @@ class Common(Property):
         elif isinstance(value, dict):
             for k in value:
                 if k == '@id':
-                    # TODO expand
-                    pass
+                    if not is_absolute(value[k]) and 'base_url' in params:
+                        value[k] = urlparse.urljoin(params['base_url'], value[k])
                 elif k == '@type':
                     pass
                 else:
@@ -177,10 +192,11 @@ class Common(Property):
 
 
 class Base(Property):
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         if '@base' in meta:
             result = Base()
             result.value = meta['@base']
+            params['base_url'] = result.value
             return result
         else:
             return False
@@ -190,10 +206,11 @@ class Base(Property):
 
 
 class Language(Property):
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         if '@language' in meta:
             result = Language()
             result.value = meta['@language']
+            params['default_language'] = result.value
             return result
         else:
             return False
@@ -207,12 +224,12 @@ class Atomic(Property):
         Property.__init__(self)
         self.arg = arg
 
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         result = Atomic(self.arg)
         if isinstance(self.arg, MetaObject):
             # a predefined type or an operator
 
-            result.value = self.arg.evaluate(meta, line)
+            result.value = self.arg.evaluate(meta, params, line)
             if result.value:
                 return result
         else:
@@ -228,7 +245,7 @@ class Atomic(Property):
         return False
 
     def json(self):
-        if isinstance(self.arg, MetaObject):
+        if isinstance(self.value, MetaObject):
             return self.value.json()
         else:
             return self.value
@@ -241,14 +258,14 @@ class Object(Property):
         self.inherited_obj = inherited_obj
         self.common_properties = common_properties
 
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         result = Object(self.dict_obj, self.inherited_obj, self.common_properties)
         if isinstance(self.dict_obj, dict) and isinstance(meta, dict):
             if self.inherited_obj:
                 self.dict_obj = self.dict_obj.copy()
                 self.dict_obj.update(self.inherited_obj)
             # arg is a new schema to validate the metadata
-            result.value = _validate(line, meta, self.dict_obj, self.common_properties)
+            result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
             if result.value:
                 return result
         # logger.error(line, 'object property is not a dictionary: ' + str(meta))
@@ -256,8 +273,7 @@ class Object(Property):
 
     def normalize(self, params):
         for prop in self.value:
-            val = self.value[prop]
-            val.normalize(params)
+            self.value[prop].normalize(params)
 
         if '@context' in self.value:
             p = Atomic('http://www.w3.org/ns/csvw')
@@ -280,7 +296,7 @@ class OfType(Operator):
     def __init__(self, base_type):
         self.base_type = base_type
 
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         if isinstance(meta, self.base_type):
             return meta
         return False
@@ -290,7 +306,7 @@ class AllDiff(BoolOperator):
     def __init__(self, arg):
         self.arg = arg
 
-    def evaluate(self, meta_list, line=None):
+    def evaluate(self, meta_list, params, line=None):
         values = []
         for meta in meta_list:
             v = None
@@ -309,15 +325,15 @@ class Or(Operator):
     def __init__(self, *values):
         self.values = list(values)
 
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         # two types of or: on a list or a value
         if isinstance(meta, list):
             valid = False
             props = []
             for v in self.values:
-                if isinstance(v, BoolOperator) and not v.evaluate(meta, line):
+                if isinstance(v, BoolOperator) and not v.evaluate(meta, params, line):
                     return False
-                prop = v.evaluate(meta, line)
+                prop = v.evaluate(meta, params, line)
                 if prop:
                     valid = True
                     if isinstance(prop, list):
@@ -329,9 +345,14 @@ class Or(Operator):
             return False
         else:
             for v in self.values:
-                if isinstance(v, BoolOperator) and not v.evaluate(meta, line):
+                prop = False
+                if isinstance(v, BoolOperator) and not v.evaluate(meta, params, line):
                     return False
-                prop = v.evaluate(meta, line)
+                elif isinstance(v, MetaObject):
+                    prop = v.evaluate(meta, params, line)
+                elif isinstance(v, basestring) and v == meta:
+                    prop = Atomic(v)
+                    prop.value = v
                 if prop:
                     return prop
             return False
@@ -341,14 +362,14 @@ class And(Operator):
     def __init__(self, *values):
         self.values = list(values)
 
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         props = []
         for v in self.values:
             if isinstance(v, BoolOperator):
-                if not v.evaluate(meta, line):
+                if not v.evaluate(meta, params, line):
                     return False
             else:
-                prop = v.evaluate(meta, line)
+                prop = v.evaluate(meta, params, line)
                 if not prop:
                     return False
                 if isinstance(prop, list):
@@ -367,10 +388,10 @@ class All(Operator):
     def __init__(self, typ):
         self.typ = typ
 
-    def evaluate(self, meta_list, line=None):
+    def evaluate(self, meta_list, params, line=None):
         props = []
         for meta in meta_list:
-            prop = self.typ.evaluate(meta, line)
+            prop = self.typ.evaluate(meta, params, line)
             if not prop:
                 return False
             if isinstance(prop, list):
@@ -389,11 +410,11 @@ class Some(Operator):
     def __init__(self, typ):
         self.typ = typ
 
-    def evaluate(self, meta_list, line=None):
+    def evaluate(self, meta_list, params, line=None):
         props = []
         valid = False
         for meta in meta_list:
-            prop = self.typ.evaluate(meta, line)
+            prop = self.typ.evaluate(meta, params, line)
             if prop:
                 valid = True
                 if isinstance(prop, list):
@@ -409,10 +430,10 @@ class Selection(Operator):
     def __init__(self, *values):
         self.values = list(values)
 
-    def evaluate(self, meta, line=None):
+    def evaluate(self, meta, params, line=None):
         prop = False
         for v in self.values:
-            tmp = v.evaluate(meta, line)
+            tmp = v.evaluate(meta, params, line)
             if tmp and prop:
                 # already the second match
                 logger.debug(line, '(Selection Operator) Only one match allowed: ' + str(meta))
@@ -762,11 +783,7 @@ TABLE_GROUP = {
 }
 
 
-def is_common_property(prop):
-    return re.match('^[a-zA-Z]*:[a-zA-Z]*$', prop)
-
-
-def _validate(line, meta, schema, common_properties):
+def _validate(line, meta, params, schema, common_properties):
     model = {}
     for prop in meta:
         value = meta[prop]
@@ -775,7 +792,7 @@ def _validate(line, meta, schema, common_properties):
             t = schema[prop]['type']
             # check if not empty
             if value:
-                prop_eval = t.evaluate(value, line)
+                prop_eval = t.evaluate(value, params, line)
                 if not prop_eval:
                     return False
                 model[prop] = prop_eval
@@ -783,7 +800,7 @@ def _validate(line, meta, schema, common_properties):
                 logger.debug(line, 'Property is empty: ' + prop)
                 return False
         elif common_properties and is_common_property(prop):
-            prop_eval = Common(prop).evaluate(value, line)
+            prop_eval = Common(prop).evaluate(value, params, line)
             if not prop_eval:
                 return False
             model[prop] = prop_eval
@@ -798,25 +815,24 @@ def _validate(line, meta, schema, common_properties):
     return model
 
 
-
-
 def validate(metadata):
     outer_group = Or(Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True), Object(TABLE, inherited_obj=INHERITED, common_properties=True))
     # outer_group = Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True)
-    validated = outer_group.evaluate(metadata)
+    params = {}
+    validated = outer_group.evaluate(metadata, params)
     # TODO look for language, column references, ...
     if validated:
-        return Model(validated)
+        return Model(validated, params)
     return False
 
 
 class Model:
-    def __init__(self, obj):
+    def __init__(self, obj, params):
+        self.params = params
         self.object = obj
 
     def normalize(self):
-        params = {}
-        self.object.normalize(params)
+        self.object.normalize(self.params)
 
     def json(self):
         return self.object.json()

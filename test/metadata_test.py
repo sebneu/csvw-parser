@@ -245,7 +245,6 @@ class DanBrickleyCase(unittest.TestCase):
         self.assertEqual(json_res, A)
 
 
-    #@unittest.skip("normalize not implemented")
     def test_normalize(self):
         A = {
           "@context": [ "http://www.w3.org/ns/csvw", { "@language": "en" } ],
@@ -260,7 +259,6 @@ class DanBrickleyCase(unittest.TestCase):
           "@context": "http://www.w3.org/ns/csvw",
           "@type": "Table",
           "url": "http://example.com/table.csv",
-          "tableSchema": [],
           "dc:title": [
             {"@value": "The title of this Table", "@language": "en"},
             {"@value": "Der Titel dieser Tabelle", "@language": "de"}
@@ -269,8 +267,29 @@ class DanBrickleyCase(unittest.TestCase):
         val = metadata.validate(A)
         print val.json()
         self.assertEqual(val.json(), A)
-        result = val.normalize()
-        json_res = result.json()
+        val.normalize()
+        json_res = val.json()
+        print json_res
+        self.assertEqual(json_res, norm)
+
+    def test_normalize2(self):
+        A = {
+              "@context": [ "http://www.w3.org/ns/csvw", { "@base": "http://example.com/" } ],
+              "@type": "Table",
+              "url": "table.csv",
+              "schema:url": {"@id": "table.csv"}
+        }
+        norm = {
+              "@context": "http://www.w3.org/ns/csvw",
+              "@type": "Table",
+              "url": "http://example.com/table.csv",
+              "schema:url": {"@id": "http://example.com/table.csv"}
+        }
+        val = metadata.validate(A)
+        print val.json()
+        self.assertEqual(val.json(), A)
+        val.normalize()
+        json_res = val.json()
         print json_res
         self.assertEqual(json_res, norm)
 
