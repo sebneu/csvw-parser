@@ -1,6 +1,6 @@
 from csvwparser import CSVW
 from csvwparser import metadata
-from csvwparser.metadata import Object
+from csvwparser.metadata import Model
 
 __author__ = 'sebastian'
 
@@ -46,7 +46,7 @@ class DanBrickleyCase(unittest.TestCase):
             }]
         }
         result = metadata.validate(A)
-        self.assertTrue(isinstance(result, Object))
+        self.assertTrue(isinstance(result, Model))
         # context is string only
         A = {
             "@context": "http://www.w3.org/ns/csvw",
@@ -74,7 +74,7 @@ class DanBrickleyCase(unittest.TestCase):
             }]
         }
         result = metadata.validate(A)
-        self.assertTrue(isinstance(result, Object))
+        self.assertTrue(isinstance(result, Model))
 
     def test_negative_context(self):
         # context is missing
@@ -239,22 +239,25 @@ class DanBrickleyCase(unittest.TestCase):
             }]
         }
         result = metadata.validate(A)
-        self.assertTrue(isinstance(result, Object))
+        self.assertTrue(isinstance(result, Model))
+        json_res = result.json()
+        print json_res
+        self.assertEqual(json_res, A)
 
 
-    @unittest.skip("normalize not implemented")
+    #@unittest.skip("normalize not implemented")
     def test_normalize(self):
         A = {
           "@context": [ "http://www.w3.org/ns/csvw", { "@language": "en" } ],
           "@type": "Table",
           "url": "http://example.com/table.csv",
-          "tableSchema": [],
           "dc:title": [
             "The title of this Table",
             {"@value": "Der Titel dieser Tabelle", "@language": "de"}
           ]
         }
         norm = {
+          "@context": "http://www.w3.org/ns/csvw",
           "@type": "Table",
           "url": "http://example.com/table.csv",
           "tableSchema": [],
@@ -263,8 +266,13 @@ class DanBrickleyCase(unittest.TestCase):
             {"@value": "Der Titel dieser Tabelle", "@language": "de"}
           ]
         }
-        result = metadata.normalize(A)
-        self.assertEqual(result, norm)
+        val = metadata.validate(A)
+        print val.json()
+        self.assertEqual(val.json(), A)
+        result = val.normalize()
+        json_res = result.json()
+        print json_res
+        self.assertEqual(json_res, norm)
 
     @unittest.skip("merge not implemented")
     def test_merge(self):

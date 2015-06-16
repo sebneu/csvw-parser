@@ -17,6 +17,12 @@ class Property(MetaObject):
     def __init__(self):
         self.value = None
 
+    def normalize(self, params):
+        pass
+
+    def json(self):
+        return self.value
+
 
 class Uri(Property):
     def evaluate(self, meta, line=None):
@@ -70,6 +76,16 @@ class NaturalLanguage(Property):
         result.value = meta
         return result
 
+    def normalize(self, params):
+        # TODO turn into absolute url using base url
+        if not isinstance(self.value, dict):
+            if isinstance(self.value, basestring):
+                self.value = [self.value]
+            if 'default_language' in params:
+                self.value = {params['default_language']: self.value}
+            else:
+                self.value = {params['und']: self.value}
+
 
 class Link(Property):
     def __init__(self, link_type):
@@ -92,6 +108,11 @@ class Link(Property):
             logger.warning(line, 'value of link property is not a string: ' + str(meta))
             return result
 
+    def normalize(self, params):
+        if 'base_url' in params:
+            # TODO turn into absolute url using base url
+            self.value = params['base_url'] + self.value
+
 
 class Array(Property):
     def __init__(self, arg):
@@ -108,6 +129,13 @@ class Array(Property):
         # the meta obj should be a list
         return False
 
+    def normalize(self, params):
+        for v in self.value:
+            v.normalize(params)
+
+    def json(self):
+        return [v.json() for v in self.value]
+
 
 class Common(Property):
     def __init__(self, prop):
@@ -115,56 +143,63 @@ class Common(Property):
         self.prop = prop
 
     def evaluate(self, meta, line=None):
-        # TODO
-        logger.debug(line, 'CommonProperty: (' + self.prop + ':' + meta + ')')
+        # TODO http://www.w3.org/TR/2015/WD-tabular-metadata-20150416/#h-values-of-common-properties
+        logger.debug(line, 'CommonProperty: (' + self.prop + ')')
         result = Common(self.prop)
         result.value = meta
         return result
 
-'''
-def normalize(self, value, default_language):
-    if isinstance(value, list):
-        norm_list = []
-        for v in value:
-            norm_list.append(self.normalize(v, default_language))
-        value = norm_list
-    elif isinstance(value, basestring):
-        value = {'@value': value}
-        if default_language:
-            value['@language'] = default_language
-    elif isinstance(value, dict) and '@value' in value:
-        pass
-    elif isinstance(value, dict):
-        for k in value:
-            if k == '@id':
-                # TODO expand any prefixed names and resolve its value against the base URL
-                pass
-            elif k == '@type':
-                pass
-            else:
-                k[value] = self.normalize(k[value], default_language)
-    return value
-'''
+    def normalize(self, params):
+        self.value = self._normalize(self.value, params)
+
+    def _normalize(self, value, params):
+        if isinstance(value, list):
+            norm_list = []
+            for v in value:
+                norm_list.append(self._normalize(v, params))
+                value = norm_list
+        elif isinstance(value, dict) and '@value' in value:
+            pass
+        elif isinstance(value, dict):
+            for k in value:
+                if k == '@id':
+                    # TODO expand
+                    pass
+                elif k == '@type':
+                    pass
+                else:
+                    value[k] = self._normalize(value[k], params)
+        elif isinstance(value, basestring):
+            value = {'@value': value}
+            if 'default_language' in params:
+                value['@language'] = params['default_language']
+        return value
 
 
 class Base(Property):
     def evaluate(self, meta, line=None):
         if '@base' in meta:
             result = Base()
-            result.value = meta
+            result.value = meta['@base']
             return result
         else:
             return False
+
+    def json(self):
+        return {'@base': self.value}
 
 
 class Language(Property):
     def evaluate(self, meta, line=None):
         if '@language' in meta:
             result = Language()
-            result.value = meta
+            result.value = meta['@language']
             return result
         else:
             return False
+
+    def json(self):
+        return {'@language': self.value}
 
 
 class Atomic(Property):
@@ -192,6 +227,12 @@ class Atomic(Property):
                 return result
         return False
 
+    def json(self):
+        if isinstance(self.arg, MetaObject):
+            return self.value.json()
+        else:
+            return self.value
+
 
 class Object(Property):
     def __init__(self, dict_obj, inherited_obj=None, common_properties=False):
@@ -212,6 +253,19 @@ class Object(Property):
                 return result
         # logger.error(line, 'object property is not a dictionary: ' + str(meta))
         return False
+
+    def normalize(self, params):
+        for prop in self.value:
+            val = self.value[prop]
+            val.normalize(params)
+
+        if '@context' in self.value:
+            p = Atomic('http://www.w3.org/ns/csvw')
+            p.value = 'http://www.w3.org/ns/csvw'
+            self.value['@context'] = p
+
+    def json(self):
+        return {k: self.value[k].json() for k in self.value}
 
 
 class Operator(MetaObject):
@@ -334,6 +388,7 @@ class Some(Operator):
     """
     def __init__(self, typ):
         self.typ = typ
+
     def evaluate(self, meta_list, line=None):
         props = []
         valid = False
@@ -708,7 +763,7 @@ TABLE_GROUP = {
 
 
 def is_common_property(prop):
-    return re.match('[a-zA-Z]:[a-zA-Z]', prop)
+    return re.match('^[a-zA-Z]*:[a-zA-Z]*$', prop)
 
 
 def _validate(line, meta, schema, common_properties):
@@ -743,25 +798,31 @@ def _validate(line, meta, schema, common_properties):
     return model
 
 
+
+
 def validate(metadata):
-    # outer_group = Or(Object(TABLE_GROUP), Object(TABLE))
-    outer_group = Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True)
-    model = outer_group.evaluate(metadata)
-    return model
+    outer_group = Or(Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True), Object(TABLE, inherited_obj=INHERITED, common_properties=True))
+    # outer_group = Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True)
+    validated = outer_group.evaluate(metadata)
+    # TODO look for language, column references, ...
+    if validated:
+        return Model(validated)
+    return False
 
 
-def _normalize(meta, schema, default_language):
-    for prop in meta:
-        value = meta[prop]
-        if is_common_property(prop) or prop == 'notes':
-            meta[prop] = Common(prop).normalize(value, default_language)
-        elif prop in schema:
-            t = schema[prop]['type']
-            meta[prop] = t.normalize(value, default_language)
+class Model:
+    def __init__(self, obj):
+        self.object = obj
+
+    def normalize(self):
+        params = {}
+        self.object.normalize(params)
+
+    def json(self):
+        return self.object.json()
 
 
-
-def normalize(metadata, default_language=None):
+def normalize(metadata):
     """
     1)If the property is a common property or notes the value must be normalized as follows:
         1.1)If the value is an array, each value within the array is normalized in place as described here.
@@ -780,9 +841,10 @@ def normalize(metadata, default_language=None):
     7)If the property is an atomic property that can be a string or an object, normalize to the object form as described for that property.
     Following this normalization process, the @base and @language properties within the @context are no longer relevant; the normalized metadata can have its @context set to http://www.w3.org/ns/csvw.
     """
-    # TODO
-    outer_group = Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True)
-    return outer_group.normalize(metadata)
+    model = validate(metadata)
+    if model:
+        model.normalize()
+    return model
 
 
 def _merge_in(key, B, A):
