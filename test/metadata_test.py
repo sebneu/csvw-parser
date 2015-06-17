@@ -1,3 +1,4 @@
+import pprint
 from csvwparser import CSVW
 from csvwparser import metadata
 from csvwparser.metadata import Model
@@ -192,6 +193,7 @@ class DanBrickleyCase(unittest.TestCase):
         self.assertFalse(result)
 
     def test_positive_validate(self):
+        self.maxDiff = None
         A = {
             "@context": "http://www.w3.org/ns/csvw",
             "tables": [{
@@ -244,8 +246,8 @@ class DanBrickleyCase(unittest.TestCase):
         print json_res
         self.assertEqual(json_res, A)
 
-
     def test_normalize(self):
+        self.maxDiff = None
         A = {
           "@context": [ "http://www.w3.org/ns/csvw", { "@language": "en" } ],
           "@type": "Table",
@@ -257,22 +259,27 @@ class DanBrickleyCase(unittest.TestCase):
         }
         norm = {
           "@context": "http://www.w3.org/ns/csvw",
-          "@type": "Table",
-          "url": "http://example.com/table.csv",
-          "dc:title": [
-            {"@value": "The title of this Table", "@language": "en"},
-            {"@value": "Der Titel dieser Tabelle", "@language": "de"}
-          ]
+          "tables": [
+              {
+                  "@type": "Table",
+                  "url": "http://example.com/table.csv",
+                  "dc:title": [
+                    {"@value": "The title of this Table", "@language": "en"},
+                    {"@value": "Der Titel dieser Tabelle", "@language": "de"}
+                  ]
+              }
+          ],
         }
         val = metadata.validate(A)
-        print val.json()
-        self.assertEqual(val.json(), A)
+        #print val.json()
+        #self.assertEqual(val.json(), A)
         val.normalize()
         json_res = val.json()
         print json_res
         self.assertEqual(json_res, norm)
 
     def test_normalize2(self):
+        self.maxDiff = None
         A = {
               "@context": [ "http://www.w3.org/ns/csvw", { "@base": "http://example.com/" } ],
               "@type": "Table",
@@ -281,22 +288,28 @@ class DanBrickleyCase(unittest.TestCase):
         }
         norm = {
               "@context": "http://www.w3.org/ns/csvw",
-              "@type": "Table",
-              "url": "http://example.com/table.csv",
-              "schema:url": {"@id": "http://example.com/table.csv"}
+              "tables": [
+                  {
+                      "@type": "Table",
+                      "url": "http://example.com/table.csv",
+                      "schema:url": {"@id": "http://example.com/table.csv"}
+                  }
+              ]
         }
         val = metadata.validate(A)
-        print val.json()
-        self.assertEqual(val.json(), A)
+        #print val.json()
+        #self.assertEqual(val.json(), A)
         val.normalize()
         json_res = val.json()
         print json_res
         self.assertEqual(json_res, norm)
 
-    @unittest.skip("merge not implemented")
     def test_merge(self):
+        self.maxDiff = None
         A = {
-          "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
+          "@context": ["http://www.w3.org/ns/csvw", {"@language": "en",
+                                                     "@base": "http://example.com/"}
+                       ],
           "tables": [{
             "url": "doc1.csv",
             "dc:title": "foo",
@@ -333,6 +346,7 @@ class DanBrickleyCase(unittest.TestCase):
         }
 
         merged = {
+          "@context": "http://www.w3.org/ns/csvw",
           "tables": [{
             "url": "http://example.com/doc1.csv",
             "dc:title": {"@value": "foo", "@language": "en"},
@@ -357,9 +371,12 @@ class DanBrickleyCase(unittest.TestCase):
         # normalizing a
         norm_a = metadata.normalize(A)
         norm_b = metadata.normalize(B)
+        pprint.pprint(norm_a.json())
+        pprint.pprint(norm_b.json())
 
         result = metadata.merge([norm_a, norm_b])
-        self.assertEqual(merged, result)
+        pprint.pprint(result.json())
+        self.assertEqual(merged, result.json())
 
 
 if __name__ == '__main__':

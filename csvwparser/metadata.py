@@ -1,4 +1,5 @@
 import re
+from reportlab.lib.validators import isInstanceOf
 import logger
 import urlparse
 
@@ -26,6 +27,9 @@ class Property(MetaObject):
 
     def normalize(self, params):
         pass
+
+    def merge(self, obj):
+        print self.value
 
     def json(self):
         return self.value
@@ -63,7 +67,7 @@ class ColumnReference(Property):
                 return result
 
             # TODO  must match the name on a column description object
-            logger.debug(line, 'Column Reference property: ' + meta)
+            logger.debug(line, 'Column Reference property: ' + str(meta))
             result.value = meta
             return result
         else:
@@ -78,7 +82,7 @@ class NaturalLanguage(Property):
         # arrays
         # objects
         # TODO
-        logger.debug(line, 'Natural language property: ' + meta)
+        logger.debug(line, 'Natural language property: ' + str(meta))
         result = NaturalLanguage()
         result.value = meta
         return result
@@ -100,6 +104,23 @@ class NaturalLanguage(Property):
             else:
                 value = {'und': value}
         return value
+
+    def merge(self, obj):
+        for k in obj.value:
+            # k is a language code of B
+            for v in obj.value[k]:
+                # values from A followed by those from B that were not already a value in A
+                if k in self.value and v not in self.value[k]:
+                    self.value[k].append(v)
+
+                #
+                if 'und' in self.value and v in self.value['und']:
+                    self.value['und'].remove(v)
+                    if k not in self.value:
+                        self.value[k] = []
+                    self.value[k].append(v)
+                    if len(self.value['und']) == 0:
+                        self.value.pop('und')
 
 
 class Link(Property):
@@ -147,6 +168,13 @@ class Array(Property):
     def normalize(self, params):
         for v in self.value:
             v.normalize(params)
+
+    def merge(self, obj):
+        if isinstance(obj.value, list):
+            # TODO maybe wrong??
+            for i, v in enumerate(obj.value):
+                if len(self.value) > i:
+                    self.value[i].merge(v)
 
     def json(self):
         return [v.json() for v in self.value]
@@ -266,7 +294,7 @@ class Object(Property):
                 self.dict_obj.update(self.inherited_obj)
             # arg is a new schema to validate the metadata
             result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
-            if result.value:
+            if result.value is not False:
                 return result
         # logger.error(line, 'object property is not a dictionary: ' + str(meta))
         return False
@@ -279,6 +307,14 @@ class Object(Property):
             p = Atomic('http://www.w3.org/ns/csvw')
             p.value = 'http://www.w3.org/ns/csvw'
             self.value['@context'] = p
+
+    def merge(self, obj):
+        for k in obj.value:
+            if k in self.value:
+                self.value[k].merge(obj.value[k])
+            else:
+                # if property not in A, just add it
+                self.value[k] = obj.value[k]
 
     def json(self):
         return {k: self.value[k].json() for k in self.value}
@@ -326,36 +362,26 @@ class Or(Operator):
         self.values = list(values)
 
     def evaluate(self, meta, params, line=None):
-        # two types of or: on a list or a value
-        if isinstance(meta, list):
-            valid = False
-            props = []
-            for v in self.values:
-                if isinstance(v, BoolOperator) and not v.evaluate(meta, params, line):
-                    return False
+        props = []
+        for v in self.values:
+            prop = False
+            if isinstance(v, BoolOperator) and not v.evaluate(meta, params, line):
+                return False
+            elif isinstance(v, MetaObject):
                 prop = v.evaluate(meta, params, line)
-                if prop:
-                    valid = True
-                    if isinstance(prop, list):
-                        props += prop
-                    else:
-                        props.append(prop)
-            if valid:
-                return props
-            return False
-        else:
-            for v in self.values:
-                prop = False
-                if isinstance(v, BoolOperator) and not v.evaluate(meta, params, line):
-                    return False
-                elif isinstance(v, MetaObject):
-                    prop = v.evaluate(meta, params, line)
-                elif isinstance(v, basestring) and v == meta:
-                    prop = Atomic(v)
-                    prop.value = v
-                if prop:
-                    return prop
-            return False
+            elif isinstance(v, basestring) and v == meta:
+                prop = Atomic(v)
+                prop.value = v
+            if prop:
+                if isinstance(prop, list):
+                    props += prop
+                else:
+                    props.append(prop)
+
+        # two types of or: on a list or a value
+        if not isinstance(meta, list) and len(props) == 1:
+            return props[0]
+        return props
 
 
 class And(Operator):
@@ -816,14 +842,26 @@ def _validate(line, meta, params, schema, common_properties):
 
 
 def validate(metadata):
-    outer_group = Or(Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True), Object(TABLE, inherited_obj=INHERITED, common_properties=True))
-    # outer_group = Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True)
+    metadata = expand(metadata)
+    # outer_group = Or(Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True), Object(TABLE, inherited_obj=INHERITED, common_properties=True))
+    outer_group = Object(TABLE_GROUP, inherited_obj=INHERITED, common_properties=True)
     params = {}
     validated = outer_group.evaluate(metadata, params)
     # TODO look for language, column references, ...
     if validated:
         return Model(validated, params)
     return False
+
+
+def expand(meta):
+    # turn into table group description
+    if 'tables' not in meta:
+        tmp = {'tables': [meta]}
+        context = meta.pop('@context', None)
+        if context:
+            tmp['@context'] = context
+        return tmp
+    return meta
 
 
 class Model:
@@ -833,6 +871,9 @@ class Model:
 
     def normalize(self):
         self.object.normalize(self.params)
+
+    def merge(self, B):
+        self.object.merge(B.object)
 
     def json(self):
         return self.object.json()
@@ -863,35 +904,19 @@ def normalize(metadata):
     return model
 
 
-def _merge_in(key, B, A):
-        if isinstance(B, list):
-            # TODO array property
-            return
-        if isinstance(B, dict) and isinstance(A, dict):
-            for k in B:
-                if k in A:
-                    _merge_in(k, B[k], A[k])
-        if isinstance(B, basestring):
-            # TODO check for natural language property
-            pass
-
-
 def merge(meta_sources):
     """
     from highest priority to lowest priority by merging the first two metadata files
     """
     A = None
-    for B in meta_sources:
+    for m in meta_sources:
+        B = m
         # check if we are in the first iteration
         if not A:
             A = B
             # finished, because we don't have to to merge B in A
         else:
-            # top level of 2 metadata objects is dict
-            for k in B:
-                if k in A:
-                    _merge_in(k, B[k], A)
-                else:
-                    # if property not in A, just add it
-                    A[k] = B[k]
+            A.merge(B)
     return A
+
+
