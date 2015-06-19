@@ -1,5 +1,4 @@
 import re
-from reportlab.lib.validators import isInstanceOf
 import logger
 import urlparse
 
