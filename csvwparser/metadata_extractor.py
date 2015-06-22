@@ -17,26 +17,26 @@ FILE_SPECIFIC_METADATA = '-metadata.json'
 DIRECTORY_METADATA = 'metadata.json'
 
 
-def parse_metadata(metadata_handle):
-    try:
-        meta_json = json.load(metadata_handle)
-        meta = metadata.validate(meta_json)
-        return meta
-    except Exception as e:
-        logger.error(e)
-        raise e
+def parse_to_json(metadata_handle):
+    meta_json = json.load(metadata_handle)
+    # meta = metadata.validate(meta_json)
+    return meta_json
 
 
 def _parse_header_field(header_field):
     raise NotImplementedError()
 
 
-def metadata_extraction(url, metadata_handle):
+def metadata_extraction(url, metadata_handle, embedded_metadata=False):
     meta_sources = []
 
     # case  1
     if metadata_handle is not None:
-        meta_sources.append(parse_metadata(metadata_handle))
+        meta_sources.append(parse_to_json(metadata_handle))
+
+    # case  2
+    if embedded_metadata:
+        meta_sources.append(embedded_metadata)
 
     if url:
         # case 3
@@ -58,7 +58,7 @@ def metadata_extraction(url, metadata_handle):
         except urllib2.URLError:
             retrievable = False
         if retrievable:
-            meta_sources.append(parse_metadata(meta_url))
+            meta_sources.append(parse_to_json(response))
 
         # case 5
         retrievable = True
@@ -71,6 +71,6 @@ def metadata_extraction(url, metadata_handle):
         except urllib2.URLError:
             retrievable = False
         if retrievable:
-            meta_sources.append(parse_metadata(meta_url))
+            meta_sources.append(parse_to_json(response))
 
     return meta_sources

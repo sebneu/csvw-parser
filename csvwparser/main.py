@@ -64,6 +64,7 @@ class CSVW:
         else:
             raise ValueError("url or path argument required")
 
+        metadata_handle = None
         if metadata_url:
             response = urllib2.urlopen(metadata_url)
             metadata_handle = StringIO(response.read())
@@ -71,10 +72,9 @@ class CSVW:
             metadata_handle = open(metadata_path, 'rb')
         elif metadata_path and metadata_url:
             raise ValueError("only one argument of metadata_url and metadata_path allowed")
-        else:
-            self.metadata_handle = None
 
-        self.table_set = _build_tables(handle, name, date_parsing)
+        # self.table_set = _build_tables(handle, name, date_parsing)
+        # TODO create embedded_metadata
         sources = metadata_extractor.metadata_extraction(url, metadata_handle)
         self.metadata = metadata.merge(sources)
 

@@ -369,12 +369,12 @@ class DanBrickleyCase(unittest.TestCase):
         }
 
         # normalizing a
-        norm_a = metadata.normalize(A)
-        norm_b = metadata.normalize(B)
-        pprint.pprint(norm_a.json())
-        pprint.pprint(norm_b.json())
+        #norm_a = metadata.normalize(A)
+        #norm_b = metadata.normalize(B)
+        #pprint.pprint(norm_a.json())
+        #pprint.pprint(norm_b.json())
 
-        result = metadata.merge([norm_a, norm_b])
+        result = metadata.merge([A, B])
         pprint.pprint(result.json())
         self.assertEqual(merged, result.json())
 

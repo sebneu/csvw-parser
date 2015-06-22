@@ -907,13 +907,16 @@ def merge(meta_sources):
     """
     from highest priority to lowest priority by merging the first two metadata files
     """
+    # at first normalize (and validate) the metadata objects
+    norm_sources = [normalize(s) for s in meta_sources]
+
+    # then merge them into one object
     A = None
-    for m in meta_sources:
+    for m in norm_sources:
         B = m
         # check if we are in the first iteration
         if not A:
             A = B
-            # finished, because we don't have to to merge B in A
         else:
             A.merge(B)
     return A
