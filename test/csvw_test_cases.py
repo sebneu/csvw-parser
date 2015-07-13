@@ -45,6 +45,8 @@ def test_generator(csv_file, implicit, type, option):
         # if we can parse it we should at least produce some embedded metadata
         self.assertNotEqual(csvw.metadata, None)
 
+
+
     return test
 
 

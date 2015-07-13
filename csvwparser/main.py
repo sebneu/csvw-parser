@@ -1,6 +1,7 @@
 from StringIO import StringIO
 import urllib2
 import logging
+import parser
 from csvwparser import metadata
 import metadata_extractor
 
@@ -34,9 +35,10 @@ class CSVW:
         elif metadata_path:
             metadata_handle = open(metadata_path, 'rb')
 
-        # TODO parse table
-        # TODO create embedded_metadata
-        sources = metadata_extractor.metadata_extraction(url, metadata_handle)
+        self.table, embedded_metadata = parser.parse(handle, url)
+
+        # TODO create settings using arguments or provided metadata
+        sources = metadata_extractor.metadata_extraction(url, metadata_handle, embedded_metadata=embedded_metadata)
         self.metadata = metadata.merge(sources)
 
     def to_rdf(self):
