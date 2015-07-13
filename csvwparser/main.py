@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 class CSVW:
     def __init__(self, url=None, path=None, metadata_url=None, metadata_path=None, date_parsing=False):
         if url:
-            response = urllib2.urlopen(url)
-            handle = StringIO(response.read())
+            url_resp = urllib2.urlopen(url)
+            handle = StringIO(url_resp.read())
             name = url
         elif path:
             handle = open(path, 'rb')
@@ -30,8 +30,8 @@ class CSVW:
         if metadata_path and metadata_url:
             raise ValueError("only one argument of metadata_url and metadata_path allowed")
         elif metadata_url:
-            response = urllib2.urlopen(metadata_url)
-            metadata_handle = StringIO(response.read())
+            meta_resp = urllib2.urlopen(metadata_url)
+            metadata_handle = StringIO(meta_resp.read())
         elif metadata_path:
             metadata_handle = open(metadata_path, 'rb')
 

@@ -6,12 +6,12 @@ from csvwparser import CSVW
 import urllib2
 
 MAX_TESTS = 5
-MANIFEST = 'http://w3c.github.io/csvw/tests/manifest-validation.jsonld'
+MANIFEST = 'http://w3c.github.io/csvw/tests/manifest-json.jsonld'
 BASE = 'http://w3c.github.io/csvw/tests/'
 TYPES = {
-    'csvt:WarningValidationTest': True,
-    'csvt:PositiveValidationTest': True,
-    'csvt:NegativeValidationTest': False
+    'csvt:ToJsonTest': True,
+    'csvt:ToJsonTestWithWarnings': True,
+    'csvt:NegativeJsonTest': False
 }
 
 
@@ -20,11 +20,11 @@ def get_manifest():
     return json.loads(response.read())
 
 
-class CSVWValidationTestCases(unittest.TestCase):
+class CSVWJSONTestCases(unittest.TestCase):
         pass
 
 
-def test_generator(csv_file, implicit, type, option):
+def test_generator(csv_file, result_url, implicit, type, option):
     def test(self):
         metadata = None
         if 'metadata' in option:
@@ -44,8 +44,14 @@ def test_generator(csv_file, implicit, type, option):
 
         # if we can parse it we should at least produce some embedded metadata
         self.assertNotEqual(csvw.metadata, None)
+        # and the result should exists
+        self.assertNotEqual(result_url, None)
 
+        # test the json result
 
+        resp = urllib2.urlopen(result_url)
+        result = json.loads(resp.read())
+        self.assertEqual(csvw.to_json(), result)
 
     return test
 
@@ -57,6 +63,11 @@ if __name__ == '__main__':
         test_name = 'test ' + t['type'] + ': ' + t['name']
         csv_file = t['action']
         csv_file = urlparse.urljoin(BASE, csv_file)
+
+        result = None
+        if 'result' in t:
+            result = urlparse.urljoin(BASE, t['result'])
+
         implicit = []
         if 'implicit' in t:
             for f in t['implicit']:
@@ -65,8 +76,8 @@ if __name__ == '__main__':
         if 'metadata' in t['option']:
             t['option']['metadata'] = urlparse.urljoin(BASE, t['option']['metadata'])
 
-        test = test_generator(csv_file, implicit, t['type'], t['option'])
-        setattr(CSVWValidationTestCases, test_name, test)
+        test = test_generator(csv_file, result, implicit, t['type'], t['option'])
+        setattr(CSVWJSONTestCases, test_name, test)
 
         if i > MAX_TESTS:
             break

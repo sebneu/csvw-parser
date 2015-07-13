@@ -88,10 +88,11 @@ class NaturalLanguage(Property):
 
     def normalize(self, params):
         if isinstance(self.value, list):
-            norm_list = []
-            for v in self.value:
-                norm_list.append(self._normalize(v, params))
-            self.value = norm_list
+            if 'default_language' in params:
+                value = {params['default_language']: list(self.value)}
+            else:
+                value = {'und': list(self.value)}
+            self.value = value
         else:
             self.value = self._normalize(self.value, params)
 
@@ -470,10 +471,24 @@ class Selection(Operator):
 
 
 DATATYPE = {
-    'TODO': {
+    'base': {
         'options': [],
-        'type': Atomic('TODO')
+        'type': Atomic(OfType(basestring)),
+        'default': 'string'
     },
+    'format': {
+        # TODO object property
+        'options': [],
+        'type': Atomic(OfType(basestring))
+    },
+    'length': {
+        'options': [],
+        'type': Atomic(OfType(int))
+    },
+    'minLength': {
+        'options': [],
+        'type': Atomic(OfType(int))
+    }
     # TODO datatype description object
 }
 

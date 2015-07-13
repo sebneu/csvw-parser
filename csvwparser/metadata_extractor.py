@@ -14,7 +14,7 @@ HEADER_LINK = ['link', 'Link']
 # 4. file-specific metadata in a document located based on the location of the tabular data file
 FILE_SPECIFIC_METADATA = '-metadata.json'
 # 5. directory-specific metadata in a document located based on the location of the tabular data file
-DIRECTORY_METADATA = 'metadata.json'
+DIRECTORY_METADATA = ['metadata.json', 'csv-metadata.json']
 
 
 def parse_to_json(metadata_handle):
@@ -50,27 +50,27 @@ def metadata_extraction(url, metadata_handle, embedded_metadata=False):
                     meta_sources.append(_parse_header_field(header_field))
 
         # case 4
-        retrievable = True
         try:
             meta_url = url + FILE_SPECIFIC_METADATA
-            logger.debug('looking for file specific metadata: %s', meta_url)
             response = urllib2.urlopen(meta_url)
+            if response.getcode() == 200:
+                logger.debug('found file specific metadata: %s', meta_url)
+                meta_sources.append(parse_to_json(response))
         except urllib2.URLError:
-            retrievable = False
-        if retrievable:
-            meta_sources.append(parse_to_json(response))
+            pass
 
         # case 5
-        retrievable = True
-        try:
-            # split away the part after the last slash
-            directory = url.rsplit('/', 1)[-2]
-            meta_url = os.path.join(directory, DIRECTORY_METADATA)
-            logger.debug('looking for directory specific metadata: %s', meta_url)
-            response = urllib2.urlopen(meta_url)
-        except urllib2.URLError:
-            retrievable = False
-        if retrievable:
-            meta_sources.append(parse_to_json(response))
+        for dir_meta in DIRECTORY_METADATA:
+            try:
+                # split away the part after the last slash
+                directory = url.rsplit('/', 1)[-2]
+                meta_url = os.path.join(directory, dir_meta)
+                response = urllib2.urlopen(meta_url)
+                if response.getcode() == 200:
+                    logger.debug('found directory specific metadata: %s', meta_url)
+                    meta_sources.append(parse_to_json(response))
+                    break
+            except urllib2.URLError:
+                pass
 
     return meta_sources
