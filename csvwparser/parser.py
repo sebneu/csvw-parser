@@ -94,7 +94,8 @@ def parse(handle, url, settings=SETTINGS):
     source_row_number = 1
 
     # Repeat the following the number of times indicated by skip rows
-    for i, row in enumerate(rows):
+    for i in xrange(len(rows)):
+        row = rows[i]
         if i >= settings['skip rows']:
             break
         if settings['comment prefix']:
@@ -106,8 +107,9 @@ def parse(handle, url, settings=SETTINGS):
         source_row_number += 1
 
     # Repeat the following the number of times indicated by header row count
-    for i, row in enumerate(rows):
-        if i >= settings['header row count']:
+    for j in xrange(i, len(rows)):
+        row = rows[j]
+        if j >= settings['header row count']:
             break
         if settings['comment prefix']:
             if row.startswith(settings['comment prefix']):
@@ -120,15 +122,16 @@ def parse(handle, url, settings=SETTINGS):
             cells = cells[settings['skip columns']:]
             if len(M['tableSchema']['columns']) == 0:
                 M['tableSchema']['columns'] = [{'titles': []} for _ in range(len(cells))]
-            for i, value in enumerate(cells):
+            for cell_i, value in enumerate(cells):
                 if value.strip() == '':
                     pass
                 else:
-                    M['tableSchema']['columns'][i]['titles'].append(value)
+                    M['tableSchema']['columns'][cell_i]['titles'].append(value)
         source_row_number += 1
 
     row_number = 1
-    for i, row in enumerate(rows):
+    for k in xrange(j, len(rows)):
+        row = rows[k]
         source_column_number = 1
         if settings['comment prefix']:
             if row.startswith(settings['comment prefix']):
@@ -159,6 +162,7 @@ def parse(handle, url, settings=SETTINGS):
                     source_column_number += 1
 
             source_row_number += 1
+        row_number += 1
     # If M.rdfs:comment is an empty array, remove the rdfs:comment property from M
     if not M['rdfs:comment']:
         M.pop('rdfs:comment')
@@ -180,6 +184,9 @@ class Cell:
         self.property_url = None
         self.value_url = None
 
+    def __repr__(self):
+        return 'C' + str(self.row) + str(self.column)
+
 
 class Column:
     def __init__(self, table, number, source_number):
@@ -193,6 +200,9 @@ class Column:
         self.suppress_output = False
         self.cells = []
 
+    def __repr__(self):
+        return 'C' + str(self.number)
+
 
 class Row:
     def __init__(self, table, number, source_number):
@@ -202,6 +212,9 @@ class Row:
         self.primary_key = []
         self.referenced_rows = []
         self.cells = []
+
+    def __repr__(self):
+        return 'R' + str(self.number)
 
 class Table:
     def __init__(self, url):

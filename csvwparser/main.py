@@ -13,8 +13,12 @@ logger = logging.getLogger(__name__)
 
 
 class CSVW:
-    def __init__(self, url=None, path=None, metadata_url=None, metadata_path=None, date_parsing=False):
-        if url:
+    def __init__(self, url=None, path=None, handle=None, metadata_url=None, metadata_path=None, date_parsing=False):
+        # http://www.w3.org/TR/2015/WD-tabular-data-model-20150416/#processing-tables
+        if handle:
+            logger.warning('"handle" is used only for testing purposes')
+            name = None
+        elif url:
             url_resp = urllib2.urlopen(url)
             handle = StringIO(url_resp.read())
             name = url
@@ -35,6 +39,7 @@ class CSVW:
         elif metadata_path:
             metadata_handle = open(metadata_path, 'rb')
 
+        # Retrieve the tabular data file.
         self.table, embedded_metadata = parser.parse(handle, url)
 
         # TODO create settings using arguments or provided metadata

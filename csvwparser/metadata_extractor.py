@@ -40,14 +40,17 @@ def metadata_extraction(url, metadata_handle, embedded_metadata=False):
 
     if url:
         # case 3
-        response = urllib2.urlopen(url)
-        header = response.info()
-        if header is not None:
-            for link in HEADER_LINK:
-                if link in header:
-                    header_field = header[link]
-                    logger.debug('found link in http header: %s', header_field)
-                    meta_sources.append(_parse_header_field(header_field))
+        try:
+            response = urllib2.urlopen(url)
+            header = response.info()
+            if header is not None:
+                for link in HEADER_LINK:
+                    if link in header:
+                        header_field = header[link]
+                        logger.debug('found link in http header: %s', header_field)
+                        meta_sources.append(_parse_header_field(header_field))
+        except urllib2.URLError:
+            pass
 
         # case 4
         try:
