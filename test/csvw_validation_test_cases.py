@@ -62,15 +62,45 @@ def test_generator(csv_url, implicit, type, option):
 
 def test_generator_metadata(metadata_url, implicit, type, option):
     def test(self):
-        metadata_provided = option.get('metadata')
+        csv_url = None
+        if implicit:
+            for url in implicit:
+                if url.endswith('.csv'):
+                    csv_url = url
+                    break
 
-        url_resp = urllib2.urlopen(metadata_url)
-        handle = StringIO(url_resp.read())
-        meta = json.load(handle)
+        if csv_url:
+            try:
+                csvw = CSVW(url=csv_url, metadata_url=metadata_url)
+            except Exception as e:
+                # this should be a negative test
+                if TYPES[type]:
+                    raise e
+                self.assertFalse(TYPES[type])
+                return
+            self.assertTrue(TYPES[type])
+            self.assertNotEqual(csvw.table, None)
+            self.assertNotEqual(csvw.metadata, None)
 
-        meta_model = metadata.normalize(meta)
+            result_table = csvw.table
+            result_meta = csvw.metadata.json()
 
-        self.assertNotEqual(meta_model, None)
+        else:
+            try:
+                url_resp = urllib2.urlopen(metadata_url)
+                handle = StringIO(url_resp.read())
+                meta = json.load(handle)
+                meta_model = metadata.normalize(meta)
+            except Exception as e:
+                if TYPES[type]:
+                    raise e
+                self.assertFalse(TYPES[type])
+                return
+            self.assertTrue(TYPES[type])
+
+            self.assertNotEqual(meta_model, None)
+            result_meta = meta_model.json()
+
     return test
 
 
