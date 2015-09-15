@@ -6,7 +6,7 @@ from StringIO import StringIO
 from csvwparser import CSVW, metadata
 import urllib2
 
-MAX_TESTS = 20
+MAX_TESTS = -1
 MANIFEST = 'http://w3c.github.io/csvw/tests/manifest-validation.jsonld'
 BASE = 'http://w3c.github.io/csvw/tests/'
 TYPES = {
@@ -44,7 +44,7 @@ def test_generator(csv_url, implicit, type, option):
         except Exception as e:
             # this should be a negative test
             if TYPES[type]:
-                traceback.print_exc()
+                raise e
             self.assertFalse(TYPES[type])
             return
 
@@ -77,7 +77,7 @@ def test_generator_metadata(metadata_url, implicit, type, option):
 if __name__ == '__main__':
     manifest = get_manifest()
     for i, t in enumerate(manifest['entries']):
-        test_name = 'test ' + t['type'] + ': ' + t['name']
+        test_name = ' '.join(['test', t['id'], t['type'], t['name']])
         action_url = t['action']
         action_url = urlparse.urljoin(BASE, action_url)
         implicit = []
@@ -95,7 +95,7 @@ if __name__ == '__main__':
             test = test_generator_metadata(action_url, implicit, t['type'], t['option'])
             setattr(CSVWValidationTestCases, test_name, test)
 
-        if i > MAX_TESTS:
+        if 0 < MAX_TESTS < i:
             break
 
     unittest.main()

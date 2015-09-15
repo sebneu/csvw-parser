@@ -3,6 +3,7 @@ import urllib2
 import logging
 import parser
 from csvwparser import metadata
+from csvwparser import json_generator
 import metadata_extractor
 
 
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class CSVW:
-    def __init__(self, url=None, path=None, handle=None, metadata_url=None, metadata_path=None, date_parsing=False):
+    def __init__(self, url=None, path=None, handle=None, metadata_url=None, metadata_path=None, metadata_handle=None, date_parsing=False):
         # http://www.w3.org/TR/2015/WD-tabular-data-model-20150416/#processing-tables
         if handle:
             logger.warning('"handle" is used only for testing purposes')
@@ -30,9 +31,11 @@ class CSVW:
         else:
             raise ValueError("url or path argument required")
 
-        metadata_handle = None
+        # metadata_handle = None
         if metadata_path and metadata_url:
             raise ValueError("only one argument of metadata_url and metadata_path allowed")
+        elif metadata_handle:
+            logger.warning('"metadata_handle" is used only for testing purposes')
         elif metadata_url:
             meta_resp = urllib2.urlopen(metadata_url)
             metadata_handle = StringIO(meta_resp.read())
@@ -50,4 +53,5 @@ class CSVW:
         pass
 
     def to_json(self):
-        pass
+        # TODO group of tables?
+        json_generator.minimal_mode(self.table, self.metadata.json()['tables'][0])
