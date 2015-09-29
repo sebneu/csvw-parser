@@ -22,17 +22,18 @@ def get_manifest():
 
 
 class CSVWValidationTestCases(unittest.TestCase):
-    def test(self):
-        url = 'http://w3c.github.io/csvw/tests/test011/tree-ops.csv'
+    pass
+    #def test(self):
+    #    url = 'http://w3c.github.io/csvw/tests/test011/tree-ops.csv'
 
-        csvw = CSVW(url=url)
+    #    csvw = CSVW(url=url)
 
         # if we can parse it we should at least produce a table and some embedded metadata
-        self.assertNotEqual(csvw.table, None)
-        self.assertNotEqual(csvw.metadata, None)
+     #   self.assertNotEqual(csvw.table, None)
+     #   self.assertNotEqual(csvw.metadata, None)
 
-        result_table = csvw.table
-        result_meta = csvw.metadata.json()
+     #   result_table = csvw.table
+     #   result_meta = csvw.metadata.json()
 
 
 def test_generator(csv_url, implicit, type, option):
@@ -75,7 +76,7 @@ def test_generator_metadata(metadata_url, implicit, type, option):
             except Exception as e:
                 # this should be a negative test
                 if TYPES[type]:
-                    raise e
+                    raise
                 self.assertFalse(TYPES[type])
                 return
             self.assertTrue(TYPES[type])

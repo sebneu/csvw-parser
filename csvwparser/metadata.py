@@ -1,4 +1,5 @@
 import re
+from csvwparser.parser_exceptions import ValidationException
 import logger
 import urlparse
 
@@ -37,7 +38,7 @@ class Property(MetaObject):
 class Uri(Property):
     def evaluate(self, meta, params, line=None):
         # TODO
-        logger.debug(line, 'URI property: ' + meta)
+        logger.debug(line, 'URI property: ' + str(meta))
         result = Uri()
         result.value = meta
         return result
@@ -49,7 +50,7 @@ class ColumnReference(Property):
         result = ColumnReference()
         if isinstance(meta, basestring):
             # TODO  must match the name on a column description object
-            logger.debug(line, 'Column Reference property: ' + meta)
+            logger.debug(line, 'Column Reference property: ' + str(meta))
             result.value = meta
             return result
         elif isinstance(meta, list):
@@ -134,19 +135,20 @@ class Link(Property):
             if self.link_type == '@id':
                 # @id must not start with _:
                 if meta.startswith('_:'):
-                    logger.error(line, '@id must not start with _:')
+                    err_msg = '@id must not start with _:'
+                    logger.error(line, err_msg)
                     return False
-            logger.debug(line, 'Link property: (' + self.link_type + ': ' + meta + ')')
+            logger.debug(line, 'Link property: (' + self.link_type + ': ' + str(meta) + ')')
             result.value = meta
             return result
         else:
-            # TODO issue a warning and set prop none
+            # issue a warning
             logger.warning(line, 'value of link property is not a string: ' + str(meta))
             return result
 
     def normalize(self, params):
         # turn into absolute url using base url
-        if not is_absolute(self.value) and 'base_url' in params:
+        if self.value and not is_absolute(self.value) and 'base_url' in params:
             self.value = urlparse.urljoin(params['base_url'], self.value)
 
 
@@ -187,7 +189,7 @@ class Common(Property):
 
     def evaluate(self, meta, params, line=None):
         # TODO http://www.w3.org/TR/2015/WD-tabular-metadata-20150416/#h-values-of-common-properties
-        logger.debug(line, 'CommonProperty: (' + self.prop + ')')
+        logger.debug(line, 'CommonProperty: (' + str(self.prop) + ')')
         result = Common(self.prop)
         result.value = meta
         return result
@@ -837,7 +839,9 @@ def _validate(line, meta, params, schema, common_properties):
                     return False
                 model[prop] = prop_eval
             elif Option.NonEmpty in opts:
-                logger.debug(line, 'Property is empty: ' + prop)
+                logger.debug(line, 'Property is empty: ' + str(prop))
+                if prop == 'tables':
+                    logger.error(line, 'array does not contain one or more "table descriptions"')
                 return False
         elif common_properties and is_common_property(prop):
             prop_eval = Common(prop).evaluate(value, params, line)
@@ -845,12 +849,12 @@ def _validate(line, meta, params, schema, common_properties):
                 return False
             model[prop] = prop_eval
         else:
-            logger.warning(line, 'Unknown property: ' + prop)
-            model[prop] = prop
+            logger.warning(line, 'Unknown property: ' + str(prop))
+            model[prop] = Atomic(prop)
     # check for missing props
     for prop in schema:
         if Option.Required in schema[prop]['options'] and prop not in meta:
-            logger.error(line, 'Property missing: ' + prop)
+            logger.error(line, 'Property missing: ' + str(prop))
             return False
     return model
 
@@ -923,17 +927,26 @@ def merge(meta_sources):
     from highest priority to lowest priority by merging the first two metadata files
     """
     # at first normalize (and validate) the metadata objects
-    norm_sources = [normalize(s) for s in meta_sources]
+    norm_sources = []
+    for s in meta_sources:
+        norm = normalize(s)
+        if norm:
+            norm_sources.append(norm)
+        else:
+            raise ValidationException('validation failed for metadata: ' + str(s))
+
 
     # then merge them into one object
     A = None
     for m in norm_sources:
-        B = m
-        # check if we are in the first iteration
-        if not A:
-            A = B
-        else:
-            A.merge(B)
+        # check if m is a valid metadata object
+        if m:
+            B = m
+            # check if we are in the first iteration
+            if not A:
+                A = B
+            else:
+                A.merge(B)
     return A
 
 
