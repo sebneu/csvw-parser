@@ -16,7 +16,7 @@ class Option:
     Required, NonEmpty = range(2)
 
 class Commands:
-    Remove = range(1)
+    Remove = 'REMOVE'
 
 class MetaObject:
     def evaluate(self, meta, params, default=None, line=None):
@@ -264,7 +264,9 @@ class Atomic(Property):
             # a predefined type or an operator
 
             result.value = self.arg.evaluate(meta, params, default, line)
-            if result.value:
+            if result.value == Commands.Remove:
+                return Commands.Remove
+            elif result.value:
                 return result
         else:
             # numbers, interpreted as integers or doubles
@@ -335,13 +337,18 @@ class BoolOperator(Operator):
 
 
 class OfType(Operator):
-    def __init__(self, base_type):
+    def __init__(self, base_type, warning_only=False):
         self.base_type = base_type
+        self.warning_only = warning_only
 
     def evaluate(self, meta, params, default=None, line=None):
         if isinstance(meta, self.base_type):
             return meta
-        return False
+        elif self.warning_only:
+            logger.warning(line, 'Value (' + str(meta) + ') has to be of type: ' + str(self.base_type))
+            return Commands.Remove
+        else:
+            return False
 
 
 class AllDiff(BoolOperator):
@@ -560,7 +567,8 @@ INHERITED = {
     },
     'separator': {
         'options': [],
-        'type': Atomic(OfType(basestring))
+        'type': Atomic(OfType(basestring, warning_only=True)),
+        'default': None
     },
     'textDirection': {
         'options': [],
@@ -855,6 +863,7 @@ TABLE_GROUP = {
 
 def _validate(line, meta, params, schema, common_properties):
     model = {}
+    remove_props = []
     for prop in meta:
         value = meta[prop]
         if prop in schema:
@@ -868,8 +877,8 @@ def _validate(line, meta, params, schema, common_properties):
             if value:
                 prop_eval = t.evaluate(value, params, default, line)
                 if prop_eval == Commands.Remove:
-                    del meta[prop]
-                elif not prop:
+                    remove_props.append(prop)
+                elif not prop_eval:
                     return False
                 model[prop] = prop_eval
             elif Option.NonEmpty in opts:
@@ -890,6 +899,9 @@ def _validate(line, meta, params, schema, common_properties):
         if Option.Required in schema[prop]['options'] and prop not in meta:
             logger.error(line, 'Property missing: ' + str(prop))
             return False
+    # remove props with warnings
+    for prop in remove_props:
+        del model[prop]
     return model
 
 
