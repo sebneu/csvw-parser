@@ -1,10 +1,26 @@
 ======================================================================
+ERROR: test manifest-validation#test011 csvt:PositiveValidationTest tree-ops example with metadata (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 48, in test
+    raise e
+UnboundLocalError: local variable 'default' referenced before assignment
+
+======================================================================
+ERROR: test manifest-validation#test027 csvt:PositiveValidationTest tree-ops minimal output (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 48, in test
+    raise e
+UnboundLocalError: local variable 'default' referenced before assignment
+
+======================================================================
 ERROR: test manifest-validation#test036 csvt:PositiveValidationTest tree-ops-ext example (__main__.CSVWValidationTestCases)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 48, in test
     raise e
-ValidationException: validation failed for metadata: {u'dcat:keyword': [u'tree', u'street', u'maintenance'], u'url': u'tree-ops-ext.csv', u'notes': [{u'oa:hasBody': {u'rdf:value': u"This is a very interesting comment about the table; it's a table!", u'@type': u'oa:EmbeddedContent', u'dc:format': {u'@value': u'text/plain'}}, u'@type': u'oa:Annotation', u'oa:hasTarget': {u'@id': u'http://example.org/tree-ops-ext'}}], u'dc:title': u'Tree Operations', u'dc:license': {u'@id': u'http://opendefinition.org/licenses/cc-by/'}, u'dc:publisher': [{u'schema:name': u'Example Municipality', u'schema:url': {u'@id': u'http://example.org'}}], u'@id': u'http://example.org/tree-ops-ext', u'dc:modified': {u'@value': u'2010-12-31', u'@type': u'xsd:date'}, u'tableSchema': {u'aboutUrl': u'http://example.org/tree-ops-ext#gid-{GID}', u'primaryKey': u'GID', u'columns': [{u'name': u'GID', u'datatype': u'string', u'required': True, u'titles': [u'GID', u'Generic Identifier'], u'suppressOutput': True, u'dc:description': u'An identifier for the operation on a tree.'}, {u'datatype': u'string', u'titles': u'On Street', u'name': u'on_street', u'dc:description': u'The street that the tree is on.'}, {u'datatype': u'string', u'titles': u'Species', u'name': u'species', u'dc:description': u'The species of the tree.'}, {u'datatype': u'string', u'lang': u'en', u'titles': u'Trim Cycle', u'name': u'trim_cycle', u'dc:description': u'The operation performed on the tree.'}, {u'datatype': u'integer', u'titles': u'Diameter at Breast Ht', u'name': u'dbh', u'dc:description': u'Diameter at Breast Height (DBH) of the tree (in feet), measured 4.5ft above ground.'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date', u'dc:description': u'The date of the operation that was performed.'}, {u'datatype': u'normalizedString', u'titles': u'Comments', u'separator': u';', u'name': u'comments', u'dc:description': u'Supplementary comments relating to the operation or tree.'}, {u'datatype': {u'base': u'boolean', u'format': u'YES|NO'}, u'default': u'NO', u'titles': u'Protected', u'name': u'protected', u'dc:description': u'Indication (YES / NO) whether the tree is subject to a protection order.'}, {u'datatype': u'xml', u'titles': u'KML', u'name': u'kml', u'dc:description': u'KML-encoded description of tree location.'}]}}
+UnboundLocalError: local variable 'default' referenced before assignment
 
 ======================================================================
 ERROR: test manifest-validation#test037 csvt:PositiveValidationTest tree-ops-ext minimal (__main__.CSVWValidationTestCases)
@@ -12,7 +28,7 @@ ERROR: test manifest-validation#test037 csvt:PositiveValidationTest tree-ops-ext
 Traceback (most recent call last):
   File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 48, in test
     raise e
-ValidationException: validation failed for metadata: {u'dcat:keyword': [u'tree', u'street', u'maintenance'], u'url': u'tree-ops-ext.csv', u'notes': [{u'oa:hasBody': {u'rdf:value': u"This is a very interesting comment about the table; it's a table!", u'@type': u'oa:EmbeddedContent', u'dc:format': {u'@value': u'text/plain'}}, u'@type': u'oa:Annotation', u'oa:hasTarget': {u'@id': u'http://example.org/tree-ops-ext'}}], u'dc:title': u'Tree Operations', u'dc:license': {u'@id': u'http://opendefinition.org/licenses/cc-by/'}, u'dc:publisher': [{u'schema:name': u'Example Municipality', u'schema:url': {u'@id': u'http://example.org'}}], u'@id': u'http://example.org/tree-ops-ext', u'dc:modified': {u'@value': u'2010-12-31', u'@type': u'xsd:date'}, u'tableSchema': {u'aboutUrl': u'http://example.org/tree-ops-ext#gid-{GID}', u'primaryKey': u'GID', u'columns': [{u'name': u'GID', u'datatype': u'string', u'required': True, u'titles': [u'GID', u'Generic Identifier'], u'suppressOutput': True, u'dc:description': u'An identifier for the operation on a tree.'}, {u'datatype': u'string', u'titles': u'On Street', u'name': u'on_street', u'dc:description': u'The street that the tree is on.'}, {u'datatype': u'string', u'titles': u'Species', u'name': u'species', u'dc:description': u'The species of the tree.'}, {u'datatype': u'string', u'lang': u'en', u'titles': u'Trim Cycle', u'name': u'trim_cycle', u'dc:description': u'The operation performed on the tree.'}, {u'datatype': u'integer', u'titles': u'Diameter at Breast Ht', u'name': u'dbh', u'dc:description': u'Diameter at Breast Height (DBH) of the tree (in feet), measured 4.5ft above ground.'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date', u'dc:description': u'The date of the operation that was performed.'}, {u'datatype': u'normalizedString', u'titles': u'Comments', u'separator': u';', u'name': u'comments', u'dc:description': u'Supplementary comments relating to the operation or tree.'}, {u'datatype': {u'base': u'boolean', u'format': u'YES|NO'}, u'default': u'NO', u'titles': u'Protected', u'name': u'protected', u'dc:description': u'Indication (YES / NO) whether the tree is subject to a protection order.'}, {u'datatype': u'xml', u'titles': u'KML', u'name': u'kml', u'dc:description': u'KML-encoded description of tree location.'}]}}
+UnboundLocalError: local variable 'default' referenced before assignment
 
 ======================================================================
 ERROR: test manifest-validation#test040 csvt:WarningValidationTest invalid null (__main__.CSVWValidationTestCases)
@@ -22,33 +38,9 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'null': True, u'tables': [{u'url': u'test040.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
-
-======================================================================
-ERROR: test manifest-validation#test042 csvt:WarningValidationTest invalid textDirection (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'textDirection': u'forwards', u'tables': [{u'url': u'test042.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
-
-======================================================================
-ERROR: test manifest-validation#test043 csvt:WarningValidationTest invalid separator (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'separator': 1, u'tables': [{u'url': u'test043.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
 
 ======================================================================
 ERROR: test manifest-validation#test044 csvt:WarningValidationTest invalid ordered (__main__.CSVWValidationTestCases)
@@ -58,7 +50,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'ordered': u'yes', u'tables': [{u'url': u'test044.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
 
@@ -70,7 +62,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'default': [u'this', u'that'], u'@context': u'http://www.w3.org/ns/csvw', u'tables': [{u'url': u'test045.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
 
@@ -82,7 +74,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'commentPrefix': 1}}
 
@@ -94,7 +86,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'delimiter': 1}}
 
@@ -106,7 +98,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'doubleQuote': u"'"}}
 
@@ -118,7 +110,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'header': u'1'}}
 
@@ -130,7 +122,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'headerRowCount': u'0'}}
 
@@ -142,7 +134,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'lineTerminators': True}}
 
@@ -154,7 +146,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'quoteChar': True}}
 
@@ -166,7 +158,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'skipBlankRows': 1}}
 
@@ -178,33 +170,9 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'skipInitialSpace': 1}}
-
-======================================================================
-ERROR: test manifest-validation#test075 csvt:WarningValidationTest invalid tableGroup tableDirection (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'tables': [{u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}], u'tableDirection': u'upside-down'}
-
-======================================================================
-ERROR: test manifest-validation#test076 csvt:WarningValidationTest invalid table tableDirection (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'tableDirection': u'upside-down'}
 
 ======================================================================
 ERROR: test manifest-validation#test094 csvt:WarningValidationTest inconsistent array values: tables (__main__.CSVWValidationTestCases)
@@ -214,7 +182,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'rdfs:comment': u'tables should be an array of Table', u'tables': [{u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}, 1]}
 
@@ -226,7 +194,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'transformations are an array of Transformation', u'transformations': [{u'url': u'templates/ical.txt', u'scriptFormat': u'https://mustache.github.io/', u'titles': u'iCalendar', u'targetFormat': u'http://www.iana.org/assignments/media-types/text/calendar', u'source': u'json'}, 1], u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}
 
@@ -238,7 +206,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'last column is datatype, not column', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'titles': u'Inventory Date', u'name': u'inventory_date'}, 1]}}
 
@@ -250,7 +218,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'rdfs:comment': u'foreignKeys with FK and reference body is invalid', u'tables': [{u'url': u'countries.csv', u'tableSchema': {u'aboutUrl': u'http://example.org/countries.csv{#countryCode}', u'propertyUrl': u'http://schema.org/{_name}', u'columns': [{u'datatype': u'string', u'titles': u'countryCode', u'name': u'countryCode', u'propertyUrl': u'http://www.geonames.org/ontology{#_name}'}, {u'datatype': u'number', u'titles': u'latitude', u'name': u'latitude'}, {u'datatype': u'number', u'titles': u'longitude', u'name': u'longitude'}, {u'datatype': u'string', u'titles': u'name', u'name': u'name'}], u'primaryKey': u'countryCode'}}, {u'url': u'country_slice.csv', u'tableSchema': {u'columns': [{u'titles': u'countryRef', u'name': u'countryRef', u'valueUrl': u'http://example.org/countries.csv{#countryRef}'}, {u'datatype': u'gYear', u'titles': u'year', u'name': u'year'}, {u'datatype': u'integer', u'titles': u'population', u'name': u'population'}], u'foreignKeys': [{u'columnReference': u'countryRef', u'reference': {u'columnReference': u'countryCode', u'resource': u'countries.csv'}}, 1]}}]}
 
@@ -262,7 +230,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'transformations takes an array, not a single transformation', u'transformations': {u'url': u'templates/ical.txt', u'scriptFormat': u'https://mustache.github.io/', u'titles': u'iCalendar', u'targetFormat': u'http://www.iana.org/assignments/media-types/text/calendar', u'source': u'json'}, u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}
 
@@ -274,7 +242,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'rdfs:comment': u'foreignKeys takes an array, not a single foreignKey', u'tables': [{u'url': u'countries.csv', u'tableSchema': {u'aboutUrl': u'http://example.org/countries.csv{#countryCode}', u'propertyUrl': u'http://schema.org/{_name}', u'columns': [{u'datatype': u'string', u'titles': u'countryCode', u'name': u'countryCode', u'propertyUrl': u'http://www.geonames.org/ontology{#_name}'}, {u'datatype': u'number', u'titles': u'latitude', u'name': u'latitude'}, {u'datatype': u'number', u'titles': u'longitude', u'name': u'longitude'}, {u'datatype': u'string', u'titles': u'name', u'name': u'name'}], u'primaryKey': u'countryCode'}}, {u'url': u'country_slice.csv', u'tableSchema': {u'columns': [{u'titles': u'countryRef', u'name': u'countryRef', u'valueUrl': u'http://example.org/countries.csv{#countryRef}'}, {u'datatype': u'gYear', u'titles': u'year', u'name': u'year'}, {u'datatype': u'integer', u'titles': u'population', u'name': u'population'}], u'foreignKeys': {u'columnReference': u'countryRef', u'reference': {u'columnReference': u'countryCode', u'resource': u'countries.csv'}}}}]}
 
@@ -286,7 +254,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'Dialect MUST reference a Dialect object', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': 1}
 
@@ -298,7 +266,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'suppressOutput with invalid value uses default', u'tableSchema': {u'columns': [{u'titles': u'GID', u'suppressOutput': u'foo', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}
 
@@ -310,7 +278,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'Invalid name value is ignored', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': 1}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}
 
@@ -322,7 +290,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'Invalid virtual value is ignored', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'titles': u'Inventory Date', u'name': u'inventory_date', u'virtual': u'foo'}]}}
 
@@ -334,7 +302,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'This (name) MUST be a string and this property has no default value, which means it MUST be ignored if the supplied value is not a string.', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': 1}, {u'titles': u'On Street', u'name': 2}, {u'titles': u'Species', u'name': 3}, {u'titles': u'Trim Cycle', u'name': 4}, {u'titles': u'Inventory Date', u'name': 5}]}}
 
@@ -346,7 +314,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test158.csv', u'rdfs:comment': u'Numeric dataype with object format.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#0'}}, u'titles': u'integer'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.###'}}, u'titles': u'decimal'}, {u'datatype': {u'base': u'double', u'format': {u'pattern': u'#0.###E#0'}}, u'titles': u'double'}, {u'datatype': {u'base': u'decimal', u'format': {u'groupChar': u'.', u'decimalChar': u','}}, u'titles': u'decimal1'}]}, u'rdfs:label': u'number format (valid combinations)'}
 
@@ -358,7 +326,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test159.csv', u'rdfs:comment': u'If the datatype format annotation is a single string, this is interpreted in the same way as if it were an object with a pattern property whose value is that string.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'integer', u'format': {u'pattern': u'['}}, u'titles': u'integer'}]}, u'rdfs:label': u'number format (bad format string)'}
 
@@ -370,7 +338,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test168.csv', u'rdfs:comment': u'When parsing the string value of a cell against this format specification, implementations MUST recognise and parse numbers.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'groupChar': u','}}, u'titles': u'decimal'}]}, u'rdfs:label': u'decimal with implicit groupChar'}
 
@@ -382,7 +350,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test170.csv', u'rdfs:comment': u'Implementations MUST use the sign, exponent, percent, and per-mille signs when parsing the string value of a cell to provide the value of the cell.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'groupChar': u','}}, u'titles': u'decimal'}]}, u'rdfs:label': u'decimal with percent'}
 
@@ -394,7 +362,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test171.csv', u'rdfs:comment': u'Implementations MUST use the sign, exponent, percent, and per-mille signs when parsing the string value of a cell to provide the value of the cell.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'groupChar': u','}}, u'titles': u'decimal'}]}, u'rdfs:label': u'decimal with per-mille'}
 
@@ -406,9 +374,65 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test184.csv', u'rdfs:comment': u'If the datatype base for a cell is boolean, the datatype format annotation provides the true and false values expected, separated by `|`..', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'boolean', u'format': {u'pattern': u'Y|N'}}, u'titles': u'boolean'}]}, u'rdfs:label': u'boolean format (bad format string)'}
+
+======================================================================
+ERROR: test manifest-validation#test263 csvt:PositiveValidationTest @type on a common property can be a built-in type (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
+    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
+    self.metadata = metadata.merge(sources)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 978, in merge
+    norm = normalize(s)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 965, in normalize
+    model = validate(metadata)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 913, in validate
+    validated = outer_group.evaluate(metadata, params)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
+    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 878, in _validate
+    prop_eval = t.evaluate(value, params, default, line)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 168, in evaluate
+    result.value = self.arg.evaluate(meta, params, line)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 433, in evaluate
+    prop = self.typ.evaluate(meta, params, default, line)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
+    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 890, in _validate
+    prop_eval = Common(prop).evaluate(value, params, default, line)
+UnboundLocalError: local variable 'default' referenced before assignment
+
+======================================================================
+ERROR: test manifest-validation#test264 csvt:PositiveValidationTest @type on a common property can be a CURIE if the prefix is one of the built-in ones (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
+    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
+    self.metadata = metadata.merge(sources)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 978, in merge
+    norm = normalize(s)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 965, in normalize
+    model = validate(metadata)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 913, in validate
+    validated = outer_group.evaluate(metadata, params)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
+    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 878, in _validate
+    prop_eval = t.evaluate(value, params, default, line)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 168, in evaluate
+    result.value = self.arg.evaluate(meta, params, line)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 433, in evaluate
+    prop = self.typ.evaluate(meta, params, default, line)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
+    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 890, in _validate
+    prop_eval = Common(prop).evaluate(value, params, default, line)
+UnboundLocalError: local variable 'default' referenced before assignment
 
 ======================================================================
 ERROR: test manifest-validation#test266 csvt:WarningValidationTest `null` contains an array of (valid) string & (invalid) numeric values (__main__.CSVWValidationTestCases)
@@ -418,9 +442,53 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'rdfs:label': u'`null` contains an array of (valid) string & (invalid) numeric values', u'rdfs:comment': u'Processors MUST issue a warning if a property is set to an invalid value type.', u'url': u'tree-ops.csv', u'null': [u'NULL', 0], u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 978, in merge
+    norm = normalize(s)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 965, in normalize
+    model = validate(metadata)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 913, in validate
+    validated = outer_group.evaluate(metadata, params)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
+    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 878, in _validate
+    prop_eval = t.evaluate(value, params, default, line)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 168, in evaluate
+    result.value = self.arg.evaluate(meta, params, line)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 433, in evaluate
+    prop = self.typ.evaluate(meta, params, default, line)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
+    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 890, in _validate
+    prop_eval = Common(prop).evaluate(value, params, default, line)
+UnboundLocalError: local variable 'default' referenced before assignment
+
+======================================================================
+ERROR: test manifest-validation#test270 csvt:WarningValidationTest transformation includes an invalid property (eg foo) (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
+    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
+    self.metadata = metadata.merge(sources)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 978, in merge
+    norm = normalize(s)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 965, in normalize
+    model = validate(metadata)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 913, in validate
+    validated = outer_group.evaluate(metadata, params)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
+    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 878, in _validate
+    prop_eval = t.evaluate(value, params, default, line)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 168, in evaluate
+    result.value = self.arg.evaluate(meta, params, line)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 433, in evaluate
+    prop = self.typ.evaluate(meta, params, default, line)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
+    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 890, in _validate
+    prop_eval = Common(prop).evaluate(value, params, default, line)
+UnboundLocalError: local variable 'default' referenced before assignment
 
 ======================================================================
 ERROR: test manifest-validation#test282 csvt:PositiveValidationTest valid number patterns (__main__.CSVWValidationTestCases)
@@ -430,7 +498,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test282.csv', u'rdfs:comment': u'A number format pattern as defined in [UAX35]. Implementations MUST recognise number format patterns containing the symbols `0`, `#`, the specified decimalChar (or `.` if unspecified), the specified groupChar (or `,` if unspecified), `E`, `+`, `%` and `&permil;`.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'integer', u'format': {u'pattern': u'##0'}}, u'titles': u'##0'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,#00'}}, u'titles': u'#,#00'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,##,#00'}}, u'titles': u'#,##,#00'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.#'}}, u'titles': u'#0.#'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.0'}}, u'titles': u'#0.0'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.0#'}}, u'titles': u'#0.0#'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.0#,#'}}, u'titles': u'#0.0#,#'}]}, u'rdfs:label': u'valid number patterns'}
 
@@ -442,7 +510,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test283.csv', u'rdfs:comment': u'A number format pattern as defined in [UAX35]. Implementations MUST recognise number format patterns containing the symbols `0`, `#`, the specified decimalChar (or `.` if unspecified), the specified groupChar (or `,` if unspecified), `E`, `+`, `%` and `&permil;`.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'+0'}}, u'titles': u'+0'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'-0'}}, u'titles': u'-0'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'%000'}}, u'titles': u'%000'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'\u2030000'}}, u'titles': u'\u2030000'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'000%'}}, u'titles': u'000%'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'000\u2030'}}, u'titles': u'000\u2030'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'000.0%'}}, u'titles': u'000.0%'}]}, u'rdfs:label': u'valid number patterns (signs and percent/permille)'}
 
@@ -454,7 +522,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test284.csv', u'rdfs:comment': u'A number format pattern as defined in [UAX35]. Implementations MUST recognise number format patterns containing the symbols `0`, `#`, the specified decimalChar (or `.` if unspecified), the specified groupChar (or `,` if unspecified), `E`, `+`, `%` and `&permil;`.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'###0.#####'}}, u'titles': u'###0.#####'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'###0.0000#'}}, u'titles': u'###0.0000#'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'00000.0000'}}, u'titles': u'00000.0000'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,##,##0'}}, u'titles': u'#,##,##0'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,##,#00'}}, u'titles': u'#,##,#00'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,##,000'}}, u'titles': u'#,##,000'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,#0,000'}}, u'titles': u'#,#0,000'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,00,000'}}, u'titles': u'#,00,000'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'0,00,000'}}, u'titles': u'0,00,000'}]}, u'rdfs:label': u'valid number patterns (grouping)'}
 
@@ -466,7 +534,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test285.csv', u'rdfs:comment': u'A number format pattern as defined in [UAX35]. Implementations MUST recognise number format patterns containing the symbols `0`, `#`, the specified decimalChar (or `.` if unspecified), the specified groupChar (or `,` if unspecified), `E`, `+`, `%` and `&permil;`.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.0##,###'}}, u'titles': u'0.0##,###'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.00#,###'}}, u'titles': u'0.00#,###'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.000,###'}}, u'titles': u'0.000,###'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.000,0##'}}, u'titles': u'0.000,0##'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.000,00#'}}, u'titles': u'0.000,00#'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.000,000'}}, u'titles': u'0.000,000'}]}, u'rdfs:label': u'valid number patterns (grouping)'}
 
@@ -552,86 +620,6 @@ AssertionError: False is not true
 
 ======================================================================
 FAIL: test manifest-validation#test136 csvt:NegativeValidationTest @set value (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
-    self.assertTrue(TYPES[type])
-AssertionError: False is not true
-
-======================================================================
-FAIL: test manifest-validation#test137 csvt:NegativeValidationTest @type out of range (as datatype) (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
-    self.assertTrue(TYPES[type])
-AssertionError: False is not true
-
-======================================================================
-FAIL: test manifest-validation#test138 csvt:NegativeValidationTest @type out of range (as node type) (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
-    self.assertTrue(TYPES[type])
-AssertionError: False is not true
-
-======================================================================
-FAIL: test manifest-validation#test139 csvt:NegativeValidationTest @type out of range (as node type) - string (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
-    self.assertTrue(TYPES[type])
-AssertionError: False is not true
-
-======================================================================
-FAIL: test manifest-validation#test140 csvt:NegativeValidationTest @type out of range (as node type) - integer (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
-    self.assertTrue(TYPES[type])
-AssertionError: False is not true
-
-======================================================================
-FAIL: test manifest-validation#test141 csvt:NegativeValidationTest @id out of range (as node type) - bnode (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
-    self.assertTrue(TYPES[type])
-AssertionError: False is not true
-
-======================================================================
-FAIL: test manifest-validation#test142 csvt:NegativeValidationTest @value with @language and @type (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
-    self.assertTrue(TYPES[type])
-AssertionError: False is not true
-
-======================================================================
-FAIL: test manifest-validation#test143 csvt:NegativeValidationTest @value with extra properties (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
-    self.assertTrue(TYPES[type])
-AssertionError: False is not true
-
-======================================================================
-FAIL: test manifest-validation#test144 csvt:NegativeValidationTest @language outside of @value (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
-    self.assertTrue(TYPES[type])
-AssertionError: False is not true
-
-======================================================================
-FAIL: test manifest-validation#test145 csvt:NegativeValidationTest @value with invalid @language (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
-    self.assertTrue(TYPES[type])
-AssertionError: False is not true
-
-======================================================================
-FAIL: test manifest-validation#test146 csvt:NegativeValidationTest Invalid faux-keyword (__main__.CSVWValidationTestCases)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
@@ -1247,8 +1235,8 @@ Traceback (most recent call last):
 AssertionError: False is not true
 
 ----------------------------------------------------------------------
-Ran 276 tests in 172.304s
+Ran 276 tests in 160.907s
 
-FAILED (failures=97, errors=40)
+FAILED (failures=87, errors=41)
 
 Process finished with exit code 1

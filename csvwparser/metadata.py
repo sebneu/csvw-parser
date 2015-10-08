@@ -538,7 +538,7 @@ INHERITED = {
     },
     'default': {
         'options': [],
-        'type': Atomic(OfType(basestring)),
+        'type': Atomic(OfType(basestring, warning_only=True)),
         'default': ''
     },
     'lang': {
@@ -548,12 +548,12 @@ INHERITED = {
     },
     'null': {
         'options': [],
-        'type': Atomic(OfType(basestring)),
+        'type': Atomic(OfType(basestring, warning_only=True)),
         'default': ''
     },
     'ordered': {
         'options': [],
-        'type': Atomic(OfType(bool)),
+        'type': Atomic(OfType(bool, warning_only=True)),
         'default': False
     },
     'propertyUrl': {
@@ -666,7 +666,7 @@ DIALECT = {
     },
     'lineTerminators': {
         'options': [],
-        'type': Atomic(OfType(list)),
+        'type': Atomic(OfType(list, warning_only=True)),
         'default': ["\r\n", "\n"]
     },
     'quoteChar': {
@@ -676,47 +676,47 @@ DIALECT = {
     },
     'doubleQuote': {
         'options': [],
-        'type': Atomic(OfType(bool)),
+        'type': Atomic(OfType(bool, warning_only=True)),
         'default': True
     },
     'skipRows': {
         'options': [],
-        'type': Atomic(OfType(int)),
+        'type': Atomic(OfType(int, warning_only=True)),
         'default': 0
     },
     'commentPrefix': {
         'options': [],
-        'type': Atomic(OfType(basestring)),
+        'type': Atomic(OfType(basestring, warning_only=True)),
         'default': '#'
     },
     'header': {
         'options': [],
-        'type': Atomic(OfType(bool)),
+        'type': Atomic(OfType(bool, warning_only=True)),
         'default': True
     },
     'headerRowCount': {
         'options': [],
-        'type': Atomic(OfType(int)),
+        'type': Atomic(OfType(int, warning_only=True)),
         'default': 1
     },
     'delimiter': {
         'options': [],
-        'type': Atomic(OfType(basestring)),
+        'type': Atomic(OfType(basestring, warning_only=True)),
         'default': ','
     },
     'skipColumns': {
         'options': [],
-        'type': Atomic(OfType(int)),
+        'type': Atomic(OfType(int, warning_only=True)),
         'default': 0
     },
     'skipBlankRows': {
         'options': [],
-        'type': Atomic(OfType(bool)),
+        'type': Atomic(OfType(bool, warning_only=True)),
         'default': False
     },
     'skipInitialSpace': {
         'options': [],
-        'type': Atomic(OfType(bool)),
+        'type': Atomic(OfType(bool, warning_only=True)),
         'default': False
     },
     'trim': {
@@ -864,13 +864,13 @@ TABLE_GROUP = {
 def _validate(line, meta, params, schema, common_properties):
     model = {}
     remove_props = []
+    default = None
     for prop in meta:
         value = meta[prop]
         if prop in schema:
             opts = schema[prop]['options']
             t = schema[prop]['type']
             # check for default value
-            default = None
             if 'default' in schema[prop]:
                 default = schema[prop]['default']
             # check if not empty
