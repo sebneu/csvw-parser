@@ -23,17 +23,6 @@ def get_manifest():
 
 class CSVWValidationTestCases(unittest.TestCase):
     pass
-    #def test(self):
-    #    url = 'http://w3c.github.io/csvw/tests/test011/tree-ops.csv'
-
-    #    csvw = CSVW(url=url)
-
-        # if we can parse it we should at least produce a table and some embedded metadata
-     #   self.assertNotEqual(csvw.table, None)
-     #   self.assertNotEqual(csvw.metadata, None)
-
-     #   result_table = csvw.table
-     #   result_meta = csvw.metadata.json()
 
 
 def test_generator(csv_url, implicit, type, option):

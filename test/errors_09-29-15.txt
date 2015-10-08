@@ -1,144 +1,4 @@
 ======================================================================
-ERROR: test manifest-validation#test011 csvt:PositiveValidationTest tree-ops example with metadata (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 48, in test
-    raise e
-UnboundLocalError: local variable 'default' referenced before assignment
-
-======================================================================
-ERROR: test manifest-validation#test027 csvt:PositiveValidationTest tree-ops minimal output (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 48, in test
-    raise e
-UnboundLocalError: local variable 'default' referenced before assignment
-
-======================================================================
-ERROR: test manifest-validation#test036 csvt:PositiveValidationTest tree-ops-ext example (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 48, in test
-    raise e
-UnboundLocalError: local variable 'default' referenced before assignment
-
-======================================================================
-ERROR: test manifest-validation#test037 csvt:PositiveValidationTest tree-ops-ext minimal (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 48, in test
-    raise e
-UnboundLocalError: local variable 'default' referenced before assignment
-
-======================================================================
-ERROR: test manifest-validation#test040 csvt:WarningValidationTest invalid null (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'null': True, u'tables': [{u'url': u'test040.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
-
-======================================================================
-ERROR: test manifest-validation#test044 csvt:WarningValidationTest invalid ordered (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'ordered': u'yes', u'tables': [{u'url': u'test044.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
-
-======================================================================
-ERROR: test manifest-validation#test045 csvt:WarningValidationTest invalid default (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'default': [u'this', u'that'], u'@context': u'http://www.w3.org/ns/csvw', u'tables': [{u'url': u'test045.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
-
-======================================================================
-ERROR: test manifest-validation#test059 csvt:WarningValidationTest dialect: invalid commentPrefix (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'commentPrefix': 1}}
-
-======================================================================
-ERROR: test manifest-validation#test060 csvt:WarningValidationTest dialect: invalid delimiter (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'delimiter': 1}}
-
-======================================================================
-ERROR: test manifest-validation#test061 csvt:WarningValidationTest dialect: invalid doubleQuote (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'doubleQuote': u"'"}}
-
-======================================================================
-ERROR: test manifest-validation#test063 csvt:WarningValidationTest dialect: invalid header (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'header': u'1'}}
-
-======================================================================
-ERROR: test manifest-validation#test065 csvt:WarningValidationTest dialect: invalid headerRowCount (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'headerRowCount': u'0'}}
-
-======================================================================
-ERROR: test manifest-validation#test066 csvt:WarningValidationTest dialect: invalid lineTerminators (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'lineTerminators': True}}
-
-======================================================================
 ERROR: test manifest-validation#test067 csvt:WarningValidationTest dialect: invalid quoteChar (__main__.CSVWValidationTestCases)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
@@ -149,30 +9,6 @@ Traceback (most recent call last):
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'quoteChar': True}}
-
-======================================================================
-ERROR: test manifest-validation#test068 csvt:WarningValidationTest dialect: invalid skipBlankRows (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'skipBlankRows': 1}}
-
-======================================================================
-ERROR: test manifest-validation#test070 csvt:WarningValidationTest dialect: invalid skipInitialSpace (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 982, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'skipInitialSpace': 1}}
 
 ======================================================================
 ERROR: test manifest-validation#test094 csvt:WarningValidationTest inconsistent array values: tables (__main__.CSVWValidationTestCases)
@@ -379,118 +215,6 @@ Traceback (most recent call last):
 ValidationException: validation failed for metadata: {u'url': u'test184.csv', u'rdfs:comment': u'If the datatype base for a cell is boolean, the datatype format annotation provides the true and false values expected, separated by `|`..', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'boolean', u'format': {u'pattern': u'Y|N'}}, u'titles': u'boolean'}]}, u'rdfs:label': u'boolean format (bad format string)'}
 
 ======================================================================
-ERROR: test manifest-validation#test263 csvt:PositiveValidationTest @type on a common property can be a built-in type (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 978, in merge
-    norm = normalize(s)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 965, in normalize
-    model = validate(metadata)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 913, in validate
-    validated = outer_group.evaluate(metadata, params)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
-    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 878, in _validate
-    prop_eval = t.evaluate(value, params, default, line)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 168, in evaluate
-    result.value = self.arg.evaluate(meta, params, line)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 433, in evaluate
-    prop = self.typ.evaluate(meta, params, default, line)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
-    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 890, in _validate
-    prop_eval = Common(prop).evaluate(value, params, default, line)
-UnboundLocalError: local variable 'default' referenced before assignment
-
-======================================================================
-ERROR: test manifest-validation#test264 csvt:PositiveValidationTest @type on a common property can be a CURIE if the prefix is one of the built-in ones (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 978, in merge
-    norm = normalize(s)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 965, in normalize
-    model = validate(metadata)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 913, in validate
-    validated = outer_group.evaluate(metadata, params)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
-    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 878, in _validate
-    prop_eval = t.evaluate(value, params, default, line)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 168, in evaluate
-    result.value = self.arg.evaluate(meta, params, line)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 433, in evaluate
-    prop = self.typ.evaluate(meta, params, default, line)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
-    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 890, in _validate
-    prop_eval = Common(prop).evaluate(value, params, default, line)
-UnboundLocalError: local variable 'default' referenced before assignment
-
-======================================================================
-ERROR: test manifest-validation#test266 csvt:WarningValidationTest `null` contains an array of (valid) string & (invalid) numeric values (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 978, in merge
-    norm = normalize(s)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 965, in normalize
-    model = validate(metadata)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 913, in validate
-    validated = outer_group.evaluate(metadata, params)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
-    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 878, in _validate
-    prop_eval = t.evaluate(value, params, default, line)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 168, in evaluate
-    result.value = self.arg.evaluate(meta, params, line)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 433, in evaluate
-    prop = self.typ.evaluate(meta, params, default, line)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
-    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 890, in _validate
-    prop_eval = Common(prop).evaluate(value, params, default, line)
-UnboundLocalError: local variable 'default' referenced before assignment
-
-======================================================================
-ERROR: test manifest-validation#test270 csvt:WarningValidationTest transformation includes an invalid property (eg foo) (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 978, in merge
-    norm = normalize(s)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 965, in normalize
-    model = validate(metadata)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 913, in validate
-    validated = outer_group.evaluate(metadata, params)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
-    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 878, in _validate
-    prop_eval = t.evaluate(value, params, default, line)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 168, in evaluate
-    result.value = self.arg.evaluate(meta, params, line)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 433, in evaluate
-    prop = self.typ.evaluate(meta, params, default, line)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 304, in evaluate
-    result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 890, in _validate
-    prop_eval = Common(prop).evaluate(value, params, default, line)
-UnboundLocalError: local variable 'default' referenced before assignment
-
-======================================================================
 ERROR: test manifest-validation#test282 csvt:PositiveValidationTest valid number patterns (__main__.CSVWValidationTestCases)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
@@ -620,6 +344,86 @@ AssertionError: False is not true
 
 ======================================================================
 FAIL: test manifest-validation#test136 csvt:NegativeValidationTest @set value (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test137 csvt:NegativeValidationTest @type out of range (as datatype) (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test138 csvt:NegativeValidationTest @type out of range (as node type) (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test139 csvt:NegativeValidationTest @type out of range (as node type) - string (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test140 csvt:NegativeValidationTest @type out of range (as node type) - integer (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test141 csvt:NegativeValidationTest @id out of range (as node type) - bnode (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test142 csvt:NegativeValidationTest @value with @language and @type (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test143 csvt:NegativeValidationTest @value with extra properties (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test144 csvt:NegativeValidationTest @language outside of @value (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test145 csvt:NegativeValidationTest @value with invalid @language (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test146 csvt:NegativeValidationTest Invalid faux-keyword (__main__.CSVWValidationTestCases)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 82, in test
@@ -1235,8 +1039,8 @@ Traceback (most recent call last):
 AssertionError: False is not true
 
 ----------------------------------------------------------------------
-Ran 276 tests in 160.907s
+Ran 276 tests in 164.637s
 
-FAILED (failures=87, errors=41)
+FAILED (failures=97, errors=22)
 
 Process finished with exit code 1

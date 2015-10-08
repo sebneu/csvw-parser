@@ -93,6 +93,7 @@ def parse(handle, url, settings=SETTINGS):
 
     source_row_number = 1
 
+    i = 0
     # Repeat the following the number of times indicated by skip rows
     for i in xrange(len(rows)):
         row = rows[i]
@@ -106,6 +107,7 @@ def parse(handle, url, settings=SETTINGS):
             M['rdfs:comment'].append(row)
         source_row_number += 1
 
+    j = i
     # Repeat the following the number of times indicated by header row count
     for j in xrange(i, len(rows)):
         row = rows[j]
