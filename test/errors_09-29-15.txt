@@ -1,42 +1,10 @@
 ======================================================================
-ERROR: test manifest-validation#test023 csvt:PositiveValidationTest dialect: header=false (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 48, in test
-    raise e
-ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'dialect': {u'trim': True, u'encoding': u'utf-8', u'skipInitialSpace': False, u'skipColumns': 0, u'skipRows': 0, u'headerRowCount': 0, u'header': False, u'delimiter': u',', u'commentPrefix': u'#', u'quoteChar': u'"', u'lineTerminators': [u'\r\n', u'\n'], u'@id': u'http://example.org/no-header-csv', u'@type': u'Dialect', u'doubleQuote': True, u'skipBlankRows': False}, u'tables': [{u'url': u'tree-ops.csv'}]}
-
-======================================================================
-ERROR: test manifest-validation#test032 csvt:PositiveValidationTest events-listing.csv example (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'events-listing.csv', u'tableSchema': {u'columns': [{u'aboutUrl': u'#event-{_row}', u'titles': u'Name', u'name': u'name', u'propertyUrl': u'schema:name'}, {u'datatype': {u'base': u'datetime', u'format': u'yyyy-MM-ddTHH:mm'}, u'aboutUrl': u'#event-{_row}', u'titles': u'Start Date', u'name': u'start_date', u'propertyUrl': u'schema:startDate'}, {u'aboutUrl': u'#place-{_row}', u'titles': u'Location Name', u'name': u'location_name', u'propertyUrl': u'schema:name'}, {u'aboutUrl': u'#place-{_row}', u'titles': u'Location Address', u'name': u'location_address', u'propertyUrl': u'schema:address'}, {u'datatype': u'anyURI', u'aboutUrl': u'#offer-{_row}', u'titles': u'Ticket Url', u'name': u'ticket_url', u'propertyUrl': u'schema:url'}, {u'aboutUrl': u'#event-{_row}', u'valueUrl': u'schema:MusicEvent', u'name': u'type_event', u'virtual': True, u'propertyUrl': u'rdf:type'}, {u'aboutUrl': u'#place-{_row}', u'valueUrl': u'schema:Place', u'name': u'type_place', u'virtual': True, u'propertyUrl': u'rdf:type'}, {u'aboutUrl': u'#offer-{_row}', u'valueUrl': u'schema:Offer', u'name': u'type_offer', u'virtual': True, u'propertyUrl': u'rdf:type'}, {u'aboutUrl': u'#event-{_row}', u'valueUrl': u'#place-{_row}', u'name': u'location', u'virtual': True, u'propertyUrl': u'schema:location'}, {u'aboutUrl': u'#event-{_row}', u'valueUrl': u'#offer-{_row}', u'name': u'offers', u'virtual': True, u'propertyUrl': u'schema:offers'}]}, u'dialect': {u'trim': True}}
-
-======================================================================
-ERROR: test manifest-validation#test033 csvt:PositiveValidationTest events-listing.csv minimal output (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'events-listing.csv', u'tableSchema': {u'columns': [{u'aboutUrl': u'#event-{_row}', u'titles': u'Name', u'name': u'name', u'propertyUrl': u'schema:name'}, {u'datatype': {u'base': u'datetime', u'format': u'yyyy-MM-ddTHH:mm'}, u'aboutUrl': u'#event-{_row}', u'titles': u'Start Date', u'name': u'start_date', u'propertyUrl': u'schema:startDate'}, {u'aboutUrl': u'#place-{_row}', u'titles': u'Location Name', u'name': u'location_name', u'propertyUrl': u'schema:name'}, {u'aboutUrl': u'#place-{_row}', u'titles': u'Location Address', u'name': u'location_address', u'propertyUrl': u'schema:address'}, {u'datatype': u'anyURI', u'aboutUrl': u'#offer-{_row}', u'titles': u'Ticket Url', u'name': u'ticket_url', u'propertyUrl': u'schema:url'}, {u'aboutUrl': u'#event-{_row}', u'valueUrl': u'schema:MusicEvent', u'name': u'type_event', u'virtual': True, u'propertyUrl': u'rdf:type'}, {u'aboutUrl': u'#place-{_row}', u'valueUrl': u'schema:Place', u'name': u'type_place', u'virtual': True, u'propertyUrl': u'rdf:type'}, {u'aboutUrl': u'#offer-{_row}', u'valueUrl': u'schema:Offer', u'name': u'type_offer', u'virtual': True, u'propertyUrl': u'rdf:type'}, {u'aboutUrl': u'#event-{_row}', u'valueUrl': u'#place-{_row}', u'name': u'location', u'virtual': True, u'propertyUrl': u'schema:location'}, {u'aboutUrl': u'#event-{_row}', u'valueUrl': u'#offer-{_row}', u'name': u'offers', u'virtual': True, u'propertyUrl': u'schema:offers'}]}, u'dialect': {u'trim': True}}
-
-======================================================================
 ERROR: test manifest-validation#test036 csvt:PositiveValidationTest tree-ops-ext example (__main__.CSVWValidationTestCases)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 48, in test
     raise e
-ValidationException: validation failed for metadata: {u'dialect': {u'trim': True}, u'dcat:keyword': [u'tree', u'street', u'maintenance'], u'url': u'tree-ops-ext.csv', u'notes': [{u'oa:hasBody': {u'rdf:value': u"This is a very interesting comment about the table; it's a table!", u'@type': u'oa:EmbeddedContent', u'dc:format': {u'@value': u'text/plain'}}, u'@type': u'oa:Annotation', u'oa:hasTarget': {u'@id': u'http://example.org/tree-ops-ext'}}], u'dc:title': u'Tree Operations', u'dc:license': {u'@id': u'http://opendefinition.org/licenses/cc-by/'}, u'dc:publisher': [{u'schema:name': u'Example Municipality', u'schema:url': {u'@id': u'http://example.org'}}], u'@id': u'http://example.org/tree-ops-ext', u'dc:modified': {u'@value': u'2010-12-31', u'@type': u'xsd:date'}, u'tableSchema': {u'aboutUrl': u'http://example.org/tree-ops-ext#gid-{GID}', u'primaryKey': u'GID', u'columns': [{u'name': u'GID', u'datatype': u'string', u'required': True, u'titles': [u'GID', u'Generic Identifier'], u'suppressOutput': True, u'dc:description': u'An identifier for the operation on a tree.'}, {u'datatype': u'string', u'titles': u'On Street', u'name': u'on_street', u'dc:description': u'The street that the tree is on.'}, {u'datatype': u'string', u'titles': u'Species', u'name': u'species', u'dc:description': u'The species of the tree.'}, {u'datatype': u'string', u'lang': u'en', u'titles': u'Trim Cycle', u'name': u'trim_cycle', u'dc:description': u'The operation performed on the tree.'}, {u'datatype': u'integer', u'titles': u'Diameter at Breast Ht', u'name': u'dbh', u'dc:description': u'Diameter at Breast Height (DBH) of the tree (in feet), measured 4.5ft above ground.'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date', u'dc:description': u'The date of the operation that was performed.'}, {u'datatype': u'string', u'titles': u'Comments', u'separator': u';', u'name': u'comments', u'dc:description': u'Supplementary comments relating to the operation or tree.'}, {u'datatype': {u'base': u'boolean', u'format': u'YES|NO'}, u'default': u'NO', u'titles': u'Protected', u'name': u'protected', u'dc:description': u'Indication (YES / NO) whether the tree is subject to a protection order.'}, {u'datatype': u'xml', u'titles': u'KML', u'name': u'kml', u'dc:description': u'KML-encoded description of tree location.'}]}}
+ValidationException: validation failed for metadata: {u'dcat:keyword': [u'tree', u'street', u'maintenance'], u'url': u'tree-ops-ext.csv', u'notes': [{u'oa:hasBody': {u'rdf:value': u"This is a very interesting comment about the table; it's a table!", u'@type': u'oa:EmbeddedContent', u'dc:format': {u'@value': u'text/plain'}}, u'@type': u'oa:Annotation', u'oa:hasTarget': {u'@id': u'http://example.org/tree-ops-ext'}}], u'dc:title': u'Tree Operations', u'dc:license': {u'@id': u'http://opendefinition.org/licenses/cc-by/'}, u'dc:publisher': [{u'schema:name': u'Example Municipality', u'schema:url': {u'@id': u'http://example.org'}}], u'@id': u'http://example.org/tree-ops-ext', u'dc:modified': {u'@value': u'2010-12-31', u'@type': u'xsd:date'}, u'tableSchema': {u'aboutUrl': u'http://example.org/tree-ops-ext#gid-{GID}', u'primaryKey': u'GID', u'columns': [{u'name': u'GID', u'datatype': u'string', u'required': True, u'titles': [u'GID', u'Generic Identifier'], u'suppressOutput': True, u'dc:description': u'An identifier for the operation on a tree.'}, {u'datatype': u'string', u'titles': u'On Street', u'name': u'on_street', u'dc:description': u'The street that the tree is on.'}, {u'datatype': u'string', u'titles': u'Species', u'name': u'species', u'dc:description': u'The species of the tree.'}, {u'datatype': u'string', u'lang': u'en', u'titles': u'Trim Cycle', u'name': u'trim_cycle', u'dc:description': u'The operation performed on the tree.'}, {u'datatype': u'integer', u'titles': u'Diameter at Breast Ht', u'name': u'dbh', u'dc:description': u'Diameter at Breast Height (DBH) of the tree (in feet), measured 4.5ft above ground.'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date', u'dc:description': u'The date of the operation that was performed.'}, {u'datatype': u'normalizedString', u'titles': u'Comments', u'separator': u';', u'name': u'comments', u'dc:description': u'Supplementary comments relating to the operation or tree.'}, {u'datatype': {u'base': u'boolean', u'format': u'YES|NO'}, u'default': u'NO', u'titles': u'Protected', u'name': u'protected', u'dc:description': u'Indication (YES / NO) whether the tree is subject to a protection order.'}, {u'datatype': u'xml', u'titles': u'KML', u'name': u'kml', u'dc:description': u'KML-encoded description of tree location.'}]}}
 
 ======================================================================
 ERROR: test manifest-validation#test037 csvt:PositiveValidationTest tree-ops-ext minimal (__main__.CSVWValidationTestCases)
@@ -44,7 +12,7 @@ ERROR: test manifest-validation#test037 csvt:PositiveValidationTest tree-ops-ext
 Traceback (most recent call last):
   File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 48, in test
     raise e
-ValidationException: validation failed for metadata: {u'dialect': {u'trim': True}, u'dcat:keyword': [u'tree', u'street', u'maintenance'], u'url': u'tree-ops-ext.csv', u'notes': [{u'oa:hasBody': {u'rdf:value': u"This is a very interesting comment about the table; it's a table!", u'@type': u'oa:EmbeddedContent', u'dc:format': {u'@value': u'text/plain'}}, u'@type': u'oa:Annotation', u'oa:hasTarget': {u'@id': u'http://example.org/tree-ops-ext'}}], u'dc:title': u'Tree Operations', u'dc:license': {u'@id': u'http://opendefinition.org/licenses/cc-by/'}, u'dc:publisher': [{u'schema:name': u'Example Municipality', u'schema:url': {u'@id': u'http://example.org'}}], u'@id': u'http://example.org/tree-ops-ext', u'dc:modified': {u'@value': u'2010-12-31', u'@type': u'xsd:date'}, u'tableSchema': {u'aboutUrl': u'http://example.org/tree-ops-ext#gid-{GID}', u'primaryKey': u'GID', u'columns': [{u'name': u'GID', u'datatype': u'string', u'required': True, u'titles': [u'GID', u'Generic Identifier'], u'suppressOutput': True, u'dc:description': u'An identifier for the operation on a tree.'}, {u'datatype': u'string', u'titles': u'On Street', u'name': u'on_street', u'dc:description': u'The street that the tree is on.'}, {u'datatype': u'string', u'titles': u'Species', u'name': u'species', u'dc:description': u'The species of the tree.'}, {u'datatype': u'string', u'lang': u'en', u'titles': u'Trim Cycle', u'name': u'trim_cycle', u'dc:description': u'The operation performed on the tree.'}, {u'datatype': u'integer', u'titles': u'Diameter at Breast Ht', u'name': u'dbh', u'dc:description': u'Diameter at Breast Height (DBH) of the tree (in feet), measured 4.5ft above ground.'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date', u'dc:description': u'The date of the operation that was performed.'}, {u'datatype': u'string', u'titles': u'Comments', u'separator': u';', u'name': u'comments', u'dc:description': u'Supplementary comments relating to the operation or tree.'}, {u'datatype': {u'base': u'boolean', u'format': u'YES|NO'}, u'default': u'NO', u'titles': u'Protected', u'name': u'protected', u'dc:description': u'Indication (YES / NO) whether the tree is subject to a protection order.'}, {u'datatype': u'xml', u'titles': u'KML', u'name': u'kml', u'dc:description': u'KML-encoded description of tree location.'}]}}
+ValidationException: validation failed for metadata: {u'dcat:keyword': [u'tree', u'street', u'maintenance'], u'url': u'tree-ops-ext.csv', u'notes': [{u'oa:hasBody': {u'rdf:value': u"This is a very interesting comment about the table; it's a table!", u'@type': u'oa:EmbeddedContent', u'dc:format': {u'@value': u'text/plain'}}, u'@type': u'oa:Annotation', u'oa:hasTarget': {u'@id': u'http://example.org/tree-ops-ext'}}], u'dc:title': u'Tree Operations', u'dc:license': {u'@id': u'http://opendefinition.org/licenses/cc-by/'}, u'dc:publisher': [{u'schema:name': u'Example Municipality', u'schema:url': {u'@id': u'http://example.org'}}], u'@id': u'http://example.org/tree-ops-ext', u'dc:modified': {u'@value': u'2010-12-31', u'@type': u'xsd:date'}, u'tableSchema': {u'aboutUrl': u'http://example.org/tree-ops-ext#gid-{GID}', u'primaryKey': u'GID', u'columns': [{u'name': u'GID', u'datatype': u'string', u'required': True, u'titles': [u'GID', u'Generic Identifier'], u'suppressOutput': True, u'dc:description': u'An identifier for the operation on a tree.'}, {u'datatype': u'string', u'titles': u'On Street', u'name': u'on_street', u'dc:description': u'The street that the tree is on.'}, {u'datatype': u'string', u'titles': u'Species', u'name': u'species', u'dc:description': u'The species of the tree.'}, {u'datatype': u'string', u'lang': u'en', u'titles': u'Trim Cycle', u'name': u'trim_cycle', u'dc:description': u'The operation performed on the tree.'}, {u'datatype': u'integer', u'titles': u'Diameter at Breast Ht', u'name': u'dbh', u'dc:description': u'Diameter at Breast Height (DBH) of the tree (in feet), measured 4.5ft above ground.'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date', u'dc:description': u'The date of the operation that was performed.'}, {u'datatype': u'normalizedString', u'titles': u'Comments', u'separator': u';', u'name': u'comments', u'dc:description': u'Supplementary comments relating to the operation or tree.'}, {u'datatype': {u'base': u'boolean', u'format': u'YES|NO'}, u'default': u'NO', u'titles': u'Protected', u'name': u'protected', u'dc:description': u'Indication (YES / NO) whether the tree is subject to a protection order.'}, {u'datatype': u'xml', u'titles': u'KML', u'name': u'kml', u'dc:description': u'KML-encoded description of tree location.'}]}}
 
 ======================================================================
 ERROR: test manifest-validation#test040 csvt:WarningValidationTest invalid null (__main__.CSVWValidationTestCases)
@@ -54,7 +22,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'null': True, u'tables': [{u'url': u'test040.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
 
@@ -66,7 +34,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'textDirection': u'forwards', u'tables': [{u'url': u'test042.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
 
@@ -78,7 +46,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'separator': 1, u'tables': [{u'url': u'test043.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
 
@@ -90,7 +58,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'ordered': u'yes', u'tables': [{u'url': u'test044.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
 
@@ -102,7 +70,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'default': [u'this', u'that'], u'@context': u'http://www.w3.org/ns/csvw', u'tables': [{u'url': u'test045.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
 
@@ -114,7 +82,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'commentPrefix': 1}}
 
@@ -126,7 +94,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'delimiter': 1}}
 
@@ -138,7 +106,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'doubleQuote': u"'"}}
 
@@ -150,7 +118,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'header': u'1'}}
 
@@ -162,7 +130,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'headerRowCount': u'0'}}
 
@@ -174,7 +142,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'lineTerminators': True}}
 
@@ -186,7 +154,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'quoteChar': True}}
 
@@ -198,7 +166,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'skipBlankRows': 1}}
 
@@ -210,21 +178,9 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'skipInitialSpace': 1}}
-
-======================================================================
-ERROR: test manifest-validation#test072 csvt:WarningValidationTest dialect: invalid trim (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': {u'trim': 1}}
 
 ======================================================================
 ERROR: test manifest-validation#test075 csvt:WarningValidationTest invalid tableGroup tableDirection (__main__.CSVWValidationTestCases)
@@ -234,7 +190,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'tables': [{u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}], u'tableDirection': u'upside-down'}
 
@@ -246,7 +202,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'tableDirection': u'upside-down'}
 
@@ -258,7 +214,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'rdfs:comment': u'tables should be an array of Table', u'tables': [{u'url': u'tree-ops.csv', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}, 1]}
 
@@ -270,7 +226,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'transformations are an array of Transformation', u'transformations': [{u'url': u'templates/ical.txt', u'scriptFormat': u'https://mustache.github.io/', u'titles': u'iCalendar', u'targetFormat': u'http://www.iana.org/assignments/media-types/text/calendar', u'source': u'json'}, 1], u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}
 
@@ -282,7 +238,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'last column is datatype, not column', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'titles': u'Inventory Date', u'name': u'inventory_date'}, 1]}}
 
@@ -294,7 +250,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'rdfs:comment': u'foreignKeys with FK and reference body is invalid', u'tables': [{u'url': u'countries.csv', u'tableSchema': {u'aboutUrl': u'http://example.org/countries.csv{#countryCode}', u'propertyUrl': u'http://schema.org/{_name}', u'columns': [{u'datatype': u'string', u'titles': u'countryCode', u'name': u'countryCode', u'propertyUrl': u'http://www.geonames.org/ontology{#_name}'}, {u'datatype': u'number', u'titles': u'latitude', u'name': u'latitude'}, {u'datatype': u'number', u'titles': u'longitude', u'name': u'longitude'}, {u'datatype': u'string', u'titles': u'name', u'name': u'name'}], u'primaryKey': u'countryCode'}}, {u'url': u'country_slice.csv', u'tableSchema': {u'columns': [{u'titles': u'countryRef', u'name': u'countryRef', u'valueUrl': u'http://example.org/countries.csv{#countryRef}'}, {u'datatype': u'gYear', u'titles': u'year', u'name': u'year'}, {u'datatype': u'integer', u'titles': u'population', u'name': u'population'}], u'foreignKeys': [{u'columnReference': u'countryRef', u'reference': {u'columnReference': u'countryCode', u'resource': u'countries.csv'}}, 1]}}]}
 
@@ -306,10 +262,8 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
-test281.csv
-http://www.w3.org/ns/csvw
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'transformations takes an array, not a single transformation', u'transformations': {u'url': u'templates/ical.txt', u'scriptFormat': u'https://mustache.github.io/', u'titles': u'iCalendar', u'targetFormat': u'http://www.iana.org/assignments/media-types/text/calendar', u'source': u'json'}, u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}
 
 ======================================================================
@@ -320,7 +274,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'@context': u'http://www.w3.org/ns/csvw', u'rdfs:comment': u'foreignKeys takes an array, not a single foreignKey', u'tables': [{u'url': u'countries.csv', u'tableSchema': {u'aboutUrl': u'http://example.org/countries.csv{#countryCode}', u'propertyUrl': u'http://schema.org/{_name}', u'columns': [{u'datatype': u'string', u'titles': u'countryCode', u'name': u'countryCode', u'propertyUrl': u'http://www.geonames.org/ontology{#_name}'}, {u'datatype': u'number', u'titles': u'latitude', u'name': u'latitude'}, {u'datatype': u'number', u'titles': u'longitude', u'name': u'longitude'}, {u'datatype': u'string', u'titles': u'name', u'name': u'name'}], u'primaryKey': u'countryCode'}}, {u'url': u'country_slice.csv', u'tableSchema': {u'columns': [{u'titles': u'countryRef', u'name': u'countryRef', u'valueUrl': u'http://example.org/countries.csv{#countryRef}'}, {u'datatype': u'gYear', u'titles': u'year', u'name': u'year'}, {u'datatype': u'integer', u'titles': u'population', u'name': u'population'}], u'foreignKeys': {u'columnReference': u'countryRef', u'reference': {u'columnReference': u'countryCode', u'resource': u'countries.csv'}}}}]}
 
@@ -332,7 +286,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'Dialect MUST reference a Dialect object', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'titles': u'Inventory Date', u'name': u'inventory_date'}]}, u'dialect': 1}
 
@@ -344,7 +298,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'suppressOutput with invalid value uses default', u'tableSchema': {u'columns': [{u'titles': u'GID', u'suppressOutput': u'foo', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}
 
@@ -356,7 +310,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'Invalid name value is ignored', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': 1}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}
 
@@ -368,7 +322,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'Invalid virtual value is ignored', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'titles': u'Inventory Date', u'name': u'inventory_date', u'virtual': u'foo'}]}}
 
@@ -380,7 +334,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'This (name) MUST be a string and this property has no default value, which means it MUST be ignored if the supplied value is not a string.', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': 1}, {u'titles': u'On Street', u'name': 2}, {u'titles': u'Species', u'name': 3}, {u'titles': u'Trim Cycle', u'name': 4}, {u'titles': u'Inventory Date', u'name': 5}]}}
 
@@ -392,7 +346,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test158.csv', u'rdfs:comment': u'Numeric dataype with object format.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#0'}}, u'titles': u'integer'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.###'}}, u'titles': u'decimal'}, {u'datatype': {u'base': u'double', u'format': {u'pattern': u'#0.###E#0'}}, u'titles': u'double'}, {u'datatype': {u'base': u'decimal', u'format': {u'groupChar': u'.', u'decimalChar': u','}}, u'titles': u'decimal1'}]}, u'rdfs:label': u'number format (valid combinations)'}
 
@@ -404,7 +358,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test159.csv', u'rdfs:comment': u'If the datatype format annotation is a single string, this is interpreted in the same way as if it were an object with a pattern property whose value is that string.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'integer', u'format': {u'pattern': u'['}}, u'titles': u'integer'}]}, u'rdfs:label': u'number format (bad format string)'}
 
@@ -416,7 +370,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test168.csv', u'rdfs:comment': u'When parsing the string value of a cell against this format specification, implementations MUST recognise and parse numbers.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'groupChar': u','}}, u'titles': u'decimal'}]}, u'rdfs:label': u'decimal with implicit groupChar'}
 
@@ -428,7 +382,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test170.csv', u'rdfs:comment': u'Implementations MUST use the sign, exponent, percent, and per-mille signs when parsing the string value of a cell to provide the value of the cell.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'groupChar': u','}}, u'titles': u'decimal'}]}, u'rdfs:label': u'decimal with percent'}
 
@@ -440,7 +394,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test171.csv', u'rdfs:comment': u'Implementations MUST use the sign, exponent, percent, and per-mille signs when parsing the string value of a cell to provide the value of the cell.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'groupChar': u','}}, u'titles': u'decimal'}]}, u'rdfs:label': u'decimal with per-mille'}
 
@@ -452,7 +406,7 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'test184.csv', u'rdfs:comment': u'If the datatype base for a cell is boolean, the datatype format annotation provides the true and false values expected, separated by `|`..', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'boolean', u'format': {u'pattern': u'Y|N'}}, u'titles': u'boolean'}]}, u'rdfs:label': u'boolean format (bad format string)'}
 
@@ -464,9 +418,57 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 936, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'rdfs:label': u'`null` contains an array of (valid) string & (invalid) numeric values', u'rdfs:comment': u'Processors MUST issue a warning if a property is set to an invalid value type.', u'url': u'tree-ops.csv', u'null': [u'NULL', 0], u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}
+
+======================================================================
+ERROR: test manifest-validation#test282 csvt:PositiveValidationTest valid number patterns (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
+    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
+    self.metadata = metadata.merge(sources)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+    raise ValidationException('validation failed for metadata: ' + str(s))
+ValidationException: validation failed for metadata: {u'url': u'test282.csv', u'rdfs:comment': u'A number format pattern as defined in [UAX35]. Implementations MUST recognise number format patterns containing the symbols `0`, `#`, the specified decimalChar (or `.` if unspecified), the specified groupChar (or `,` if unspecified), `E`, `+`, `%` and `&permil;`.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'integer', u'format': {u'pattern': u'##0'}}, u'titles': u'##0'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,#00'}}, u'titles': u'#,#00'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,##,#00'}}, u'titles': u'#,##,#00'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.#'}}, u'titles': u'#0.#'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.0'}}, u'titles': u'#0.0'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.0#'}}, u'titles': u'#0.0#'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.0#,#'}}, u'titles': u'#0.0#,#'}]}, u'rdfs:label': u'valid number patterns'}
+
+======================================================================
+ERROR: test manifest-validation#test283 csvt:PositiveValidationTest valid number patterns (signs and percent/permille) (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
+    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
+    self.metadata = metadata.merge(sources)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+    raise ValidationException('validation failed for metadata: ' + str(s))
+ValidationException: validation failed for metadata: {u'url': u'test283.csv', u'rdfs:comment': u'A number format pattern as defined in [UAX35]. Implementations MUST recognise number format patterns containing the symbols `0`, `#`, the specified decimalChar (or `.` if unspecified), the specified groupChar (or `,` if unspecified), `E`, `+`, `%` and `&permil;`.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'+0'}}, u'titles': u'+0'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'-0'}}, u'titles': u'-0'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'%000'}}, u'titles': u'%000'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'\u2030000'}}, u'titles': u'\u2030000'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'000%'}}, u'titles': u'000%'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'000\u2030'}}, u'titles': u'000\u2030'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'000.0%'}}, u'titles': u'000.0%'}]}, u'rdfs:label': u'valid number patterns (signs and percent/permille)'}
+
+======================================================================
+ERROR: test manifest-validation#test284 csvt:PositiveValidationTest valid number patterns (grouping) (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
+    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
+    self.metadata = metadata.merge(sources)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+    raise ValidationException('validation failed for metadata: ' + str(s))
+ValidationException: validation failed for metadata: {u'url': u'test284.csv', u'rdfs:comment': u'A number format pattern as defined in [UAX35]. Implementations MUST recognise number format patterns containing the symbols `0`, `#`, the specified decimalChar (or `.` if unspecified), the specified groupChar (or `,` if unspecified), `E`, `+`, `%` and `&permil;`.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'###0.#####'}}, u'titles': u'###0.#####'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'###0.0000#'}}, u'titles': u'###0.0000#'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'00000.0000'}}, u'titles': u'00000.0000'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,##,##0'}}, u'titles': u'#,##,##0'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,##,#00'}}, u'titles': u'#,##,#00'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,##,000'}}, u'titles': u'#,##,000'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,#0,000'}}, u'titles': u'#,#0,000'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,00,000'}}, u'titles': u'#,00,000'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'0,00,000'}}, u'titles': u'0,00,000'}]}, u'rdfs:label': u'valid number patterns (grouping)'}
+
+======================================================================
+ERROR: test manifest-validation#test285 csvt:PositiveValidationTest valid number patterns (fractional grouping) (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 75, in test
+    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
+    self.metadata = metadata.merge(sources)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 938, in merge
+    raise ValidationException('validation failed for metadata: ' + str(s))
+ValidationException: validation failed for metadata: {u'url': u'test285.csv', u'rdfs:comment': u'A number format pattern as defined in [UAX35]. Implementations MUST recognise number format patterns containing the symbols `0`, `#`, the specified decimalChar (or `.` if unspecified), the specified groupChar (or `,` if unspecified), `E`, `+`, `%` and `&permil;`.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.0##,###'}}, u'titles': u'0.0##,###'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.00#,###'}}, u'titles': u'0.00#,###'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.000,###'}}, u'titles': u'0.000,###'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.000,0##'}}, u'titles': u'0.000,0##'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.000,00#'}}, u'titles': u'0.000,00#'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.000,000'}}, u'titles': u'0.000,000'}]}, u'rdfs:label': u'valid number patterns (grouping)'}
 
 ======================================================================
 FAIL: test manifest-validation#test103 csvt:NegativeValidationTest inconsistent link values: url (__main__.CSVWValidationTestCases)
@@ -1245,6 +1247,8 @@ Traceback (most recent call last):
 AssertionError: False is not true
 
 ----------------------------------------------------------------------
-Ran 253 tests in 83.680s
+Ran 276 tests in 172.304s
 
 FAILED (failures=97, errors=40)
+
+Process finished with exit code 1

@@ -15,9 +15,11 @@ def is_common_property(prop):
 class Option:
     Required, NonEmpty = range(2)
 
+class Commands:
+    Remove = range(1)
 
 class MetaObject:
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         return False
 
 
@@ -29,14 +31,16 @@ class Property(MetaObject):
         pass
 
     def merge(self, obj):
-        print self.value
+        # TODO
+        pass
+        # print self.value
 
     def json(self):
         return self.value
 
 
 class Uri(Property):
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         # TODO
         logger.debug(line, 'URI property: ' + str(meta))
         result = Uri()
@@ -46,7 +50,7 @@ class Uri(Property):
 
 class ColumnReference(Property):
 
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         result = ColumnReference()
         if isinstance(meta, basestring):
             # TODO  must match the name on a column description object
@@ -77,7 +81,7 @@ class ColumnReference(Property):
 
 class NaturalLanguage(Property):
 
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         # strings
         # arrays
         # objects
@@ -129,7 +133,7 @@ class Link(Property):
         Property.__init__(self)
         self.link_type = link_type
 
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         result = Link(self.link_type)
         if isinstance(meta, basestring):
             if self.link_type == '@id':
@@ -157,7 +161,7 @@ class Array(Property):
         Property.__init__(self)
         self.arg = arg
 
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         result = Array(self.arg)
         if isinstance(meta, list):
             # if the arg is a operator, it should take a list as argument
@@ -187,7 +191,7 @@ class Common(Property):
         Property.__init__(self)
         self.prop = prop
 
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         # TODO http://www.w3.org/TR/2015/WD-tabular-metadata-20150416/#h-values-of-common-properties
         logger.debug(line, 'CommonProperty: (' + str(self.prop) + ')')
         result = Common(self.prop)
@@ -222,7 +226,7 @@ class Common(Property):
 
 
 class Base(Property):
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         if '@base' in meta:
             result = Base()
             result.value = meta['@base']
@@ -236,7 +240,7 @@ class Base(Property):
 
 
 class Language(Property):
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         if '@language' in meta:
             result = Language()
             result.value = meta['@language']
@@ -254,12 +258,12 @@ class Atomic(Property):
         Property.__init__(self)
         self.arg = arg
 
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         result = Atomic(self.arg)
         if isinstance(self.arg, MetaObject):
             # a predefined type or an operator
 
-            result.value = self.arg.evaluate(meta, params, line)
+            result.value = self.arg.evaluate(meta, params, default, line)
             if result.value:
                 return result
         else:
@@ -288,7 +292,7 @@ class Object(Property):
         self.inherited_obj = inherited_obj
         self.common_properties = common_properties
 
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         result = Object(self.dict_obj, self.inherited_obj, self.common_properties)
         if isinstance(self.dict_obj, dict) and isinstance(meta, dict):
             if self.inherited_obj:
@@ -334,7 +338,7 @@ class OfType(Operator):
     def __init__(self, base_type):
         self.base_type = base_type
 
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         if isinstance(meta, self.base_type):
             return meta
         return False
@@ -344,7 +348,7 @@ class AllDiff(BoolOperator):
     def __init__(self, arg):
         self.arg = arg
 
-    def evaluate(self, meta_list, params, line=None):
+    def evaluate(self, meta_list, params, default=None, line=None):
         values = []
         for meta in meta_list:
             v = None
@@ -363,15 +367,15 @@ class Or(Operator):
     def __init__(self, *values):
         self.values = list(values)
 
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         props = []
         for v in self.values:
             prop = False
-            if isinstance(v, BoolOperator) and not v.evaluate(meta, params, line):
+            if isinstance(v, BoolOperator) and not v.evaluate(meta, params, default, line):
                 return False
             elif isinstance(v, MetaObject):
-                prop = v.evaluate(meta, params, line)
-            elif isinstance(v, basestring) and v == meta:
+                prop = v.evaluate(meta, params, default, line)
+            elif v == meta:
                 prop = Atomic(v)
                 prop.value = v
             if prop:
@@ -390,14 +394,14 @@ class And(Operator):
     def __init__(self, *values):
         self.values = list(values)
 
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         props = []
         for v in self.values:
             if isinstance(v, BoolOperator):
-                if not v.evaluate(meta, params, line):
+                if not v.evaluate(meta, params, default, line):
                     return False
             else:
-                prop = v.evaluate(meta, params, line)
+                prop = v.evaluate(meta, params, default, line)
                 if not prop:
                     return False
                 if isinstance(prop, list):
@@ -416,10 +420,10 @@ class All(Operator):
     def __init__(self, typ):
         self.typ = typ
 
-    def evaluate(self, meta_list, params, line=None):
+    def evaluate(self, meta_list, params, default=None, line=None):
         props = []
         for meta in meta_list:
-            prop = self.typ.evaluate(meta, params, line)
+            prop = self.typ.evaluate(meta, params, default, line)
             if not prop:
                 return False
             if isinstance(prop, list):
@@ -438,11 +442,11 @@ class Some(Operator):
     def __init__(self, typ):
         self.typ = typ
 
-    def evaluate(self, meta_list, params, line=None):
+    def evaluate(self, meta_list, params, default=None, line=None):
         props = []
         valid = False
         for meta in meta_list:
-            prop = self.typ.evaluate(meta, params, line)
+            prop = self.typ.evaluate(meta, params, default, line)
             if prop:
                 valid = True
                 if isinstance(prop, list):
@@ -458,10 +462,10 @@ class Selection(Operator):
     def __init__(self, *values):
         self.values = list(values)
 
-    def evaluate(self, meta, params, line=None):
+    def evaluate(self, meta, params, default=None, line=None):
         prop = False
         for v in self.values:
-            tmp = v.evaluate(meta, params, line)
+            tmp = v.evaluate(meta, params, default, line)
             if tmp and prop:
                 # already the second match
                 logger.debug(line, '(Selection Operator) Only one match allowed: ' + str(meta))
@@ -471,6 +475,28 @@ class Selection(Operator):
         # if we get here, we found zero or one match
         return prop
 
+class SetOrDefault(Operator):
+    """
+    Used for tableDirection. If the given value is not in a predefined set than the default value is used.
+    If no default value is provided for that property, it generates a warning
+    and behave as if the property had not been specified.
+    """
+    def __init__(self, *values):
+        self.values = list(values)
+
+    def evaluate(self, meta, params, default=None, line=None):
+        prop = 'not given'
+        for v in self.values:
+            if v == meta:
+                prop = meta
+                break
+        if prop == 'not given':
+            if default:
+                prop = default
+            else:
+                logger.warning(line, 'Unknown value (no default value is provided for that property): ' + str(meta))
+                prop = Commands.Remove
+        return prop
 
 DATATYPE = {
     'base': {
@@ -538,7 +564,7 @@ INHERITED = {
     },
     'textDirection': {
         'options': [],
-        'type': Atomic(Or('ltr', 'rtl')),
+        'type': Atomic(SetOrDefault('ltr', 'rtl')),
         'default': 'ltr'
     },
     'valueUrl': {
@@ -687,7 +713,7 @@ DIALECT = {
     },
     'trim': {
         'options': [],
-        'type': Atomic(Or('true', 'false', 'start', 'end')),
+        'type': Atomic(SetOrDefault(True, False, 'start', 'end')),
         'default': 'false'
     },
     '@id': {
@@ -751,7 +777,8 @@ TABLE = {
     },
     'tableDirection': {
         'options': [],
-        'type': Atomic(Or('rtl', 'ltr', 'default'))
+        'type': Atomic(SetOrDefault('rtl', 'ltr', 'default')),
+        'default': 'default'
     },
     'tableSchema': {
         'options': [],
@@ -763,7 +790,7 @@ TABLE = {
     },
     'notes': {
         'options': [],
-        'type': Array(Property())
+        'type': Array(All(Object({}, common_properties=True)))
     },
     'suppressOutput': {
         'options': [],
@@ -800,7 +827,8 @@ TABLE_GROUP = {
     },
     'tableDirection': {
         'options': [],
-        'type': Atomic(Or('rtl', 'ltr', 'default'))
+        'type': Atomic(SetOrDefault('rtl', 'ltr', 'default')),
+        'default': 'default'
     },
     'tableSchema': {
         'options': [],
@@ -832,10 +860,16 @@ def _validate(line, meta, params, schema, common_properties):
         if prop in schema:
             opts = schema[prop]['options']
             t = schema[prop]['type']
+            # check for default value
+            default = None
+            if 'default' in schema[prop]:
+                default = schema[prop]['default']
             # check if not empty
             if value:
-                prop_eval = t.evaluate(value, params, line)
-                if not prop_eval:
+                prop_eval = t.evaluate(value, params, default, line)
+                if prop_eval == Commands.Remove:
+                    del meta[prop]
+                elif not prop:
                     return False
                 model[prop] = prop_eval
             elif Option.NonEmpty in opts:
@@ -844,7 +878,7 @@ def _validate(line, meta, params, schema, common_properties):
                     logger.error(line, 'array does not contain one or more "table descriptions"')
                 return False
         elif common_properties and is_common_property(prop):
-            prop_eval = Common(prop).evaluate(value, params, line)
+            prop_eval = Common(prop).evaluate(value, params, default, line)
             if not prop_eval:
                 return False
             model[prop] = prop_eval
