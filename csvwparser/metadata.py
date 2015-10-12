@@ -2,6 +2,7 @@ import re
 from csvwparser.parser_exceptions import ValidationException
 import logger
 import urlparse
+import language_tags
 
 
 def is_absolute(url):
@@ -86,6 +87,11 @@ class NaturalLanguage(Property):
         # arrays
         # objects
         # TODO
+        if isinstance(meta, dict):
+            for k in meta:
+                if not language_tags.tags.check(k):
+                    logger.error(line, 'Natural language properties MUST be language codes as defined by [BCP47]: ' + str(meta))
+                    return False
         logger.debug(line, 'Natural language property: ' + str(meta))
         result = NaturalLanguage()
         result.value = meta
@@ -288,11 +294,12 @@ class Atomic(Property):
 
 
 class Object(Property):
-    def __init__(self, dict_obj, inherited_obj=None, common_properties=False):
+    def __init__(self, dict_obj, inherited_obj=None, common_properties=False, warning_only=False):
         Property.__init__(self)
         self.dict_obj = dict_obj
         self.inherited_obj = inherited_obj
         self.common_properties = common_properties
+        self.warning_only = warning_only
 
     def evaluate(self, meta, params, default=None, line=None):
         result = Object(self.dict_obj, self.inherited_obj, self.common_properties)
@@ -305,7 +312,13 @@ class Object(Property):
             if result.value is not False:
                 return result
         # logger.error(line, 'object property is not a dictionary: ' + str(meta))
-        return False
+        if self.warning_only:
+            logger.warning(line, 'The value of an object property is not a string or object (' + str(meta) + ').'
+                                 'An object with no properties is returned.')
+            result.value = {}
+            return result
+        else:
+            return False
 
     def normalize(self, params):
         for prop in self.value:
@@ -374,7 +387,7 @@ class Or(Operator):
     def __init__(self, *values):
         self.values = list(values)
 
-    def evaluate(self, meta, params, default=None, line=None):
+    def evaluate(self, meta, params, warning_only=False, default=None, line=None):
         props = []
         for v in self.values:
             prop = False
@@ -390,6 +403,13 @@ class Or(Operator):
                     props += prop
                 else:
                     props.append(prop)
+
+        if not props and warning_only:
+            logger.warning(line, 'Value (' + str(meta) + ') is not allowed')
+            if default:
+                props = [default]
+            else:
+                props = [Commands.Remove]
 
         # two types of or: on a list or a value
         if not isinstance(meta, list) and len(props) == 1:
@@ -424,19 +444,29 @@ class All(Operator):
     Takes a Type in constructor.
     On evaluation, checks if all given items have the given type.
     """
-    def __init__(self, typ):
+    def __init__(self, typ, warning_only=False):
         self.typ = typ
+        self.warning_only = warning_only
 
     def evaluate(self, meta_list, params, default=None, line=None):
         props = []
+        warn = []
         for meta in meta_list:
             prop = self.typ.evaluate(meta, params, default, line)
             if not prop:
-                return False
-            if isinstance(prop, list):
-                props += prop
+                if self.warning_only:
+                    warn.append(str(meta))
+                else:
+                    return False
             else:
-                props.append(prop)
+                if isinstance(prop, list):
+                    props += prop
+                else:
+                    props.append(prop)
+
+        if props and warn:
+            logger.warning(line, 'Any items that are not valid objects '
+                                 'of the type expected are ignored: ' + str(warn))
         return props
 
 
@@ -584,11 +614,11 @@ INHERITED = {
 COLUMN = {
     'name': {
         'options': [],
-        'type': Atomic(OfType(basestring))
+        'type': Atomic(OfType(basestring, warning_only=True))
     },
     'suppressOutput': {
         'options': [],
-        'type': Atomic(OfType(bool)),
+        'type': Atomic(OfType(bool, warning_only=True)),
         'default': False
     },
     'titles': {
@@ -597,7 +627,7 @@ COLUMN = {
     },
     'virtual': {
         'options': [],
-        'type': Atomic(OfType(bool)),
+        'type': Atomic(OfType(bool, warning_only=True)),
         'default': False
     },
     '@id': {
@@ -737,7 +767,7 @@ DIALECT = {
 
 
 TRANSFORMATION = {
-    'url' : {
+    'url': {
         'options': [Option.Required],
         'type': Link('url')
     },
@@ -794,7 +824,7 @@ TABLE = {
     },
     'dialect': {
         'options': [],
-        'type': Object(DIALECT)
+        'type': Object(DIALECT, warning_only=True)
     },
     'notes': {
         'options': [],
@@ -802,7 +832,7 @@ TABLE = {
     },
     'suppressOutput': {
         'options': [],
-        'type': Atomic(OfType(bool)),
+        'type': Atomic(OfType(bool, warning_only=True)),
         'default': False
     },
     '@id': {
@@ -827,7 +857,7 @@ TABLE_GROUP = {
     },
     'tables': {
         'options': [Option.Required, Option.NonEmpty],
-        'type': Array(All(Object(TABLE, inherited_obj=INHERITED, common_properties=True)))
+        'type': Array(All(Object(TABLE, inherited_obj=INHERITED, common_properties=True), warning_only=True))
     },
     'transformations': {
         'options': [],
@@ -844,7 +874,7 @@ TABLE_GROUP = {
     },
     'dialect': {
         'options': [],
-        'type': Object(DIALECT)
+        'type': Object(DIALECT, warning_only=True)
     },
     'notes': {
         'options': [],
