@@ -163,9 +163,10 @@ class Link(Property):
 
 
 class Array(Property):
-    def __init__(self, arg):
+    def __init__(self, arg, warning_only=False):
         Property.__init__(self)
         self.arg = arg
+        self.warning_only = warning_only
 
     def evaluate(self, meta, params, default=None, line=None):
         result = Array(self.arg)
@@ -174,8 +175,13 @@ class Array(Property):
             result.value = self.arg.evaluate(meta, params, line)
             if result.value:
                 return result
-        # the meta obj should be a list
-        return False
+        # error while parsing
+        if self.warning_only:
+            result.value = {}
+            return result
+        else:
+            # the meta obj should be a list
+            return False
 
     def normalize(self, params):
         for v in self.value:
@@ -671,7 +677,7 @@ SCHEMA = {
     },
     'columns': {
         'options': [],
-        'type': Array(And(All(Object(COLUMN, inherited_obj=INHERITED, common_properties=True)),
+        'type': Array(And(All(Object(COLUMN, inherited_obj=INHERITED, common_properties=True), warning_only=True),
                           AllDiff('name')))
     },
     'primaryKey': {
@@ -811,7 +817,7 @@ TABLE = {
     },
     'transformations': {
         'options': [],
-        'type': Array(All(Object(TRANSFORMATION)))
+        'type': Array(All(Object(TRANSFORMATION), warning_only=True), warning_only=True)
     },
     'tableDirection': {
         'options': [],
