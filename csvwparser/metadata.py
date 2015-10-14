@@ -541,6 +541,23 @@ class SetOrDefault(Operator):
                 prop = Commands.Remove
         return prop
 
+FORMAT = {
+    'decimalChar': {
+        'options': [],
+        'type': Atomic(OfType(basestring)),
+        'default': '.'
+    },
+    'groupChar': {
+        'options': [],
+        'type': Atomic(OfType(basestring)),
+        'default': ','
+    },
+    'pattern': {
+        'options': [],
+        'type': Atomic(OfType(basestring))
+    },
+}
+
 DATATYPE = {
     'base': {
         'options': [],
@@ -550,7 +567,7 @@ DATATYPE = {
     'format': {
         # TODO object property
         'options': [],
-        'type': Atomic(OfType(basestring))
+        'type': Atomic(Or(OfType(basestring), Object(FORMAT)))
     },
     'length': {
         'options': [],
