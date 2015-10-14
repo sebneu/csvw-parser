@@ -18,6 +18,7 @@ class Option:
 
 class Commands:
     Remove = 'REMOVE'
+    Error = 'ERROR'
 
 class MetaObject:
     def evaluate(self, meta, params, default=None, line=None):
@@ -43,7 +44,7 @@ class Property(MetaObject):
 class Uri(Property):
     def evaluate(self, meta, params, default=None, line=None):
         # TODO
-        logger.debug(line, 'URI property: ' + str(meta))
+        logger.debug(line, 'URI property: ', meta)
         result = Uri()
         result.value = meta
         return result
@@ -55,7 +56,7 @@ class ColumnReference(Property):
         result = ColumnReference()
         if isinstance(meta, basestring):
             # TODO  must match the name on a column description object
-            logger.debug(line, 'Column Reference property: ' + str(meta))
+            logger.debug(line, 'Column Reference property: ', meta)
             result.value = meta
             return result
         elif isinstance(meta, list):
@@ -67,16 +68,16 @@ class ColumnReference(Property):
                     # TODO must match the name on a column description object
                     pass
                 else:
-                    logger.warning(line, 'the values in the supplied array are not strings: ' + str(meta))
+                    logger.warning(line, 'the values in the supplied array are not strings: ', meta)
                 result.value = meta
                 return result
 
             # TODO  must match the name on a column description object
-            logger.debug(line, 'Column Reference property: ' + str(meta))
+            logger.debug(line, 'Column Reference property: ', meta)
             result.value = meta
             return result
         else:
-            logger.warning(line, 'the supplied value is not a string or array: ' + str(meta))
+            logger.warning(line, 'the supplied value is not a string or array: ', meta)
             return result
 
 
@@ -90,9 +91,9 @@ class NaturalLanguage(Property):
         if isinstance(meta, dict):
             for k in meta:
                 if not language_tags.tags.check(k):
-                    logger.error(line, 'Natural language properties MUST be language codes as defined by [BCP47]: ' + str(meta))
+                    logger.error(line, 'Natural language properties MUST be language codes as defined by [BCP47]: ', meta)
                     return False
-        logger.debug(line, 'Natural language property: ' + str(meta))
+        logger.debug(line, 'Natural language property: ', meta)
         result = NaturalLanguage()
         result.value = meta
         return result
@@ -148,12 +149,12 @@ class Link(Property):
                     err_msg = '@id must not start with _:'
                     logger.error(line, err_msg)
                     return False
-            logger.debug(line, 'Link property: (' + self.link_type + ': ' + str(meta) + ')')
+            logger.debug(line, 'Link property: ', self.link_type, meta)
             result.value = meta
             return result
         else:
             # issue a warning
-            logger.warning(line, 'value of link property is not a string: ' + str(meta))
+            logger.warning(line, 'value of link property is not a string: ', meta)
             return result
 
     def normalize(self, params):
@@ -205,7 +206,7 @@ class Common(Property):
 
     def evaluate(self, meta, params, default=None, line=None):
         # TODO http://www.w3.org/TR/2015/WD-tabular-metadata-20150416/#h-values-of-common-properties
-        logger.debug(line, 'CommonProperty: (' + str(self.prop) + ')')
+        logger.debug(line, 'CommonProperty: ', self.prop)
         result = Common(self.prop)
         result.value = meta
         return result
@@ -319,8 +320,8 @@ class Object(Property):
                 return result
         # logger.error(line, 'object property is not a dictionary: ' + str(meta))
         if self.warning_only:
-            logger.warning(line, 'The value of an object property is not a string or object (' + str(meta) + ').'
-                                 'An object with no properties is returned.')
+            logger.warning(line, 'The value of an object property is not a string or object.'
+                                 'An object with no properties is returned.', meta)
             result.value = {}
             return result
         else:
@@ -364,7 +365,7 @@ class OfType(Operator):
         if isinstance(meta, self.base_type):
             return meta
         elif self.warning_only:
-            logger.warning(line, 'Value (' + str(meta) + ') has to be of type: ' + str(self.base_type))
+            logger.warning(line, 'Value (1) has to be of type (2): ', meta, self.base_type)
             return Commands.Remove
         else:
             return False
@@ -411,7 +412,7 @@ class Or(Operator):
                     props.append(prop)
 
         if not props and warning_only:
-            logger.warning(line, 'Value (' + str(meta) + ') is not allowed')
+            logger.warning(line, 'Value is not allowed', meta)
             if default:
                 props = [default]
             else:
@@ -472,7 +473,7 @@ class All(Operator):
 
         if props and warn:
             logger.warning(line, 'Any items that are not valid objects '
-                                 'of the type expected are ignored: ' + str(warn))
+                                 'of the type expected are ignored: ', warn)
         return props
 
 
@@ -511,7 +512,7 @@ class Selection(Operator):
             tmp = v.evaluate(meta, params, default, line)
             if tmp and prop:
                 # already the second match
-                logger.debug(line, '(Selection Operator) Only one match allowed: ' + str(meta))
+                logger.debug(line, '(Selection Operator) Only one match allowed: ', meta)
                 return False
             if tmp:
                 prop = tmp
@@ -537,7 +538,7 @@ class SetOrDefault(Operator):
             if default:
                 prop = default
             else:
-                logger.warning(line, 'Unknown value (no default value is provided for that property): ' + str(meta))
+                logger.warning(line, 'Unknown value (no default value is provided for that property): ', meta)
                 prop = Commands.Remove
         return prop
 
@@ -694,7 +695,7 @@ SCHEMA = {
     },
     'columns': {
         'options': [],
-        'type': Array(And(All(Object(COLUMN, inherited_obj=INHERITED, common_properties=True), warning_only=True),
+        'type': Array(And(All(Object(COLUMN, inherited_obj=INHERITED, common_properties=True)),
                           AllDiff('name')))
     },
     'primaryKey': {
@@ -935,7 +936,7 @@ def _validate(line, meta, params, schema, common_properties):
                     return False
                 model[prop] = prop_eval
             elif Option.NonEmpty in opts:
-                logger.debug(line, 'Property is empty: ' + str(prop))
+                logger.debug(line, 'Property is empty: ', prop)
                 if prop == 'tables':
                     logger.error(line, 'array does not contain one or more "table descriptions"')
                 return False
@@ -945,12 +946,12 @@ def _validate(line, meta, params, schema, common_properties):
                 return False
             model[prop] = prop_eval
         else:
-            logger.warning(line, 'Unknown property: ' + str(prop))
+            logger.warning(line, 'Unknown property: ', prop)
             model[prop] = Atomic(prop)
     # check for missing props
     for prop in schema:
         if Option.Required in schema[prop]['options'] and prop not in meta:
-            logger.error(line, 'Property missing: ' + str(prop))
+            logger.error(line, 'Property missing: ', prop)
             return False
     # remove props with warnings
     for prop in remove_props:

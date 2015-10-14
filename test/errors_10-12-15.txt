@@ -1,16 +1,4 @@
 ======================================================================
-ERROR: test manifest-validation#test095 csvt:WarningValidationTest inconsistent array values: transformations (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'transformations are an array of Transformation', u'transformations': [{u'url': u'templates/ical.txt', u'scriptFormat': u'https://mustache.github.io/', u'titles': u'iCalendar', u'targetFormat': u'http://www.iana.org/assignments/media-types/text/calendar', u'source': u'json'}, 1], u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}
-
-======================================================================
 ERROR: test manifest-validation#test096 csvt:WarningValidationTest inconsistent array values: columns (__main__.CSVWValidationTestCases)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
@@ -18,141 +6,9 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1036, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'last column is datatype, not column', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'titles': u'Inventory Date', u'name': u'inventory_date'}, 1]}}
-
-======================================================================
-ERROR: test manifest-validation#test099 csvt:WarningValidationTest inconsistent array values: transformations (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'transformations takes an array, not a single transformation', u'transformations': {u'url': u'templates/ical.txt', u'scriptFormat': u'https://mustache.github.io/', u'titles': u'iCalendar', u'targetFormat': u'http://www.iana.org/assignments/media-types/text/calendar', u'source': u'json'}, u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'datatype': {u'base': u'date', u'format': u'M/d/yyyy'}, u'titles': u'Inventory Date', u'name': u'inventory_date'}]}}
-
-======================================================================
-ERROR: test manifest-validation#test158 csvt:PositiveValidationTest number format (valid combinations) (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'test158.csv', u'rdfs:comment': u'Numeric dataype with object format.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#0'}}, u'titles': u'integer'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.###'}}, u'titles': u'decimal'}, {u'datatype': {u'base': u'double', u'format': {u'pattern': u'#0.###E#0'}}, u'titles': u'double'}, {u'datatype': {u'base': u'decimal', u'format': {u'groupChar': u'.', u'decimalChar': u','}}, u'titles': u'decimal1'}]}, u'rdfs:label': u'number format (valid combinations)'}
-
-======================================================================
-ERROR: test manifest-validation#test159 csvt:WarningValidationTest number format (bad pattern format string) (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'test159.csv', u'rdfs:comment': u'If the datatype format annotation is a single string, this is interpreted in the same way as if it were an object with a pattern property whose value is that string.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'integer', u'format': {u'pattern': u'['}}, u'titles': u'integer'}]}, u'rdfs:label': u'number format (bad format string)'}
-
-======================================================================
-ERROR: test manifest-validation#test168 csvt:PositiveValidationTest decimal with implicit groupChar (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'test168.csv', u'rdfs:comment': u'When parsing the string value of a cell against this format specification, implementations MUST recognise and parse numbers.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'groupChar': u','}}, u'titles': u'decimal'}]}, u'rdfs:label': u'decimal with implicit groupChar'}
-
-======================================================================
-ERROR: test manifest-validation#test170 csvt:PositiveValidationTest decimal with percent (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'test170.csv', u'rdfs:comment': u'Implementations MUST use the sign, exponent, percent, and per-mille signs when parsing the string value of a cell to provide the value of the cell.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'groupChar': u','}}, u'titles': u'decimal'}]}, u'rdfs:label': u'decimal with percent'}
-
-======================================================================
-ERROR: test manifest-validation#test171 csvt:PositiveValidationTest decimal with per-mille (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'test171.csv', u'rdfs:comment': u'Implementations MUST use the sign, exponent, percent, and per-mille signs when parsing the string value of a cell to provide the value of the cell.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'groupChar': u','}}, u'titles': u'decimal'}]}, u'rdfs:label': u'decimal with per-mille'}
-
-======================================================================
-ERROR: test manifest-validation#test184 csvt:WarningValidationTest boolean format (bad format string) (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'test184.csv', u'rdfs:comment': u'If the datatype base for a cell is boolean, the datatype format annotation provides the true and false values expected, separated by `|`..', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'boolean', u'format': {u'pattern': u'Y|N'}}, u'titles': u'boolean'}]}, u'rdfs:label': u'boolean format (bad format string)'}
-
-======================================================================
-ERROR: test manifest-validation#test282 csvt:PositiveValidationTest valid number patterns (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'test282.csv', u'rdfs:comment': u'A number format pattern as defined in [UAX35]. Implementations MUST recognise number format patterns containing the symbols `0`, `#`, the specified decimalChar (or `.` if unspecified), the specified groupChar (or `,` if unspecified), `E`, `+`, `%` and `&permil;`.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'integer', u'format': {u'pattern': u'##0'}}, u'titles': u'##0'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,#00'}}, u'titles': u'#,#00'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,##,#00'}}, u'titles': u'#,##,#00'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.#'}}, u'titles': u'#0.#'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.0'}}, u'titles': u'#0.0'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.0#'}}, u'titles': u'#0.0#'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'#0.0#,#'}}, u'titles': u'#0.0#,#'}]}, u'rdfs:label': u'valid number patterns'}
-
-======================================================================
-ERROR: test manifest-validation#test283 csvt:PositiveValidationTest valid number patterns (signs and percent/permille) (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'test283.csv', u'rdfs:comment': u'A number format pattern as defined in [UAX35]. Implementations MUST recognise number format patterns containing the symbols `0`, `#`, the specified decimalChar (or `.` if unspecified), the specified groupChar (or `,` if unspecified), `E`, `+`, `%` and `&permil;`.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'+0'}}, u'titles': u'+0'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'-0'}}, u'titles': u'-0'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'%000'}}, u'titles': u'%000'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'\u2030000'}}, u'titles': u'\u2030000'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'000%'}}, u'titles': u'000%'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'000\u2030'}}, u'titles': u'000\u2030'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'000.0%'}}, u'titles': u'000.0%'}]}, u'rdfs:label': u'valid number patterns (signs and percent/permille)'}
-
-======================================================================
-ERROR: test manifest-validation#test284 csvt:PositiveValidationTest valid number patterns (grouping) (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'test284.csv', u'rdfs:comment': u'A number format pattern as defined in [UAX35]. Implementations MUST recognise number format patterns containing the symbols `0`, `#`, the specified decimalChar (or `.` if unspecified), the specified groupChar (or `,` if unspecified), `E`, `+`, `%` and `&permil;`.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'###0.#####'}}, u'titles': u'###0.#####'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'###0.0000#'}}, u'titles': u'###0.0000#'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'00000.0000'}}, u'titles': u'00000.0000'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,##,##0'}}, u'titles': u'#,##,##0'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,##,#00'}}, u'titles': u'#,##,#00'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,##,000'}}, u'titles': u'#,##,000'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,#0,000'}}, u'titles': u'#,#0,000'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'#,00,000'}}, u'titles': u'#,00,000'}, {u'datatype': {u'base': u'integer', u'format': {u'pattern': u'0,00,000'}}, u'titles': u'0,00,000'}]}, u'rdfs:label': u'valid number patterns (grouping)'}
-
-======================================================================
-ERROR: test manifest-validation#test285 csvt:PositiveValidationTest valid number patterns (fractional grouping) (__main__.CSVWValidationTestCases)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
-    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
-    self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1012, in merge
-    raise ValidationException('validation failed for metadata: ' + str(s))
-ValidationException: validation failed for metadata: {u'url': u'test285.csv', u'rdfs:comment': u'A number format pattern as defined in [UAX35]. Implementations MUST recognise number format patterns containing the symbols `0`, `#`, the specified decimalChar (or `.` if unspecified), the specified groupChar (or `,` if unspecified), `E`, `+`, `%` and `&permil;`.', u'tableSchema': {u'columns': [{u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.0##,###'}}, u'titles': u'0.0##,###'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.00#,###'}}, u'titles': u'0.00#,###'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.000,###'}}, u'titles': u'0.000,###'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.000,0##'}}, u'titles': u'0.000,0##'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.000,00#'}}, u'titles': u'0.000,00#'}, {u'datatype': {u'base': u'decimal', u'format': {u'pattern': u'0.000,000'}}, u'titles': u'0.000,000'}]}, u'rdfs:label': u'valid number patterns (grouping)'}
 
 ======================================================================
 FAIL: test manifest-validation#test081 csvt:NegativeValidationTest invalid dialect @id (__main__.CSVWValidationTestCases)
@@ -163,7 +19,23 @@ Traceback (most recent call last):
 AssertionError: False is not true
 
 ======================================================================
+FAIL: test manifest-validation#test082 csvt:NegativeValidationTest invalid template @id (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
 FAIL: test manifest-validation#test087 csvt:NegativeValidationTest invalid dialect @type (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test088 csvt:NegativeValidationTest invalid transformation @type (__main__.CSVWValidationTestCases)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
@@ -371,7 +243,23 @@ Traceback (most recent call last):
 AssertionError: False is not true
 
 ======================================================================
+FAIL: test manifest-validation#test160 csvt:NegativeValidationTest number format (not matching values with pattern) (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
 FAIL: test manifest-validation#test161 csvt:NegativeValidationTest number format (not matching values without pattern) (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test162 csvt:NegativeValidationTest numeric format (consecutive groupChar) (__main__.CSVWValidationTestCases)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
@@ -524,6 +412,14 @@ AssertionError: False is not true
 
 ======================================================================
 FAIL: test manifest-validation#test186 csvt:NegativeValidationTest boolean format (not matching datatype) (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test191 csvt:NegativeValidationTest date format (bad format string) (__main__.CSVWValidationTestCases)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
   File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
@@ -946,7 +842,159 @@ Traceback (most recent call last):
     self.assertTrue(TYPES[type])
 AssertionError: False is not true
 
+======================================================================
+FAIL: test manifest-validation#test286 csvt:NegativeValidationTest invalid ##0 1,234 (__main__.CSVWValidationTestCases)
 ----------------------------------------------------------------------
-Ran 276 tests in 128.915s
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
 
-FAILED (failures=99, errors=13)
+======================================================================
+FAIL: test manifest-validation#test287 csvt:NegativeValidationTest invalid ##0 123.4 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test288 csvt:NegativeValidationTest invalid #,#00 1 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test289 csvt:NegativeValidationTest invalid #,#00 1234 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test290 csvt:NegativeValidationTest invalid #,#00 12,34 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test291 csvt:NegativeValidationTest invalid #,#00 12,34,567 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test292 csvt:NegativeValidationTest invalid #,##,#00 1 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test293 csvt:NegativeValidationTest invalid #,##,#00 1234 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test294 csvt:NegativeValidationTest invalid #,##,#00 12,34 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test295 csvt:NegativeValidationTest invalid #,##,#00 1,234,567 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test296 csvt:NegativeValidationTest invalid #0.# 12.34 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test297 csvt:NegativeValidationTest invalid #0.# 1,234.5 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test298 csvt:NegativeValidationTest invalid #0.0 1 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test299 csvt:NegativeValidationTest invalid #0.0 12.34 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test300 csvt:NegativeValidationTest invalid #0.0# 1 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test301 csvt:NegativeValidationTest invalid #0.0# 12.345 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test302 csvt:NegativeValidationTest invalid #0.0#,# 1 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test303 csvt:NegativeValidationTest invalid #0.0#,# 12.345 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+======================================================================
+FAIL: test manifest-validation#test304 csvt:NegativeValidationTest invalid #0.0#,# 12.34,567 (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 71, in test
+    self.assertTrue(TYPES[type])
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 276 tests in 152.539s
+
+FAILED (failures=123, errors=1)

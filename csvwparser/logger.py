@@ -1,28 +1,32 @@
 import logging
 
-logging.basicConfig(level=logging.DEBUG,
+logging.basicConfig(level=logging.WARNING,
                     format='%(asctime)s %(levelname)s %(message)s')
 logger = logging.getLogger(__name__)
 
 
-def _format_message(line, message):
+def _format_message(line, message, args):
     if line:
-            return str(line) + ': ' + message
-    else:
-        return message
+        message = str(line) + ': ' + message
+    for arg in args:
+        try:
+            message += str(arg) + ','
+        except Exception:
+            pass
+    return message
 
 
-def warning(line, message):
-    logger.warning(_format_message(line, message))
+def warning(line, message, *args):
+    logger.warning(_format_message(line, message, args))
 
 
-def error(line, message):
-    logger.error(_format_message(line, message))
+def error(line, message, *args):
+    logger.error(_format_message(line, message, args))
 
 
-def debug(line, message):
-    logger.debug(_format_message(line, message))
+def debug(line, message, *args):
+    logger.debug(_format_message(line, message, args))
 
 
-def info(line, message):
-    logger.info(_format_message(line, message))
+def info(line, message, *args):
+    logger.info(_format_message(line, message, *args))
