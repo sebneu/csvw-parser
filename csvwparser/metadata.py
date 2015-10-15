@@ -1,4 +1,5 @@
 import re
+from csvwparser import built_in_datatypes
 from csvwparser.parser_exceptions import ValidationException
 import logger
 import urlparse
@@ -133,6 +134,18 @@ class NaturalLanguage(Property):
                     self.value[k].append(v)
                     if len(self.value['und']) == 0:
                         self.value.pop('und')
+
+class NumberPattern(Property):
+    def evaluate(self, meta, params, default=None, line=None):
+        result = NumberPattern()
+        if isinstance(meta, basestring):
+            logger.debug(line, 'Number pattern property: ',  meta)
+            result.value = meta
+            return result
+        else:
+            # issue a warning
+            logger.warning(line, 'value of number pattern property is not a string: ', meta)
+            return result
 
 
 class Link(Property):
@@ -356,6 +369,21 @@ class BoolOperator(Operator):
     pass
 
 
+class IsBuiltinDatatype(Operator):
+    def __init__(self, warning_only=False):
+        self.warning_only = warning_only
+
+    def evaluate(self, meta, params, default=None, line=None):
+        if isinstance(meta, basestring) and built_in_datatypes.is_built_in_datatype(meta):
+            return meta
+        elif self.warning_only:
+            logger.warning(line, 'Value is not a built in datatype: ', meta)
+            return Commands.Remove
+        else:
+            #TODO logger.error(line, 'Value is not a built in datatype: ', meta)
+            return False
+
+
 class OfType(Operator):
     def __init__(self, base_type, warning_only=False):
         self.base_type = base_type
@@ -555,7 +583,7 @@ FORMAT = {
     },
     'pattern': {
         'options': [],
-        'type': Atomic(OfType(basestring))
+        'type': NumberPattern()
     },
 }
 
@@ -588,7 +616,7 @@ INHERITED = {
     },
     'datatype': {
         'options': [],
-        'type': Atomic(Or(OfType(basestring), Object(DATATYPE)))
+        'type': Atomic(Or(IsBuiltinDatatype(), Object(DATATYPE)))
     },
     'default': {
         'options': [],

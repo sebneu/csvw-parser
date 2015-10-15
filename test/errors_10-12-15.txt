@@ -1,4 +1,16 @@
 ======================================================================
+ERROR: test manifest-validation#test046 csvt:WarningValidationTest invalid dataype (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
+    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
+    self.metadata = metadata.merge(sources)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1064, in merge
+    raise ValidationException('validation failed for metadata: ' + str(s))
+ValidationException: validation failed for metadata: {u'datatype': u'anySimpleType', u'@context': u'http://www.w3.org/ns/csvw', u'tables': [{u'url': u'test046.csv', u'tableSchema': {u'columns': [{u'titles': u'null'}, {u'titles': u'lang'}, {u'titles': u'textDirection'}, {u'titles': u'separator'}, {u'titles': u'ordered'}, {u'titles': u'default'}, {u'titles': u'datatype'}, {u'titles': u'aboutUrl'}, {u'titles': u'propertyUrl'}, {u'titles': u'valueUrl'}]}}]}
+
+======================================================================
 ERROR: test manifest-validation#test096 csvt:WarningValidationTest inconsistent array values: columns (__main__.CSVWValidationTestCases)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
@@ -6,9 +18,33 @@ Traceback (most recent call last):
     csvw = CSVW(url=csv_url, metadata_url=metadata_url)
   File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
     self.metadata = metadata.merge(sources)
-  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1036, in merge
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1064, in merge
     raise ValidationException('validation failed for metadata: ' + str(s))
 ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'last column is datatype, not column', u'tableSchema': {u'columns': [{u'titles': u'GID', u'name': u'GID'}, {u'titles': u'On Street', u'name': u'on_street'}, {u'titles': u'Species', u'name': u'species'}, {u'titles': u'Trim Cycle', u'name': u'trim_cycle'}, {u'titles': u'Inventory Date', u'name': u'inventory_date'}, 1]}}
+
+======================================================================
+ERROR: test manifest-validation#test150 csvt:WarningValidationTest non-builtin datatype (datatype value) (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
+    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
+    self.metadata = metadata.merge(sources)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1064, in merge
+    raise ValidationException('validation failed for metadata: ' + str(s))
+ValidationException: validation failed for metadata: {u'url': u'tree-ops.csv', u'rdfs:comment': u'If the value of this property is a string, it MUST be one of the built-in datatypes', u'tableSchema': {u'columns': [{u'datatype': u'foo', u'titles': u'GID'}, {u'titles': u'On Street'}, {u'titles': u'Species'}, {u'titles': u'Trim Cycle'}, {u'titles': u'Inventory Date'}]}, u'rdfs:label': u'non-builtin datatype (datatype value)'}
+
+======================================================================
+ERROR: test manifest-validation#test238 csvt:WarningValidationTest datatype value an absolute URL (__main__.CSVWValidationTestCases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sebastian/Repositories/csvw-parser/test/csvw_validation_test_cases.py", line 64, in test
+    csvw = CSVW(url=csv_url, metadata_url=metadata_url)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/main.py", line 50, in __init__
+    self.metadata = metadata.merge(sources)
+  File "/home/sebastian/Repositories/csvw-parser/csvwparser/metadata.py", line 1064, in merge
+    raise ValidationException('validation failed for metadata: ' + str(s))
+ValidationException: validation failed for metadata: {u'url': u'test238.csv', u'rdfs:comment': u'If the value of this property is a string, it MUST be one of the built-in datatypes defined in section 5.11.1 Built-in Datatypes or an absolute URL.', u'tableSchema': {u'columns': [{u'datatype': u'http://example.org/datatype', u'titles': u'string'}]}, u'rdfs:label': u'datatype value an absolute URL that does not resolve'}
 
 ======================================================================
 FAIL: test manifest-validation#test081 csvt:NegativeValidationTest invalid dialect @id (__main__.CSVWValidationTestCases)
@@ -995,6 +1031,6 @@ Traceback (most recent call last):
 AssertionError: False is not true
 
 ----------------------------------------------------------------------
-Ran 276 tests in 152.539s
+Ran 276 tests in 139.484s
 
-FAILED (failures=123, errors=1)
+FAILED (failures=123, errors=4)
