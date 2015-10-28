@@ -6,7 +6,7 @@
 @prefix doap: <http://usefulinc.com/ns/doap#> .
 
 <https://github.com/sebneu/csvw-parser> a doap:Project, earl:TestSubject, earl:Software ;
-  doap:name          "csvw-parser (working title)" ;
+  doap:name          "pycsvw" ;
   doap:homepage      <https://github.com/sebneu/csvw-parser> ;
   doap:programming-language "Python" ;
   doap:implements    <http://www.w3.org/TR/tabular-data-model/>,
@@ -16,7 +16,7 @@
   doap:maintainer    _:sebneu ;
   doap:documenter    _:sebneu ;
   foaf:maker         _:sebneu ;
-  dc:title           "csvw-parser (working title)" ;
+  dc:title           "pycsvw" ;
   dc:creator         _:sebneu .
 
 _:sebneu a foaf:Person, earl:Assertor;
