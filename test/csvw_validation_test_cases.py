@@ -121,7 +121,7 @@ def implementation_report(graph, subject, assertor):
     from rdflib.namespace import XSD, DC, FOAF
     EARL = rdflib.Namespace("http://www.w3.org/ns/earl#")
 
-    validation_html = "http://w3c.github.io/csvw/tests/#"
+    validation_html = "http://w3c.github.io/csvw/tests/"
     manifest = get_manifest()
     for i, t in enumerate(manifest['entries']):
         # add the properties for a test case
