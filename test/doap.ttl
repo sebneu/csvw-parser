@@ -7,6 +7,7 @@
 
 <https://github.com/sebneu/csvw-parser> a doap:Project, earl:TestSubject, earl:Software ;
   doap:name          "pycsvw" ;
+  doap:description   "Python implementation of the W3C CSV on the Web specification, cf. http://w3c.github.io/csvw/" ;
   doap:homepage      <https://github.com/sebneu/csvw-parser> ;
   doap:programming-language "Python" ;
   doap:implements    <http://www.w3.org/TR/tabular-data-model/>,
@@ -21,4 +22,5 @@
 
 _:sebneu a foaf:Person, earl:Assertor;
   foaf:name "Sebastian Neumaier";
+  foaf:homepage  <https://sebneumaier.wordpress.com/> ;
   foaf:title "Implementor".
