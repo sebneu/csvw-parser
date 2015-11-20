@@ -13,13 +13,24 @@ def is_absolute(url):
 def is_common_property(prop):
     return re.match('^[a-zA-Z]*:[a-zA-Z]*$', prop)
 
+class Enumeration(object):
+    def __init__(self, *names):
+        for name in names:
+            setattr(self, name, hash(name))
 
-class Option:
-    Required, NonEmpty = range(2)
+    def __contains__(self, hash):
+        return hash in self.__dict__.values()
 
-class Commands:
-    Remove = 'REMOVE'
-    Error = 'ERROR'
+
+Option = Enumeration('Required', 'NonEmpty')
+Commands = Enumeration('Remove', 'Error')
+
+#class Option:
+#    Required, NonEmpty = range(2)
+
+#class Commands:
+#    Remove = 'REMOVE'
+#    Error = 'ERROR'
 
 class MetaObject:
     def evaluate(self, meta, params, default=None, line=None):
@@ -161,7 +172,7 @@ class Link(Property):
                 if meta.startswith('_:'):
                     err_msg = '@id must not start with _:'
                     logger.error(line, err_msg)
-                    return False
+                    return Commands.Error
             logger.debug(line, 'Link property: ', self.link_type, meta)
             result.value = meta
             return result
@@ -187,6 +198,8 @@ class Array(Property):
         if isinstance(meta, list):
             # if the arg is a operator, it should take a list as argument
             result.value = self.arg.evaluate(meta, params, line)
+            if result.value in Commands:
+                return result.value
             if result.value:
                 return result
         # error while parsing
@@ -330,11 +343,15 @@ class Object(Property):
             # arg is a new schema to validate the metadata
             result.value = _validate(line, meta, params, self.dict_obj, self.common_properties)
             if result.value is not False:
-                return result
+                if result.value not in Commands:
+                    return result
+
         # logger.error(line, 'object property is not a dictionary: ' + str(meta))
-        if self.warning_only:
+        if result.value in Commands:
+            return result.value
+        elif self.warning_only:
             logger.warning(line, 'The value of an object property is not a string or object.'
-                                 'An object with no properties is returned.', meta)
+                                 ' An object with no properties is returned.', meta)
             result.value = {}
             return result
         else:
@@ -488,6 +505,8 @@ class All(Operator):
         warn = []
         for meta in meta_list:
             prop = self.typ.evaluate(meta, params, default, line)
+            if prop in Commands:
+                return prop
             if not prop:
                 if self.warning_only:
                     warn.append(str(meta))
@@ -960,6 +979,8 @@ def _validate(line, meta, params, schema, common_properties):
                 prop_eval = t.evaluate(value, params, default, line)
                 if prop_eval == Commands.Remove:
                     remove_props.append(prop)
+                elif prop_eval == Commands.Error:
+                    return prop_eval
                 elif not prop_eval:
                     return False
                 model[prop] = prop_eval
@@ -994,10 +1015,9 @@ def validate(metadata):
     params = {}
     validated = outer_group.evaluate(metadata, params)
     # TODO look for language, column references, ...
-    if validated:
-        return Model(validated, params)
-    return False
-
+    if not validated or validated == Commands.Error:
+        return False
+    return Model(validated, params)
 
 def expand(meta):
     # turn into table group description
