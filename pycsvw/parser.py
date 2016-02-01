@@ -90,6 +90,8 @@ def parse(handle, url, settings=SETTINGS):
     }
     if url:
         M['url'] = url
+    else:
+        M['url'] = 'unspecified'
 
     source_row_number = 1
 
@@ -124,8 +126,9 @@ def parse(handle, url, settings=SETTINGS):
             cells = cells[settings['skip columns']:]
             if len(M['tableSchema']['columns']) == 0:
                 M['tableSchema']['columns'] = [{'titles': []} for _ in range(len(cells))]
-            for cell_i, value in enumerate(cells):
-                if value.strip() == '':
+            for cell_i, v in enumerate(cells):
+                value = v.strip()
+                if value == '':
                     pass
                 else:
                     M['tableSchema']['columns'][cell_i]['titles'].append(value)

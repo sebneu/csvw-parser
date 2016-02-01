@@ -305,7 +305,7 @@ class Atomic(Property):
             result.value = self.arg.evaluate(meta, params, default, line)
             if result.value == Commands.Remove:
                 return Commands.Remove
-            elif result.value:
+            elif result.value != None:
                 return result
         else:
             # numbers, interpreted as integers or doubles
@@ -317,7 +317,7 @@ class Atomic(Property):
             if meta == self.arg:
                 result.value = meta
                 return result
-        return False
+        return None
 
     def json(self):
         if isinstance(self.value, MetaObject):
@@ -977,7 +977,7 @@ def _validate(line, meta, params, schema, common_properties):
             if 'default' in schema[prop]:
                 default = schema[prop]['default']
             # check if not empty
-            if value:
+            if value != None:
                 prop_eval = t.evaluate(value, params, default, line)
                 if prop_eval == Commands.Remove:
                     remove_props.append(prop)
