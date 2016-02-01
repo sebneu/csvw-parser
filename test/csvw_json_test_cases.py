@@ -2,7 +2,7 @@ import urlparse
 import traceback
 import unittest
 import json
-from csvwparser import CSVW
+from pycsvw import CSVW
 import urllib2
 
 MAX_TESTS = 5

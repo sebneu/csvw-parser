@@ -2,8 +2,8 @@ from StringIO import StringIO
 import urllib2
 import logging
 import parser
-from csvwparser import metadata
-from csvwparser import json_generator
+from pycsvw import metadata
+from pycsvw import json_generator
 import metadata_extractor
 
 

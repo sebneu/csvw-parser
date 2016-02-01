@@ -1,7 +1,7 @@
 import json
 import pprint
 from cStringIO import StringIO
-from csvwparser import CSVW
+from pycsvw import CSVW
 
 
 def test():

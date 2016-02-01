@@ -1,7 +1,7 @@
 import pprint
-from csvwparser import CSVW
-from csvwparser import metadata
-from csvwparser.metadata import Model
+from pycsvw import CSVW
+from pycsvw import metadata
+from pycsvw.metadata import Model
 
 __author__ = 'sebastian'
 

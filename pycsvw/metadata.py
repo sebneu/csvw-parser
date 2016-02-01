@@ -1,6 +1,6 @@
 import re
-from csvwparser import built_in_datatypes
-from csvwparser.parser_exceptions import ValidationException
+from pycsvw import built_in_datatypes
+from pycsvw.parser_exceptions import ValidationException
 import logger
 import urlparse
 import language_tags
@@ -393,7 +393,7 @@ class IsBuiltinDatatype(Operator):
     def evaluate(self, meta, params, default=None, line=None):
         if isinstance(meta, basestring) and built_in_datatypes.is_built_in_datatype(meta):
             return meta
-        elif self.warning_only:
+        elif isinstance(meta, basestring) and self.warning_only:
             logger.warning(line, 'Value is not a built in datatype: ', meta)
             return Commands.Remove
         else:
@@ -450,6 +450,8 @@ class Or(Operator):
             elif v == meta:
                 prop = Atomic(v)
                 prop.value = v
+            if prop == Commands.Remove:
+                return prop
             if prop:
                 if isinstance(prop, list):
                     props += prop
@@ -635,7 +637,7 @@ INHERITED = {
     },
     'datatype': {
         'options': [],
-        'type': Atomic(Or(IsBuiltinDatatype(), Object(DATATYPE)))
+        'type': Atomic(Or(IsBuiltinDatatype(warning_only=True), Object(DATATYPE)))
     },
     'default': {
         'options': [],

@@ -1,4 +1,4 @@
-from csvwparser.parser_exceptions import ParserException
+from pycsvw.parser_exceptions import ParserException
 
 __author__ = 'neumaier'
 

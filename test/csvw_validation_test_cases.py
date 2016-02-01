@@ -5,7 +5,7 @@ import json
 from StringIO import StringIO
 import datetime
 import rdflib
-from csvwparser import CSVW, metadata
+from pycsvw import CSVW, metadata
 import urllib2
 
 MAX_TESTS = -1

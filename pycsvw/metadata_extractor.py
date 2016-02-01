@@ -1,8 +1,8 @@
 import logging
 import urllib2
 import os
-import json
-from csvwparser import metadata
+import simplejson
+from pycsvw import metadata
 
 __author__ = 'sebastian'
 logger = logging.getLogger(__name__)
@@ -18,7 +18,7 @@ DIRECTORY_METADATA = ['metadata.json', 'csv-metadata.json']
 
 
 def parse_to_json(metadata_handle):
-    meta_json = json.load(metadata_handle)
+    meta_json = simplejson.load(metadata_handle)
     # meta = metadata.validate(meta_json)
     return meta_json
 
