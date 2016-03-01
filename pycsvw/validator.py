@@ -18,7 +18,11 @@ def validate_handle(csv_handle, schema_handle):
     table, embedded_schema = parser.parse(csv_handle, None)
     schema = simplejson.load(schema_handle)
     
-    return validate_columns_name(embedded_schema, schema)
+    valid, error_message = validate_columns_name(embedded_schema, schema)
+    if valid:
+        return validate_table_data(table, schema)
+    else:
+        return valid, error_message
 
 def validate_columns_name(embedded_schema, schema):
     columns_in_table = embedded_schema["tableSchema"]["columns"]
@@ -37,12 +41,28 @@ def validate_columns_name(embedded_schema, schema):
         
     return (valid, error_message)
 
+def validate_table_data(table, schema):
+    columns_in_schema = schema["tableSchema"]["columns"]
+    
+    valid = True;    
+    error_message = ""                                                                                                                  
+    
+    for row in table.rows:
+        for i, cell in enumerate(row.cells):
+            if not cell.value:
+                column = columns_in_schema[i]
+                if "required" in column and column["required"]==True:
+                    error_message = error_message + "Error in Cell %s:  Column %s is required!\n" % (str(cell), column["name"])
+                    valid = valid = valid and False
+        
+    return (valid, error_message)
+
 
 def test_validate():
     table_path = "F:\WorkRecord\Feature\MCT\CsvSchema\AdyenAcquirerCode.csv"
     schema_path = "F:\WorkRecord\Feature\MCT\CsvSchema\AdyenAcquirerCode.schema"
     (ret, error_message) = validate_file(table_path, schema_path)
-    print("Is valid: %s\nError message: %s\n" % (ret, error_message))
+    print("Is valid: %s\nError message: \n%s\n" % (ret, error_message))
           
 
     
