@@ -1,0 +1,6 @@
+Column: GID1 defined in schema, but not found in csv table!
+Column: on_street1 defined in schema, but not found in csv table!
+Column: species1 defined in schema, but not found in csv table!
+Column: trim_cycle1 defined in schema, but not found in csv table!
+Column: inventory_date1 defined in schema, but not found in csv table!
+

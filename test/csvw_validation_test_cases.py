@@ -1,11 +1,15 @@
-import urlparse
+﻿import urlparse
 import traceback
 import unittest
 import json
 from StringIO import StringIO
 import datetime
 import rdflib
-from pycsvw import CSVW, metadata
+import os
+parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.sys.path.insert(0,parentdir) 
+from pycsvw import metadata
+from pycsvw.main import CSVW
 import urllib2
 
 MAX_TESTS = -1

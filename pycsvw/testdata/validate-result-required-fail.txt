@@ -1,0 +1,2 @@
+Error in Cell (Row 3 Column 2):  Column latitude is required!
+

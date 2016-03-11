@@ -1,0 +1,1 @@
+Error in Row 2: duplicated value: ('foo', 'bar') for primary key columns: ['PK1', 'PK2']

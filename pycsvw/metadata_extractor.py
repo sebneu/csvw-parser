@@ -1,8 +1,8 @@
-import logging
+﻿import logging
 import urllib2
 import os
 import simplejson
-from pycsvw import metadata
+import metadata
 
 __author__ = 'sebastian'
 logger = logging.getLogger(__name__)

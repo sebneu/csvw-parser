@@ -62,3 +62,10 @@ docs/_build/
 
 # PyBuilder
 target/
+
+#visual studio project
+*.pyproj
+*.suo
+*.sln
+*.pyproj.user
+.vs/
