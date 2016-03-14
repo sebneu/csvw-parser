@@ -1,9 +1,9 @@
-from StringIO import StringIO
+﻿from StringIO import StringIO
 import urllib2
 import logging
-import parser
-from pycsvw import metadata
-from pycsvw import json_generator
+import csv_parser
+import metadata
+import json_generator
 import metadata_extractor
 
 
@@ -43,7 +43,7 @@ class CSVW:
             metadata_handle = open(metadata_path, 'rb')
 
         # Retrieve the tabular data file.
-        self.table, embedded_metadata = parser.parse(handle, url)
+        self.table, embedded_metadata = csv_parser.parse(handle, url)
 
         # TODO create settings using arguments or provided metadata
         sources = metadata_extractor.metadata_extraction(url, metadata_handle, embedded_metadata=embedded_metadata)

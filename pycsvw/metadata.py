@@ -1,6 +1,6 @@
-import re
-from pycsvw import built_in_datatypes
-from pycsvw.parser_exceptions import ValidationException
+﻿import re
+import built_in_datatypes
+from parser_exceptions import ValidationException
 import logger
 import urlparse
 import language_tags
